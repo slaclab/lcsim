@@ -3,6 +3,7 @@ package org.lcsim.detector.solids;
 import hep.physics.matrix.BasicMatrix;
 import hep.physics.vec.Hep3Vector;
 import hep.physics.vec.VecOp;
+import net.jafama.FastMath;
 
 import java.util.List;
 
@@ -130,7 +131,7 @@ public class GeomOp3D
             }
             else
             {
-                angle_sum += Math.acos(VecOp.dot(v1_vec,v2_vec)/(v1_mag*v2_mag));
+                angle_sum += net.jafama.FastMath.acos(VecOp.dot(v1_vec,v2_vec)/(v1_mag*v2_mag));
             }
         }
         
