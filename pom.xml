@@ -4,6 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.lcsim</groupId>
   <artifactId>lcsim</artifactId>
+  <version>4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>LCSim</name>
   <description>org.lcsim Java framework</description>
@@ -14,35 +15,301 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <dependency.locations.enabled>false</dependency.locations.enabled>
+    <org.lcsim.cacheDir>${user.home}</org.lcsim.cacheDir>
   </properties>
-
-  <parent>
-    <groupId>org.lcsim</groupId>
-    <artifactId>lcsim-parent</artifactId>
-    <relativePath>./parent/pom.xml</relativePath>
-    <version>4.0-SNAPSHOT</version>
-  </parent>
-
+   
   <scm>
     <connection>scm:git:git://github.com/slaclab/lcsim.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/slaclab/lcsim.git</developerConnection>
     <url>https://github.com/slaclab/lcsim.git</url>
     <tag>HEAD</tag>
   </scm>
-
+  
+  <repositories>
+    <repository>
+      <id>freehep-repo-public</id>
+      <name>FreeHEP Maven Public</name>
+      <url>http://srs.slac.stanford.edu/nexus/content/groups/freehep-maven2-public/</url>
+    </repository>
+    <repository>
+      <id>lcsim-repo-public</id>
+      <name>LCSIM Public Maven Repository</name>
+      <url>http://srs.slac.stanford.edu/nexus/content/groups/lcsim-maven2-public/</url>
+    </repository>
+    <repository>
+      <id>maven-central-repo</id>
+      <name>Maven repository</name>
+      <url>http://repo1.maven.org/maven2/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>freehep-maven-plugin-repo</id>
+      <name>Freehep Plugin Repository</name>
+      <url>http://srs.slac.stanford.edu/nexus/content/groups/freehep-maven2-public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+  
   <distributionManagement>
+    <repository>
+      <id>lcsim-repo-releases</id>
+      <name>LCSIM Releases maven repository</name>
+      <url>http://srs.slac.stanford.edu/nexus/content/repositories/lcsim-maven2-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>lcsim-repo-snapshots</id>
+      <name>LCSIM Snapshots maven repository</name>
+      <url>http://srs.slac.stanford.edu/nexus/content/repositories/lcsim-maven2-snapshot/</url>
+    </snapshotRepository>
     <site>
       <id>lcsim-site</id>
       <url>dav:http://srs.slac.stanford.edu/nexus/content/sites/lcsim-site/lcsim/</url>
     </site>
   </distributionManagement>
 
+  <dependencyManagement>
+    <dependencies>
+      <!-- Do not edit the lcsim dependencies manually! -->
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-vertexing</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-event-heprep</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-recon-drivers</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-event-processing</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-trf</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-event-model</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-aida</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-util</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-tracking</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-cal-recon</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-cal-calib</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-detector-framework</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-detector-data</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-conditions</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-analysis</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-math</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-job-manager</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-plugin</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-users</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-distribution</artifactId>
+        <version>4.0-SNAPSHOT</version>
+        <type>pom</type>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-steering-files</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-mc</artifactId>
+        <version>4.0-SNAPSHOT</version>
+      </dependency>
+      <!-- End org.lcsim dependencies. -->
+      <dependency>
+        <groupId>org.freehep</groupId>
+        <artifactId>freehep-record</artifactId>
+        <version>3.0.8</version>
+      </dependency>
+      <dependency>
+        <groupId>org.freehep</groupId>
+        <artifactId>freehep-physics</artifactId>
+        <version>2.5</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-cli</groupId>
+        <artifactId>commons-cli</artifactId>
+        <version>1.3</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.1</version>
+    </dependency>
+  </dependencies>
+
   <build>
+    <defaultGoal>install</defaultGoal>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav-jackrabbit</artifactId>
+        <version>2.3</version>
+      </extension>
+    </extensions>
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-plugin</artifactId>
+          <version>1.9</version>
+          <configuration>
+            <connectionType>connection</connectionType>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+          <configuration>
+            <source>1.7</source>
+            <target>1.7</target>
+            <encoding>UTF-8</encoding>
+            <showWarnings>true</showWarnings>
+            <showDeprecation>true</showDeprecation>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.18.1</version>
+          <configuration>
+            <argLine>-Xmx1024m</argLine>
+            <forkCount>4</forkCount>
+            <reuseForks>true</reuseForks>
+            <!-- This allows the cacheDir to be overridden by settings.xml -->
+            <systemProperties>
+              <property>
+                <name>org.lcsim.cacheDir</name>
+                <value>${org.lcsim.cacheDir}</value>
+              </property>
+            </systemProperties>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.4.2</version>
+          <configuration>
+            <releaseProfiles>skipTests</releaseProfiles>
+            <tagBase>svn://svn.freehep.org/lcdet/projects/lcsim/tags</tagBase>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>2.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
+          <inherited>false</inherited>
+          <configuration>
+            <skip>true</skip>
+            <skipDeploy>true</skipDeploy>
+            <generateReports>false</generateReports>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-descriptor</id>
+              <goals>
+                <goal>attach-descriptor</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.3</version>
+        <inherited>true</inherited>
+        <configuration>
+          <chmod>false</chmod>
+          <skip>true</skip>
           <configuration>
             <siteDirectory>${basedir}/site/src/site/</siteDirectory>
             <outputDirectory>${basedir}/site/target/</outputDirectory>
@@ -51,11 +318,11 @@
             <generateSitemap>true</generateSitemap>
             <generateProjectInfo>true</generateProjectInfo>
           </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
-
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>  
+  
   <reporting>
     <plugins>
       <plugin>
@@ -77,8 +344,18 @@
               <report>project-team</report>
             </reports>
           </reportSet>
+          <reportSet>
+            <id>non-aggregate</id>
+            <reports>
+              <report>dependencies</report>
+              <report>index</report>
+              <report>scm</report>
+              <report>summary</report>
+            </reports>
+          </reportSet>
         </reportSets>
       </plugin>
+      <!-- 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
@@ -87,38 +364,37 @@
           <aggregate>true</aggregate>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <version>2.9</version>
-        <configuration>
-          <columnNames>Type,Key,Summary,Assignee,Status,Resolution,Fix
-                        Version,Created</columnNames>
-          <sortColumnNames>Type,Key DESC</sortColumnNames>
-          <statusIds>Resolved, Closed</statusIds>
-          <maxEntries>9999</maxEntries>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>jira-report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
+       -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.9.1</version>
-        <reportSets>
-          <reportSet>
-            <id>aggregate</id>
-            <reports>
-              <report>aggregate</report>
-              <report>test-aggregate</report>
-            </reports>
-          </reportSet>
-        </reportSets>
+        <configuration>
+          <source>1.7</source>
+          <show>private</show>
+          <detectJavaApiLink>true</detectJavaApiLink>
+          <reportSets>
+            <reportSet>
+              <id>aggregate</id>
+              <reports>
+                <report>aggregate</report>
+                <report>test-aggregate</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+          <links>
+            <link>http://aida.freehep.org/doc/v3.3.0/api/index.htm</link>
+            <link>http://java.freehep.org/freehep-physics/apidocs/</link>
+            <link>http://java.freehep.org/freehep-application/apidocs/index.html</link>
+            <link>http://java.freehep.org/freehep-sio/apidocs/index.html</link>
+            <link>http://java.freehep.org/freehep-stdhep/</link>
+            <link>http://java.freehep.org/heprep/apidocs/</link>
+            <link>http://www.jdom.org/docs/apidocs/</link>
+            <link>http://www.gnu.org/software/jel/api/</link>
+            <link>http://commons.apache.org/proper/commons-cli/apidocs/index.html</link>
+            <link>http://commons.apache.org/proper/commons-math/javadocs/api-2.2/index.html</link>
+          </links>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -131,11 +407,123 @@
       </plugin>
     </plugins>
   </reporting>
+ 
+  <developers>
+    <developer>
+      <name>Jeremy McCormick</name>
+      <email>jeremym@slac.stanford.edu</email>
+      <organization>SLAC</organization>
+      <organizationUrl>http://www.slac.stanford.edu/</organizationUrl>
+      <roles>
+        <role>developer</role>
+        <role>release manager</role>
+      </roles>
+      <timezone>-8</timezone>
+      <properties>
+        <aim>jeremyslac</aim>
+        <gtalk>jermccormick@gmail.com</gtalk>
+      </properties>
+    </developer>
+    <developer>
+      <name>Tony Johnson</name>
+      <email>tony_johnson@slac.stanford.edu</email>
+      <organization>SLAC</organization>
+      <organizationUrl>http://www.slac.stanford.edu/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+    <developer>
+      <name>Norman Graf</name>
+      <email>ngraf@slac.stanford.edu</email>
+      <organization>SLAC</organization>
+      <organizationUrl>http://www.slac.stanford.edu/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+    <developer>
+      <name>Rich Partridge</name>
+      <email>richp@slac.stanford.edu</email>
+      <organization>SLAC</organization>
+      <organizationUrl>http://www.slac.stanford.edu</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+    <developer>
+      <name>Tim Nelson</name>
+      <email>tknelson@slac.stanford.edu</email>
+      <organization>SLAC</organization>
+      <organizationUrl>http://www.slac.stanford.edu</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+    <developer>
+      <name>Pelle Hansson</name>
+      <email>phansson@slac.stanford.edu</email>
+      <organization>SLAC</organization>
+      <organizationUrl>http://www.slac.stanford.edu</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+    <developer>
+      <name>Jan Strube</name>
+      <email>jan.strube@cern.ch</email>
+      <organization>CERN</organization>
+      <organizationUrl>http://cern.ch</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>1</timezone>
+    </developer>
+    <developer>
+      <name>Christian Grefe</name>
+      <email>christian.grefe@cern.ch</email>
+      <organization>CERN</organization>
+      <organizationUrl>http://cern.ch</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>1</timezone>
+    </developer>
+  </developers>
 
+  <organization>
+    <name>Linear Collider Detector (LCD)</name>
+    <url>http://www.lcsim.org/</url>
+  </organization>
+
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>http://srs.slac.stanford.edu/hudson/view/lcsim/</url>
+  </ciManagement>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>https://jira.slac.stanford.edu/browse/LCSIM</url>
+  </issueManagement>
+
+  <mailingLists>
+    <mailingList>
+      <name>lcd-dev</name>
+      <subscribe>Email listserv@slac.stanford.edu with message: subscribe lcd-dev</subscribe>
+      <unsubscribe>Email listserv@slac.stanford.edu with message: unsubscribe lcd-dev</unsubscribe>
+      <post>lcd-dev@slac.stanford.edu</post>
+      <archive>https://listserv.slac.stanford.edu/cgi-bin/wa?A0=LCD-DEV</archive>
+    </mailingList>
+  </mailingLists>
+  
   <profiles>
     <profile>
-      <id>site</id>
-      <!-- Alphabetized list of modules for the site. -->
+      <id>site-modules</id>
       <modules>
         <module>aida</module>
         <module>analysis</module>
@@ -159,13 +547,11 @@
       </modules>
     </profile>
     <profile>
-      <id>default</id>
+      <id>all-modules</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      <!-- This is a list of all modules. -->
       <modules>
-        <module>parent</module>
         <module>util</module>
         <module>math</module>
         <module>aida</module>
