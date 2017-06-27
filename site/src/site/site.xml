@@ -13,7 +13,7 @@
             <item name="Wiki" href="wiki.html"/>
             <item name="Links" href="links.html"/>
             <item name="Related Software" href="software.html"/>
-            <item name="Modules" href="modules.html"/>
+<!--            <item name="Modules" href="modules.html"/> -->
         </menu>
         
         <menu name="Source Documentation">
@@ -25,7 +25,7 @@
          
         <menu name="Issue Tracking">
             <item name="Bugs and Issues" href="issue-tracking.html"/>
-            <item name="Jira Report" href="jira-report.html"/>
+<!--            <item name="Jira Report" href="jira-report.html"/> -->
         </menu>
 
         <menu name="For Users">
@@ -40,7 +40,7 @@
             <item name="Building the Software" href="build.html"/>
             <item name="Project Structure" href="project-structure.html"/>
             <item name="Continuous Integration" href="integration.html"/>
-            <item name="Surefire Test Report" href="surefire-report.html"/>
+<!--            <item name="Surefire Test Report" href="surefire-report.html"/> -->
         </menu>
         
         <menu name="Project Information">

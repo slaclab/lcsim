@@ -286,9 +286,12 @@
           <artifactId>maven-site-plugin</artifactId>
           <inherited>false</inherited>
           <configuration>
-            <skip>true</skip>
-            <skipDeploy>true</skipDeploy>
-            <generateReports>false</generateReports>
+            <siteDirectory>${basedir}/site/src/site/</siteDirectory>
+            <outputDirectory>${basedir}/site/target/</outputDirectory>
+            <chmod>false</chmod>
+            <generateReports>true</generateReports>
+            <generateSitemap>true</generateSitemap>
+            <generateProjectInfo>true</generateProjectInfo>
           </configuration>
           <executions>
             <execution>
@@ -299,17 +302,12 @@
             </execution>
           </executions>
         </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.3</version>
-        <inherited>true</inherited>
-        <configuration>
-          <chmod>false</chmod>
-          <skip>true</skip>
+        <!-- 
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.3</version>
+          <inherited>true</inherited>
           <configuration>
             <siteDirectory>${basedir}/site/src/site/</siteDirectory>
             <outputDirectory>${basedir}/site/target/</outputDirectory>
@@ -318,9 +316,10 @@
             <generateSitemap>true</generateSitemap>
             <generateProjectInfo>true</generateProjectInfo>
           </configuration>
-        </configuration>
-      </plugin>
-    </plugins>
+        </plugin>
+         -->
+      </plugins>
+    </pluginManagement>    
   </build>  
   
   <reporting>
@@ -371,6 +370,7 @@
         <version>2.9.1</version>
         <configuration>
           <source>1.7</source>
+          <failOnError>false</failOnError>
           <show>private</show>
           <detectJavaApiLink>true</detectJavaApiLink>
           <reportSets>
@@ -520,61 +520,30 @@
       <archive>https://listserv.slac.stanford.edu/cgi-bin/wa?A0=LCD-DEV</archive>
     </mailingList>
   </mailingLists>
-  
-  <profiles>
-    <profile>
-      <id>site-modules</id>
-      <modules>
-        <module>aida</module>
-        <module>analysis</module>
-        <module>cal-recon</module>
-        <module>cal-calib</module>
-        <module>conditions</module>
-        <module>detector-framework</module>
-        <module>event-heprep</module>
-        <module>event-model</module>
-        <module>event-processing</module>
-        <module>job-manager</module>
-        <module>math</module>
-        <module>mc</module>
-        <module>plugin</module>
-        <module>recon-drivers</module>
-        <module>tracking</module>
-        <module>trf</module>
-        <module>vertexing</module>
-        <module>users</module>
-        <module>util</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>all-modules</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <modules>
-        <module>util</module>
-        <module>math</module>
-        <module>aida</module>
-        <module>conditions</module>
-        <module>detector-framework</module>
-        <module>event-model</module>
-        <module>event-processing</module>
-        <module>mc</module>
-        <module>job-manager</module>
-        <module>tracking</module>
-        <module>vertexing</module>
-        <module>event-heprep</module>
-        <module>recon-drivers</module>
-        <module>cal-recon</module>
-        <module>cal-calib</module>
-        <module>trf</module>
-        <module>detector-data</module>
-        <module>analysis</module>
-        <module>users</module>
-        <module>steering-files</module>
-        <module>distribution</module>
-        <module>plugin</module>
-      </modules>
-    </profile>
-  </profiles>
+   
+  <modules>
+    <module>util</module>
+    <module>math</module>
+    <module>aida</module>
+    <module>conditions</module>
+    <module>detector-framework</module>
+    <module>event-model</module>
+    <module>event-processing</module>
+    <module>mc</module>
+    <module>job-manager</module>
+    <module>tracking</module>
+    <module>vertexing</module>
+    <module>event-heprep</module>
+    <module>recon-drivers</module>
+    <module>cal-recon</module>
+    <module>cal-calib</module>
+    <module>trf</module>
+    <module>detector-data</module>
+    <module>analysis</module>
+    <module>users</module>
+    <module>steering-files</module>
+    <module>distribution</module>
+    <module>plugin</module>
+  </modules>
+    
 </project>
