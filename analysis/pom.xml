@@ -9,7 +9,7 @@
     <groupId>org.lcsim</groupId>
     <artifactId>lcsim-parent</artifactId>
     <relativePath>../parent/pom.xml</relativePath>
-    <version>3.9-SNAPSHOT</version>
+    <version>4.0-SNAPSHOT</version>
   </parent>
   <scm>
     <url>http://java.freehep.org/svn/repos/lcdet/list/projects/lcsim/trunk/analysis/</url>
