@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="unqualified"
+           version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+           
+    <xs:element name="conditions">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="detectors" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="condition" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string" >                        
+                                <xs:attribute name="required" type="xs:boolean" use="optional" default="true"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>           
+                               
+    <xs:element name="inputFiles">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element name="file" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="fileList" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="fileSet">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <!-- FIXME The file element is repeated here instead of having its own type. -->
+                                <xs:element name="file" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                            <xs:attribute name="baseDir" type="xs:string" use="required"/>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="fileRegExp" minOccurs="0" maxOccurs="unbounded"> 
+                        <xs:complexType>                            
+                            <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                    <xs:attribute name="baseDir" type="xs:string" use="required"/>
+                                </xs:extension>  
+                            </xs:simpleContent> 
+                        </xs:complexType>                                                
+                    </xs:element>
+                </xs:choice>            
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>        
+    
+    <xs:element name="control">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="dryRun" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="logFile" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="cacheDirectory" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="skipEvents" minOccurs="0" maxOccurs="1">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:integer">
+                            <xs:minInclusive value="0" />
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="numberOfEvents" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="verbose" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="printDriverStatistics" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="printSystemProperties" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="printUserClassPath" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="printDriversDetailed" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="printInputFiles" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="printVersion" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+            </xs:all>
+        </xs:complexType>            
+    </xs:element>
+    
+    <xs:element name="classpath">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element name="jar" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="jarUrl" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="directory" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="define">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:any minOccurs="0" processContents="lax"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="execute">
+        <xs:complexType>
+            <xs:sequence>
+	            <xs:element name="driver" minOccurs="1" maxOccurs="unbounded">
+		            <xs:complexType>
+			            <xs:attribute name="name" type="xs:IDREF" use="required" />
+		            </xs:complexType>
+	            </xs:element>
+            </xs:sequence>
+        </xs:complexType>            
+    </xs:element>
+    
+    <xs:element name="drivers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="driver" minOccurs="1" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+                        </xs:sequence>
+                        <xs:attribute name="name" type="xs:ID" use="required"/>
+                        <xs:attribute name="type" type="xs:string" use="required"/>                                               
+                    </xs:complexType>                                        
+                </xs:element>                
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+           
+    <xs:element name="lcsim">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="conditions" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="inputFiles" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="control" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="classpath" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="define" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="execute" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="drivers" minOccurs="1" maxOccurs="1"/>
+            </xs:all>
+        </xs:complexType>    
+    </xs:element>
+        
+</xs:schema>

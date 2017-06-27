@@ -1,0 +1,108 @@
+
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+    xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+    <info name="OpticalCalorimeterTest"/>
+
+    <define>
+        <constant name="world_side" value="30000" />
+        <constant name="world_x" value="world_side" />
+        <constant name="world_y" value="world_side" />
+        <constant name="world_z" value="world_side" />
+        <constant name="tracking_region_radius" value="125.0*cm"/>
+        <constant name="tracking_region_zmax" value="200.0*cm"/>
+        <matrix name="prop1" coldim="2"  values="0.000002034 1.65
+                                                0.000002068 1.65
+                                                0.000002103 1.65 
+                                                0.000002139 1.65
+                                                0.000002177 1.65
+                                                0.000002216 1.65
+                                                0.000002256 1.65
+                                                0.000002298 1.65
+                                                0.000002341 1.65
+                                                0.000002386 1.65 
+                                                0.000002433 1.65
+                                                0.000002481 1.65
+                                                0.000002532 1.65
+                                                0.000002585 1.65
+                                                0.000002640 1.65
+                                                0.000002697 1.65
+                                                0.000002757 1.65
+                                                0.000002820 1.65
+                                                0.000002885 1.65
+                                                0.000002954 1.65
+                                                0.000003026 1.65
+                                                0.000003102 1.65
+                                                0.000003181 1.65
+                                                0.000003265 1.65
+                                                0.000003353 1.65
+                                                0.000003446 1.65
+                                                0.000003545 1.65
+                                                0.000003649 1.65
+                                                0.000003760 1.65
+                                                0.000003877 1.65 
+                                                0.000004002 1.65
+                                                0.000004136 1.65"/>
+    </define>
+    <materials>
+        <material name="BGO">
+            <property name="RINDEX" ref="prop1" />
+            <D value="7.13" unit="g/cm3"/>
+            <composite n="4" ref="Bi"/>
+            <composite n="3" ref="Ge"/>
+            <composite n="12" ref="O"/>
+        </material>
+    </materials>
+    <limits>
+        <limitset name="cal_limits">
+            <limit name="step_length_max" particles="*" value="5.0" unit="mm" />
+        </limitset>
+    </limits>
+    <detectors>
+        <detector id="7" 
+                  name="HcalBarrel" 
+                  type="PolyhedraBarrelCalorimeter2" 
+                  readout="HcalBarrelHits" 
+                  calorimeterType="HAD_BARREL" 
+                  gap="0.*cm" 
+                  material="BGO"
+                  optical="true">
+            <comment>Hadron Calorimeter Barrel</comment>
+            <dimensions numsides="12" rmin="146*cm" z="370.2*cm * 2"/>
+            <staves />
+            <layer repeat="30">
+                <slice material="BGO" thickness="5.0*cm" sensitive="yes" />
+            </layer>
+        </detector>
+        <detector id="8" 
+                  name="HcalEndcap" 
+                  type="PolyhedraEndcapCalorimeter3" 
+                  readout="HcalEndcapHits" 
+                  reflect="true" 
+                  calorimeterType="HAD_ENDCAP">
+            <comment>Hadron Calorimeter Endcaps</comment>
+            <dimensions numsides="12" zmin="220.2*cm" rmin="39.0*cm" rmax="146.0*cm" angle="6.*deg" />
+            <layer repeat="30">
+                <slice material="BGO" thickness="5.0*cm" sensitive="yes" />
+            </layer>
+        </detector>
+    </detectors>
+    <readouts>
+        <readout name="HcalBarrelHits">
+            <segmentation type="CartesianGridXY" gridSizeX="2.0*cm" gridSizeY="2.0*cm" />
+            <id>system:6,barrel:3,module:4,layer:6,slice:5,x:32:-16,y:-16</id>
+        </readout>
+        <readout name="HcalEndcapHits">
+            <segmentation type="GlobalGridXY" gridSizeX="2.0*cm" gridSizeY="2.0*cm" />
+            <id>system:6,barrel:3,module:4,layer:8,slice:5,x:32:-16,y:-16</id>
+        </readout>
+    </readouts>
+    <fields>
+        <field type="Solenoid" name="GlobalSolenoid"
+        inner_field="5.0"
+        outer_field="-0.6"
+        zmax="1000*cm"
+        outer_radius="300*cm"/>
+    </fields>
+</lccdd>

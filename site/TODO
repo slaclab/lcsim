@@ -1,0 +1,39 @@
+X Maven build instructions
+
+X top level descriptive paragraph of lcsim (get more from Norman)
+
+X list of users (SiD, CLiC, etc.)
+
+X lcsim Maven repository information
+
+X adding pom dependency to distribution
+
+X steering file usage; can point to the lcsim xml documentation page
+
+X list of Driver classes
+
+X instructions on running the software on the grid 
+
+X explanation of project module structure 
+
+X links page, such as ILC Confluence docs for further instruction and information
+
+X description and links of other associated applications such as SLIC, PandoraPFA, slicPandora, LCFIVertexing (ick)
+
+software license; possibly http://en.wikipedia.org/wiki/License-Free_Software but awaiting clarification from SLAC 
+
+project release notes; see old hps-java configuration from CVS for how this can be done 
+
+news
+
+publications
+
+coding standards and Javadoc guidelines
+
+Eclipse project setup instructions
+
+Netbeans project setup instructions
+
+JAS instructions such as explanation of ~/.JAS3/extensions, how to install, how to run drivers, basic event display usage (can point to wiki),
+basic usage of event browser (also wiki) 
+

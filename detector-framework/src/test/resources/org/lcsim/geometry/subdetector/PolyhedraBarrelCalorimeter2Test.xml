@@ -1,0 +1,50 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <info name="PolyhedraBarrelCalorimeterTest">
+    <comment>Test of org.lcsim.geometry.subdetector.PolyhedraBarrelCalorimeter class.</comment>
+  </info>
+
+  <!-- Constants -->
+  <define>
+
+    <!-- world -->
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+
+    <!-- tracking region -->
+    <constant name="tracking_region_radius" value="0.1*cm"/>
+    <constant name="tracking_region_zmax" value="0.1*cm"/>
+  </define>
+
+  <materials>
+  </materials>
+
+  <detectors>
+    <detector id="7" name="HcalBarrel" type="PolyhedraBarrelCalorimeter2" readout="HcalBarrelHits" calorimeterType="HAD_BARREL" gap="2.*cm" material="Steel235">
+            <comment>Hadron Calorimeter Barrel</comment>
+            <dimensions numsides="12" rmin="1404.0" z="3688.0 * 2"/>
+            <layer repeat="60">
+                <slice material = "Steel235" thickness = "1.89*cm" />
+                <slice material = "PyrexGlass" thickness = "0.11*cm" />
+                <slice material = "RPCGasDefault" thickness = "0.12*cm" sensitive = "yes" />
+                <slice material = "PyrexGlass" thickness = "0.11*cm" />
+                <slice material = "G10" thickness = "0.3*cm" />
+                <slice material = "Air" thickness = "0.16*cm" />
+            </layer>
+  </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="HcalBarrelHits">
+            <segmentation type="CartesianGridXY" gridSizeX="1.0*cm" gridSizeY="1.0*cm" />
+            <id>system:6,barrel:3,module:4,layer:8,slice:5,x:32:-16,y:-16</id>
+        </readout>
+  </readouts>
+
+  <fields>
+  </fields>
+</lccdd>

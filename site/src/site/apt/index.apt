@@ -1,0 +1,15 @@
+    ---
+LCSim - Home
+    ---
+    
+Home
+
+    LCSim, standing for "Linear Collider Simulation", is a Java-based framework for physics
+    event reconstruction and analysis.  It was developed primarily for Linear Collider Detector studies
+    and is currently used by {{{./users.html}several HEP groups and collaborations}}.  
+    The software has an extensive {{{./features.html}list of features}}.  
+
+    LCSim uses the {{{lcio.desy.de}LCIO}} event model, the {{{aida.freehep.org}AIDA}} histogramming and plotting API, 
+    and also makes use of the {{{jas.freehep.org}JAS}} (or Java Analysis Studio) GUI which includes the
+    {{{wired.freehep.org}Wired Event Display}}.  LCSim also makes extensive use of the {{{java.freehep.org}FreeHEP Java Libraries}}
+    for its core functionality.

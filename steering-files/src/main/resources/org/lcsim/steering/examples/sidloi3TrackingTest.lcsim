@@ -1,0 +1,26 @@
+<lcsim xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+        xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/lcsim/1.0/lcsim.xsd">
+    <inputFiles>
+        <file>${inputFile}.slcio</file>
+    </inputFiles>
+    <execute>
+        <driver name="EventMarkerDriver"/>
+        <driver name="MainTrackingDriver"/>
+        <driver name="TrackStateDriver"/>
+        <driver name="Writer"/>
+    </execute>
+    <drivers>
+        <driver name="MainTrackingDriver"
+                type="org.lcsim.recon.tracking.seedtracker.trackingdrivers.sidloi3.MainTrackingDriver"/>
+        <driver name="EventMarkerDriver" 
+                type="org.lcsim.job.EventMarkerDriver">
+            <eventInterval>1</eventInterval>
+        </driver>
+        <driver name="TrackStateDriver"
+                type="org.lcsim.recon.tracking.seedtracker.SeedTrackerTrackStateDriver"/>
+        <driver name="Writer"
+                type="org.lcsim.util.loop.LCIODriver">
+            <outputFilePath>${inputFile}_lcsimTracking.slcio</outputFilePath>
+        </driver>
+    </drivers>
+</lcsim>

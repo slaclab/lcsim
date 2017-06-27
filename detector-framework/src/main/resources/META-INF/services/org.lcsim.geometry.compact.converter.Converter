@@ -1,0 +1,5 @@
+org.lcsim.geometry.compact.converter.heprep.Main
+org.lcsim.geometry.compact.converter.lcdd.Main
+org.lcsim.geometry.compact.converter.pandora.Main
+org.lcsim.geometry.compact.converter.html.Main
+org.lcsim.geometry.compact.converter.svg.Main

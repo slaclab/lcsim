@@ -1,0 +1,40 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+    <info name="TubeSegmentTest">
+        <comment>Test of TubeSegment subdetector type.</comment>
+    </info>
+
+    <define>    
+        <constant name="world_side" value="30000" />
+        <constant name="world_x" value="world_side" />
+        <constant name="world_y" value="world_side" />
+        <constant name="world_z" value="world_side" />
+        <constant name="tracking_region_radius" value="0.1*cm"/>
+        <constant name="tracking_region_zmax" value="0.1*cm"/>
+    </define>
+
+    <materials>
+    </materials>
+
+    <display>
+        <vis name="Red" r="1.0" g="0.0" b="0.0" />
+    </display>
+
+    <detectors>
+      <detector id="1" name="TubeSegment" type="TubeSegment" vis="Red">
+    	  <material name="Air"/>
+    	  <tubs rmin="10.0" rmax="50.0" zhalf="50.0"/>
+    	  <position x="0.0" y="0.0" z="200.0"/>
+    	  <rotation x="0.0" y="0.2" z="0."/>
+      </detector>
+    </detectors>
+
+    <readouts>
+    </readouts>
+    
+    <fields>
+   </fields>
+   
+</lccdd>

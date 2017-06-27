@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<materials>
+
+<!--
+      <material name="TestFraction">
+	<D type="density" unit="g/cm3" value="1.0"/>
+	<fraction n="0.25" ref="N"/>
+	<fraction n="0.25" ref="O"/>
+	<fraction n="0.50" ref="Ar"/>
+      </material>
+      -->
+      
+      <material name="TestMat1">
+        <D type="density" unit="g/cm3" value="1.0"/>
+        <composite n="1" ref="N"/>
+        <composite n="1" ref="C"/>
+        <!--<composite n="1" ref="O"/>-->
+      </material>
+      
+      <material name="TestMat2">
+        <D type="density" unit="g/cm3" value="1.0"/>
+        <fraction n="0.5" ref="O"/>
+        <fraction n="0.5" ref="Ar"/>        
+      </material>                       
+      
+      <material name="TestFractionMaterials">
+        <D type="density" unit="g/cm3" value="1.0"/>
+        <fraction n="0.5" ref="TestMat1" />
+        <fraction n="0.5" ref="TestMat2" />
+      </material>
+
+      <!--
+      <material name="TestCompositeElementsOnly">
+	<D type="density" unit="g/cm3" value="1.0"/>
+	<composite n="1" ref="N"/>
+	<composite n="1" ref="O"/>
+	<composite n="2" ref="Ar"/>
+      </material>
+
+      <material name="TestFractionRefComplex">
+	<D type="density" unit="g/cm3" value="1.0"/>
+	<fraction n="0.5" ref="TestFraction" />
+	<fraction n="0.5" ref="TestCompositeElementsOnly" />
+      </material>
+
+      <material name="TestAtom" Z="1.0">
+	<D type="density" unit="g/cm3" value="0.0012"/>
+	<atom value="1.0" />
+      </material>
+      -->      
+            
+      <material name="Epoxy">
+        <D type="density" value="1.3" unit="g/cm3"/>
+        <composite n="1" ref="H"/>
+        <composite n="1" ref="C"/>
+        <composite n="1" ref="O"/>
+      </material>
+
+      <material name="Quartz">
+        <D type="density" value="2.2" unit="g/cm3"/>
+        <composite n="1" ref="Si"/>
+        <composite n="1" ref="O"/>
+      </material>
+
+      <material name="G10">
+        <D type="density" value="1.7" unit="g/cm3" />
+        <fraction n="0.25" ref="Cl" />
+        <fraction n="0.25" ref="Quartz" />
+        <fraction n="0.50" ref="Epoxy" />
+      </material>
+      
+</materials>

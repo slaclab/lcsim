@@ -1,0 +1,48 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <info name="SiDHcalTest">
+    <comment>Test of org.lcsim.geometry.subdetector.PolyhedraBarrelCalorimeter class.</comment>
+  </info>
+
+  <!-- Constants -->
+  <define>
+
+    <!-- world -->
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+
+    <!-- tracking region -->
+    <constant name="tracking_region_radius" value="0.1*cm"/>
+    <constant name="tracking_region_zmax" value="0.1*cm"/>
+  </define>
+
+  <materials>
+  </materials>
+
+  <detectors>
+    <detector id="1"
+              name="HcalTest"
+              type="SidHcal"
+              readout="CalHits"> 
+         <dimensions numsides="12" z="1000.0" rmin="2834.0/2.0" gap="50.0"/>
+         <layer repeat="1">
+<!--           <slice material="Silicon" thickness="5.0" sensitive="yes" />-->
+           <slice material="Tungsten" thickness="1166.0" sensitive="yes" />
+         </layer>
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="CalHits">
+      <segmentation type="GridXYZ" gridSizeX="1.0" gridSizeY="1.0" />
+      <id>system:6,barrel:3,module:5,layer:8,slice:5,x:32:-10,y:-10</id>
+    </readout>
+  </readouts>
+
+  <fields>
+  </fields>
+</lccdd>

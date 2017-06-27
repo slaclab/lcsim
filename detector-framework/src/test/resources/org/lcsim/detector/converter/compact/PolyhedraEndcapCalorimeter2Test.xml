@@ -1,0 +1,32 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+    <info name="PolyhedraEndcapCalorimeter2Test"/>
+    <define>       
+        <constant name="world_side" value="30000" />
+        <constant name="world_x" value="world_side" />
+        <constant name="world_y" value="world_side" />
+        <constant name="world_z" value="world_side" />
+        <constant name="tracking_region_radius" value="0.1*cm"/>
+        <constant name="tracking_region_zmax" value="0.1*cm"/>
+    </define>
+    <materials/>
+    <detectors>
+        <detector id="6" name="TestEndcap" type="PolyhedraEndcapCalorimeter2" reflect="true" readout="HcalEndcapHits">
+            <dimensions numsides="8" zmin="1000.0" rmin="200.0" rmax="1200.0" />
+            <layer repeat="2">
+                <slice material = "Silicon" thickness = "10.0" sensitive = "yes" />
+                <slice material = "Copper"  thickness = "50.0" />
+            </layer>  
+            <layer repeat="1">
+                <slice material = "Copper"  thickness = "100.0" />
+            </layer>
+        </detector>
+    </detectors>
+    <readouts>
+        <readout name="HcalEndcapHits">
+            <segmentation type="CartesianGridXY" gridSizeX="1.0*cm" gridSizeY="1.0*cm" />
+            <id>system:6,barrel:3,layer:6,slice:5,x:32:-16,y:-16</id>
+        </readout>
+    </readouts>
+</lccdd>

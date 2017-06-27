@@ -1,0 +1,50 @@
+<!--
+    $Id: inputFileExamples.lcsim,v 1.2 2010/06/04 19:16:32 jeremy Exp $
+    
+    This examples shows all the possible ways to specify inputFiles.  It will NOT work on your system, because none of the local
+    files actually exist.  It also sets the cache directory to "./scratch" for downloading remote files.
+
+-->
+<lcsim xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/lcsim/1.0/lcsim.xsd">
+    <inputFiles>
+
+        <!-- remote URL -->
+        <file>ftp://ftp-lcd.slac.stanford.edu/ilc/singleParticle/sid02/slcio/slic/n_Theta100_1GeV_SLIC-v2r4p8_geant4-v9r1p2_LCPhys_sid02.slcio</file>
+
+        <!-- local file -->
+        <file>./n_Theta100_1GeV_SLIC-v2r4p8_geant4-v9r1p2_LCPhys_sid02.slcio</file>
+
+        <!-- local file using fileSet -->
+        <fileSet baseDir=".">
+            <file>n_Theta100_1GeV_SLIC-v2r4p8_geant4-v9r1p2_LCPhys_sid02.slcio</file>
+        </fileSet>
+
+        <!-- remote URL using fileSet -->
+        <fileSet baseDir="ftp://ftp-lcd.slac.stanford.edu/ilc/singleParticle/sid02/slcio/slic/">
+            <file>./n_Theta100_1GeV_SLIC-v2r4p8_geant4-v9r1p2_LCPhys_sid02.slcio</file>
+        </fileSet>
+
+        <!-- local file using regular expression-->
+        <fileRegExp baseDir=".">input*[0-9].slcio</fileRegExp>
+
+        <!-- list of local files -->
+        <fileList>myfiles.txt</fileList>
+
+        <!-- list of URLs -->
+        <fileList>myurls.txt</fileList>
+
+    </inputFiles>
+    <control>
+        <cacheDirectory>./scratch</cacheDirectory>
+        <dryRun>true</dryRun>
+    </control>
+    <execute>
+        <driver name="EventMarkerDriver"/>
+    </execute>
+    <drivers>
+        <driver name="EventMarkerDriver"
+                type="org.lcsim.job.EventMarkerDriver">
+            <eventInterval>1</eventInterval>
+        </driver>
+    </drivers>
+</lcsim>

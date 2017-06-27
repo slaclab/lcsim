@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE MenuSystem SYSTEM "http://java.freehep.org/schemas/menus/1.0/menus.dtd">
+
+<MenuSystem>
+    <MenuBar id="mainMenu">
+        <Menu name="Help" mnemonic="H" location="900">
+             <Component name="org.lcsim" command="LCSimHelp" location="701"/>
+        </Menu>
+        <Menu name="File" mnemonic="F" location="100">
+            <Menu name="New" mnemonic="N" location="50">
+                <Component type="default" 
+                           icon="/org/lcsim/plugin/lcsim.gif" 
+                           name="LCSim Event Browser" 
+                           mnemonic="E" 
+                           command="LCSimEventBrowser" 
+                           location="1000"/>
+                <Component type="default" 
+                           icon="/org/lcsim/plugin/lcsim.gif" 
+                           name="LCSim Driver Statistics" 
+                           mnemonic="S" 
+                           command="LCSimDriverTree" 
+                           location="1100"/>
+            </Menu>
+        </Menu>
+    </MenuBar>
+    
+    <ToolBar id="lcsim" name="LCSim Toolbar">
+       <Component name="LCSim Event Browser" icon="/org/lcsim/plugin/lcsim.gif" command="LCSimEventBrowserButton" location="100"></Component>
+    </ToolBar>
+</MenuSystem>

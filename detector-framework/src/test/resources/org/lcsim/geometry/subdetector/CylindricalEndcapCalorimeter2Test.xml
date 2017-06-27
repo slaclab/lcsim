@@ -1,0 +1,39 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <info name="CylindricalEndcapCalorimeter2Test"/>
+
+  <define>
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+    <constant name="tracking_region_radius" value="0.1*cm"/>
+    <constant name="tracking_region_zmax" value="0.1*cm"/>
+  </define>
+
+  <materials>
+  </materials>
+
+  <detectors>
+    <detector id="1" 
+              name="EMEndcap" 
+              type="CylindricalEndcapCalorimeter2" 
+              readout="EcalEndcapHits">
+        <dimensions rmin="200.0" zmin="300.0" rmax="1250.0" angle="10.0*deg" />
+        <layer repeat="5" >
+          <slice material="Silicon" thickness="20.0" sensitive="yes" />
+          <slice material="Tungsten" thickness="80.0" />
+        </layer>
+    </detector>
+  </detectors>
+
+  <readouts>
+         <readout name="EcalEndcapHits">
+             <segmentation type="GridXYZ" gridSizeX="10.0" gridSizeY="10.0"/>
+             <id>system:3,barrel:3,layer:7,x:32:-16,y:-16</id>
+         </readout>
+   </readouts>
+
+</lccdd>

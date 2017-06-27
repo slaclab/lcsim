@@ -1,0 +1,70 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <info name="sidmay05">
+    <comment>The compact format for sidmay05 detector.</comment>
+  </info>
+
+  <!-- Constants -->
+  <define>
+
+    <!-- world -->
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+
+    <!-- tracking region -->
+    <constant name="tracking_region_radius" value="0.1*cm"/>
+    <constant name="tracking_region_zmax" value="0.1*cm"/>
+
+  </define>
+
+  <materials>
+  </materials>
+
+  <detectors>
+
+<!-- Electromagnetic calorimeter -->
+
+    <detector id="1" name="EMBarrel" type="CylindricalBarrelCalorimeter" readout="EcalBarrHits">
+         <dimensions inner_r = "127.0*cm" outer_z = "179.5*cm" />
+         <layer repeat="30">
+           <slice material = "Tungsten" thickness = "0.25*cm" />
+           <slice material = "Nitrogen" thickness = "0.068*cm" />
+           <slice material = "Silicon" thickness = "0.032*cm" sensitive = "yes" />
+           <slice material = "Oxygen" thickness = "0.025*cm" />
+         </layer>
+    </detector>
+
+    <detector id="2" name="EMEndcap" reflect="true" type="CylindricalEndcapCalorimeter" readout="EcalEndcapHits">
+        <dimensions inner_r = "20.0*cm" inner_z = "168.0*cm" outer_r = "125.0*cm" />
+        <layer repeat="30" >
+          <slice material = "Tungsten" thickness = "0.25*cm" />
+          <slice material = "Nitrogen" thickness = "0.068*cm" />
+          <slice material = "Silicon" thickness = "0.032*cm" sensitive = "yes" />
+          <slice material = "Oxygen" thickness = "0.025*cm" />
+        </layer>
+    </detector>
+  </detectors>
+
+<!-- Sensitive Detector readout segmentation -->
+  <readouts>
+         <readout name="EcalEndcapHits">
+           <segmentation type="ProjectiveZPlane" thetaBins="1024" phiBins="1024"/>
+           <id>layer:7,system:3,barrel:3,theta:32:11,phi:11</id>
+        </readout>
+         <readout name="EcalBarrHits">
+             <segmentation type="ProjectiveCylinder" thetaBins="1000" phiBins="2000"/>
+             <id>layer:7,system:3,barrel:3,theta:32:11,phi:11</id>
+         </readout>
+   </readouts>
+    <fields>
+    <field type="Solenoid" name="GlobalSolenoid"
+              inner_field="5.0"
+              outer_field="-0.6"
+              zmax="1000"
+              outer_radius="(221.0+ 5.0 + 17.5 + 40./2.)*cm"/>  <!-- SolenoidCoilBarrel inner_radius + Al support + Oxygen gap + half coil-->
+   </fields>
+</lccdd>

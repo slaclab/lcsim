@@ -1,0 +1,41 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+	<info name="DiskTrackerTest">
+		<comment>Compact file for testing org.lcsim.detector.converter.compact.DiskTrackerConverter.</comment>
+	</info>
+
+	<define>
+		<constant name="world_side" value="30000" />
+		<constant name="world_x" value="world_side" />
+		<constant name="world_y" value="world_side" />
+		<constant name="world_z" value="world_side" />
+
+		<constant name="tracking_region_radius" value="100.0*cm"/>
+		<constant name="tracking_region_zmax" value="100.0*cm"/>		
+	</define>
+
+	<materials>
+	</materials>
+
+	<detectors>
+
+		<detector id="2" name="DiskTracker" type="DiskTracker" reflect="true" readout="DiskTrackerHits">
+        	<layer id="1" inner_r = "0.0" inner_z = "10.0" outer_r = "100.0">
+           		<slice material = "Silicon" thickness = "1.0" sensitive = "yes"/>
+           		<slice material = "Silicon" thickness = "1.0" sensitive = "yes"/>
+	        </layer>
+		</detector>
+     
+	</detectors>
+
+    <readouts>
+        <readout name="DiskTrackerHits"> 
+            <id>system:8,barrel:3,layer:10,slice:6</id>
+        </readout>
+    </readouts>
+
+    <fields>
+    </fields>
+</lccdd>

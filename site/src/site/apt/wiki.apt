@@ -1,0 +1,19 @@
+    ---
+LCSim - Wiki
+    ---
+
+Wiki
+
+    The {{{https://confluence.slac.stanford.edu/display/ilc/Home}ILC Confluence Wiki}} is the primary source of user documentation for 
+    the software.
+
+* Tutorials 
+
+    The {{{https://confluence.slac.stanford.edu/display/ilc/lcsim+Getting+Started}lcsim Getting Started page}} is a good entry point
+    for new users.
+
+* Data Samples
+
+    There is an extensive set of {{{https://confluence.slac.stanford.edu/display/ilc/Data+Samples}data samples}} available that can be
+    used as input for reconstruction and analysis jobs.  These will primarily be of interest to those working on Linear Collider detectors.
+

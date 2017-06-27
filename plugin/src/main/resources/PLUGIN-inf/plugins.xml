@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE plugins SYSTEM "http://java.freehep.org/schemas/plugin/1.1/plugin.dtd">
+
+<plugins>
+   <plugin>
+      <information>
+          <name>org.lcsim</name>
+	  <category>hep.linearcollider</category>
+          <author>LCSim Team</author>
+          <version>${project.version}</version>
+          <description kind="short">${project.description}</description>
+          <description>${project.description}</description>
+          <load-at-start/>
+      </information>
+      <resources>
+          <j2se minVersion="1.7"/>
+          <application minVersion="3.0.0"/>
+          <depends plugin="JAS 3 Standard Extensions" minVersion="1.0.5" />
+          <depends plugin="WIRED 4" minVersion="4.3.5"/>
+      </resources>
+      <plugin-desc class="org.lcsim.plugin.LCSimPlugin"/>
+    </plugin>
+</plugins>

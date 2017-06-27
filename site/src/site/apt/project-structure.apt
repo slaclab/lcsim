@@ -1,0 +1,107 @@
+    ---
+LCSim - Project Structure 
+    ---
+
+Project Structure
+
+* Modules
+
+    LCSim is structured as a series of Maven modules whose artifacts are combined together into a runnable bin jar
+    and a plugin for the JAS3 framework.  
+
+    The current HEAD version or "trunk" of all modules can be found at this location: 
+
++--
+svn://svn.freehep.org/lcdet/projects/lcsim/trunk/
++--
+
+    The top level POM that builds all the modules is found here:
+
++--
+svn://svn.freehep.org/lcdet/projects/lcsim/trunk/pom.xml
++--
+
+    Every module in the project is referenced from that configuration, so Maven commands that are executed from the "trunk" directory 
+    will actually operate on every module unless the "--non-recursive" option is used.  
+
+    This command run from "trunk" would build all the modules and execute the tests for them:
+
++--
+mvn clean install
++-- 
+
+    Usually when bootstrapping the software, this is the only command that should need to be executed
+    to get a working local copy of the application.
+
+* Distribution    
+
+    The distribution module is responsible for packaging all the jars together into a standalone runnable jar. 
+    It is referenced as a module in the primary POM described above so usually it does not need to be built
+    seperately.
+
+    But when a local copy of one or more modules contains source code changes that are not in the SVN and therefore deployed to the remote repository
+    via snapshots, the distribution module should be rebuilt in order to make a copy of the runnable bin jar that will contain these changes.
+
+    The distribution module is found here in SVN:
+
++--
+svn://svn.freehep.org/lcdet/projects/lcsim/trunk/distribution
++-- 
+
+    The standard 'mvn install' command can be used to both make the runnable bin jar as well as install your changes for JAS3 to load when it starts.
+
+* Parent POM Files
+
+    In order that each module need not include configuration information that is common to all of them, settings are kept in shared, parent POM files.
+
+    Most modules depend on the "lcsim-parent" artifact by including a section in their POM file such as:
+
++--
+<parent>
+    <groupId>org.lcsim</groupId>
+    <artifactId>lcsim-parent</artifactId>
+    <version>3.0-SNAPSHOT</version>
+    <relativePath>../parent/pom.xml</relativePath>
+</parent>
++--
+
+    Should modules be checked out individually, the parent POM usually needs to be installed manually so that the module can load
+    its settings.
+
+    The parent POM is located here:
+
++--
+svn://svn.freehep.org/lcdet/projects/lcsim/trunk/parent
++--
+
+    Additionally, for technical reasons, the parent POM itself has its own parent which contains information for the website.  This is
+    called "lcsim-site-parent" and it needs to be found by "lcsim-parent" when it builds.
+
+    The site-parent is found here:   
+
++--
+svn://svn.freehep.org/lcdet/projects/lcsim/trunk/site-parent
++--
+
+    Both of these modules can be built using the standard 'mvn install' command, and if installing manually, e.g. outside a full build
+    of all modules, site-parent should be built before parent.
+
+* Website
+
+    Most of the website configuration is found in this module:
+
++--
+svn://svn.freehep.org/lcdet/projects/lcsim/trunk/site
++--
+
+    The site POM file has its own list of modules that are included in the website.  (Some are not because they have no attached source code.)
+    This means that without the "--non-recursive" option, commands from the "site" directory will actually be run on each module as well
+    as site itself, to produce the full website including the top LCSim project page as well as module sub-pages.
+
+    It is possible to build a complete local working copy of the site by executing a command such as this:
+
++--
+mvn site:site site:stage -Djava.awt.headless=true -DstagingDirectory=/work/scratch/site
++--
+
+    Once this (rather long) build has completed, the URL "file:///work/scratch/site/index.html" should point to the top of the full LCSim website.

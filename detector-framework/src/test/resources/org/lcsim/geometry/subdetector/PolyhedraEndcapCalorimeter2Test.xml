@@ -1,0 +1,65 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <info name="PolyhedraEndcapCalorimeterTest">
+    <comment>Test of org.lcsim.geometry.subdetector.PolyhedraEndcapCalorimeter class.</comment>
+  </info>
+
+  <!-- Constants -->
+  <define>
+
+    <!-- world -->
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+
+    <!-- tracking region -->
+    <constant name="tracking_region_radius" value="499.0"/>
+    <constant name="tracking_region_zmax" value="999.0"/>
+  </define>
+
+  <materials>
+  </materials>
+
+  <display> 
+    <vis name="DetectorVis" showDaughters="true" visible="false"/>
+    <vis name="LayerVis" showDaughters="true" visible="false"/>
+    <vis name="SensorVis" r="0.0" g="0.5" b="0.5" showDaughters="false" visible="true"/>
+    <vis name="AbsorberVis" r="0.5" g="0.5" b="0.0" showDaughters="false" visible="true"/>
+  </display>
+
+  <detectors>
+    <detector id="1" 
+              name="PolyhedraEndcapCalorimeterTest" 
+              type="PolyhedraEndcapCalorimeter2" 
+              readout="CalHits"
+              reflect="true"
+              vis="DetectorVis">
+         <dimensions numsides="8" zmin="1000.0" rmin="500.0" rmax="1000.0" />
+         <layer repeat="10" vis="LayerVis">
+           <slice material="Silicon" thickness="2.0" sensitive="yes" vis="SensorVis" />
+           <slice material="Air" thickness="1.0" vis="InvisibleNoDaughters" /> 
+           <slice material="Tungsten" thickness="10.0" sensitive="no" vis="AbsorberVis" />
+         </layer>
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="CalHits">
+      <segmentation type="GridXYZ" gridSizeX="3.5" gridSizeY="3.5" />
+      <id>layer:8,system:6,barrel:3,x:32:-16,y:-16</id>
+    </readout>
+  </readouts>
+  
+  <fields>
+<!--
+    <field type="Solenoid" name="GlobalSolenoid"
+              inner_field="5.0"
+              outer_field="-0.6"
+              zmax="1000"
+              outer_radius="(221.0+ 5.0 + 17.5 + 40./2.)*cm"/>  
+-->
+   </fields>
+</lccdd>

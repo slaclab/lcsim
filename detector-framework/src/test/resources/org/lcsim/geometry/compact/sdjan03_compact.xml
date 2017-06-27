@@ -1,0 +1,262 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <!-- info tag containing author, version, time, unique id (url) -->
+  <info name="sdjan03">
+    <comment>
+      Test of the compact format for sdjan03 detector.
+    </comment>
+  </info>
+
+  <!-- Constants -->
+  <define>
+  
+    <!-- world -->
+    <constant name="world_side" value="15000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+    
+    <!-- tracking region -->
+    <constant name="tracking_region_radius" value="127.0*cm"/>
+    <constant name="tracking_region_zmax" value="168.0*cm"/>
+    
+
+    <constant name="vertex_inner_r" value="1.2*cm"/>
+    <constant name="vertex_delta_r" value="1.2*cm"/>
+    <constant name="vertex_outer_z" value="12.5*cm"/>
+    
+  </define>
+
+  <materials>
+
+      <!-- so can easily replace references 
+	   with something more realistic later -->
+      <material  name="MuonAir"  >
+	<D type="density" unit="g/cm3" value="0.0012"/>
+	<fraction n="0.7803"  ref="N"/>
+	<fraction n="0.2103"  ref="O"/>
+	<fraction n="0.0094"  ref="Ar"/>
+      </material>
+
+  </materials>
+  
+  <limits>
+      <limitset name="MyLimits">
+          <limit name="step_length_max" particles="*" value="1.0" unit="mm" />
+      </limitset> 
+  </limits>
+  
+  <regions>
+      <region name="MyRegion" storeSecondaries="true" cut="0.1" lunit="mm" threshold="0.001" eunit="GeV" />
+  </regions>
+  
+  <detectors>
+  
+      <detector id="0" name="BeamPipe" type="PolyconeSupport" insideTrackingVolume="true">
+          <material name="Beryllium"/>
+          <zplane rmin = "((tracking_region_zmax-6.25)*(8.96-1.2)/(185.-6.25)+1.2)" rmax="((tracking_region_zmax-6.25)*(8.96-1.2)/(185.-6.25)+1.3)" z="-tracking_region_zmax" />
+          <zplane rmin="1.2*cm" rmax="1.3*cm"   z="-6.251*cm"/>
+          <zplane rmin="1.2*cm" rmax="1.240*cm" z="-6.25*cm"/>
+          <zplane rmin="1.2*cm" rmax="1.240*cm" z="6.25*cm" />
+          <zplane rmin="1.2*cm" rmax="1.3*cm" z="6.251*cm" />
+          <zplane rmin = "((tracking_region_zmax-6.25)*(8.96-1.2)/(185.-6.25)+1.2)" rmax="((tracking_region_zmax-6.25)*(8.96-1.2)/(185.-6.25)+1.3)" z="tracking_region_zmax" />
+      </detector>
+        
+      <detector id="11" name="BarrelVertex" type="MultiLayerTracker" readout="VtxBarrHits">
+          <layer id="1" inner_r = "vertex_inner_r" outer_z = "2.5*cm">
+                <slice material = "Silicon" thickness = "0.01*cm" sensitive = "yes" limits="MyLimits" />
+          </layer>
+          <layer id="2" inner_r = "vertex_inner_r + 1 * vertex_delta_r" outer_z = "vertex_outer_z">
+                <slice material = "Silicon" thickness = "0.01*cm" sensitive = "yes" region="MyRegion"/>
+          </layer>
+          <layer id="3" inner_r = "vertex_inner_r + 2 * vertex_delta_r" outer_z = "vertex_outer_z">
+                <slice material = "Silicon" thickness = "0.01*cm" sensitive = "yes" />
+          </layer>
+          <layer id="4" inner_r = "vertex_inner_r + 3 * vertex_delta_r" outer_z = "vertex_outer_z" >
+                <slice material = "Silicon" thickness = "0.01*cm" sensitive = "yes" />
+          </layer>
+          <layer id="5" inner_r = "vertex_inner_r + 4 * vertex_delta_r" outer_z = "vertex_outer_z">
+                <slice material = "Silicon" thickness = "0.01*cm" sensitive = "yes" />
+          </layer>
+     </detector>
+      
+     <detector id="1" name="BarrelTracker" type="MultiLayerTracker" readout="TkrBarrHits">
+          <layer id="1" inner_r = "20.0*cm" outer_z = "26.67*cm">
+                <slice material = "G10" thickness = "0.05*cm" />
+                <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+          </layer>
+          <layer id="2" inner_r = "46.25*cm" outer_z = "61.67*cm">
+                <slice material = "G10" thickness = "0.05*cm" />
+                <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+          </layer>
+          <layer id="3" inner_r = "72.5*cm" outer_z = "96.67*cm">
+                <slice material = "G10" thickness = "0.05*cm" />
+                <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+          </layer>
+          <layer id="4" inner_r = "98.75*cm" outer_z = "131.67*cm" >
+                <slice material = "G10" thickness = "0.05*cm" />
+                <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+          </layer>
+          <layer id="5" inner_r = "125.0*cm" outer_z = "166.67*cm">
+                <slice material = "G10" thickness = "0.05*cm" />
+                <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+          </layer>
+     </detector>
+     
+     <detector id="2" name="EndcapTracker" type="DiskTracker" reflect="true" readout="TkrEndcapHits">
+        <layer id="1" inner_r = "4.0*cm" inner_z = "27.1*cm" outer_r = "20.50*cm">
+           <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" limits="MyLimits" />
+        </layer>
+        <layer id="2" inner_r = "4.0*cm" inner_z = "27.12*cm" outer_r = "20.50*cm">
+           <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+        </layer>    
+        <layer id="3" inner_r = "7.9*cm" inner_z = "62.1*cm" outer_r = "46.75*cm">
+           <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+        </layer>           
+        <layer id="4" inner_r = "7.9*cm" inner_z = "62.12*cm" outer_r = "46.75*cm" >
+           <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+        </layer> 
+        <layer id="5" inner_r = "11.7*cm" inner_z = "97.1*cm" outer_r = "73.0*cm" >
+           <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+        </layer>  
+        <layer id="6" inner_r = "11.7*cm" inner_z = "97.12*cm" outer_r = "73.0*cm">
+           <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+        </layer>
+        <layer id="7" inner_r = "15.6*cm" inner_z = "132.1*cm" outer_r = "99.25*cm">
+           <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+        </layer>   
+        <layer id="8" inner_r = "15.6*cm" inner_z = "132.12*cm" outer_r = "99.25*cm">
+           <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+        </layer>           
+        <layer id="9" inner_r = "19.5*cm" inner_z = "167.1*cm" outer_r = "125.50*cm" >
+           <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+        </layer> 
+        <layer id="10" inner_r = "19.5*cm" inner_z = "167.12*cm" outer_r = "125.50*cm" >
+           <slice material = "Silicon" thickness = "0.02*cm" sensitive = "yes" />
+        </layer>        
+     </detector>
+    <detector id="3" name="EMBarrel" type="CylindricalBarrelCalorimeter" readout="EcalBarrHits">  
+         <dimensions inner_r = "127.0*cm" outer_z = "184.0*cm" />
+         <layer repeat="30">
+           <slice material = "Tungsten" thickness = "0.25*cm" />
+           <slice material = "G10" thickness = "0.05*cm" />
+           <slice material = "Silicon" thickness = "0.04*cm" sensitive = "yes" />
+           <slice material = "Copper" thickness = "0.1*cm" />
+           <slice material = "Air" thickness = "0.06*cm" />
+         </layer>
+         <parameter name="CALTYPE">ECAL</parameter>
+    </detector>  
+    <detector id="4" name="EMEndcap" reflect="true" type="CylindricalEndcapCalorimeter" readout="EcalEndcapHits">
+        <dimensions inner_r = "20.0*cm" inner_z = "168.0*cm" outer_r = "125.0*cm" />
+        <layer repeat="30" >
+          <slice material = "Tungsten" thickness = "0.25*cm" />
+          <slice material = "G10" thickness = "0.05*cm" />
+          <slice material = "Silicon" thickness = "0.04*cm" sensitive = "yes" />
+          <slice material = "Copper" thickness = "0.1*cm" />
+          <slice material = "Air" thickness = "0.06*cm" />
+        </layer>
+        <parameter name="CALTYPE">ECAL</parameter>
+    </detector>
+    <detector id="5" name="HADBarrel" type="CylindricalBarrelCalorimeter" readout="HcalBarrHits">
+         <dimensions inner_r = "144.0*cm" outer_z = "286.0*cm" />
+         <layer repeat="34">
+           <slice material = "Steel235" thickness = "2.0*cm" />
+           <slice material = "Polystyrene" thickness = "1.0*cm" sensitive = "yes" />
+         </layer>
+         <parameter name="CALTYPE">HCAL</parameter>
+    </detector>
+    <!-- test whether multiple readouts on same detector works okay -->
+    <detector id="10" name="HADBarrel2" type="CylindricalBarrelCalorimeter" readout="HcalBarrHits">
+         <dimensions inner_r = "144.0*cm" outer_z = "286.0*cm" />
+         <layer repeat="1">
+           <slice material = "Steel235" thickness = "2.0*cm" />
+           <slice material = "Polystyrene" thickness = "1.0*cm" sensitive = "yes" />
+         </layer>
+         <parameter name="CALTYPE">HCAL</parameter>
+    </detector>
+    <detector id="6" name="HAD_ENDCAP" reflect="true" type="CylindricalEndcapCalorimeter" readout="HcalEndcapHits">
+        <dimensions inner_r = "20.0*cm" inner_z = "184.0*cm" outer_r = "142.0*cm" />
+        <layer repeat="34" >
+           <slice material = "Steel235" thickness = "2.0*cm" />
+           <slice material = "Polystyrene" thickness = "1.0*cm" sensitive = "yes" />
+        </layer>
+        <parameter name="CALTYPE">HCAL</parameter>
+    </detector> 
+    <detector id="7" name="MUON_BARREL" type="CylindricalBarrelCalorimeter" readout="MuonBarrHits" detectorType="calorimeter">
+         <dimensions inner_r = "337.0*cm" outer_z = "287.0*cm" />
+         <layer repeat="32">
+           <slice material = "Iron" thickness = "5.0*cm" />
+           <slice material = "Air" thickness = "1.5*cm" sensitive = "yes" />
+         </layer>
+         <parameter name="CALTYPE">MUON</parameter>
+    </detector>  
+    <detector id="8" name="MUON_ENDCAP"  reflect="true" type="CylindricalEndcapCalorimeter" readout="MuonEndcapHits">
+         <dimensions inner_r = "20.0*cm" inner_z = "287.0*cm" outer_r = "636.0*cm" />
+         <layer repeat="32">
+           <slice material = "Iron" thickness = "5.0*cm" />
+           <slice material = "Air" thickness = "1.5*cm" sensitive = "yes" />
+         </layer>
+         <parameter name="CALTYPE">MUON</parameter>
+    </detector>
+    <detector id="9" name="LUM_ENDCAP" reflect="true" type="CylindricalEndcapCalorimeter" readout="LumEndcapHits">
+        <dimensions inner_r = "0.0001*cm" inner_z = "310.0*cm" outer_r = "9.2*cm" />
+        <layer repeat="1">
+          <slice material="Beryllium" thickness = "10.*cm" />
+          <slice material="Tungsten" thickness = "35.*cm" sensitive = "yes" />
+        </layer>
+        <parameter name="CALTYPE">FCAL</parameter>
+    </detector>  
+  </detectors>
+  <readouts>
+         <readout name="MuonBarrHits"> 
+             <segmentation type="ProjectiveCylinder" thetaBins="150" phiBins="300"/>
+             <id>system:4,barrel:3,layer:7,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="MuonEndcapHits"> 
+             <segmentation type="ProjectiveZPlane" thetaBins="150" phiBins="300"/>
+             <id>system:4,barrel:3,layer:7,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="LumEndcapHits"> 
+             <segmentation type="ProjectiveZPlane" thetaBins="600" phiBins="1200"/>
+             <id>system:4,barrel:3,layer:7,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="HcalEndcapHits"> 
+             <segmentation type="ProjectiveZPlane" thetaBins="600" phiBins="1200"/>
+             <id>system:4,barrel:3,layer:7,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="HcalBarrHits"> 
+             <segmentation type="ProjectiveCylinder" thetaBins="600" phiBins="1200"/>
+             <id>system:4,barrel:3,layer:7,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="EcalEndcapHits"> 
+           <segmentation type="ProjectiveZPlane" thetaBins="840" phiBins="1680"/>
+           <id>system:4,barrel:3,layer:7,theta:32:11,phi:11</id>
+        </readout>
+         <readout name="EcalBarrHits"> 
+             <segmentation type="ProjectiveCylinder" thetaBins="840" phiBins="1680"/>
+             <id>system:4,barrel:3,layer:7,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="TkrBarrHits"> 
+             <id>system:4,barrel:3,layer:10</id>
+         </readout>
+         <readout name="TkrEndcapHits"> 
+             <id>system:4,barrel:3,layer:10</id>
+         </readout>
+         <readout name="VtxBarrHits"> 
+             <id>system:4,barrel:3,layer:10</id>
+         </readout>
+   </readouts>
+   <fields>
+    <field type="Solenoid" name="TestSolenoid"
+              inner_field="5.0"
+              outer_field="-0.6"
+              zmax="1000"
+              outer_radius="144*cm+(2+1)*34*cm"/>
+    <field type="Dipole" name="TestDipole" zmax="100.0" zmin="-100.0" rmax="1000.0">
+    	<dipoleCoeff value="1.0"/>
+    	<dipoleCoeff value="2.0"/>
+    </field>
+   </fields>
+</lccdd>

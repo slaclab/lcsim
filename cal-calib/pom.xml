@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>lcsim-cal-calib</artifactId>
+    <groupId>org.lcsim</groupId>
+    <name>cal-calib</name>
+    <description>calorimeter calibration algorithms</description>
+    <parent>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-parent</artifactId>
+        <relativePath>../parent/pom.xml</relativePath>
+        <version>3.9-SNAPSHOT</version>
+    </parent>
+    <scm>
+        <url>http://java.freehep.org/svn/repos/lcdet/list/projects/lcsim/trunk/cal-calib/</url>
+        <connection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/cal-calib/</connection>
+        <developerConnection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/cal-calib/</developerConnection>
+    </scm>
+    <dependencies>
+        <dependency>
+            <groupId>org.lcsim</groupId>
+            <artifactId>lcsim-cal-recon</artifactId>
+        </dependency>
+    </dependencies>
+</project>

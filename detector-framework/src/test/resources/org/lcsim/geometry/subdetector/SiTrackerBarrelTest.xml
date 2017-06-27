@@ -1,0 +1,79 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0" 
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" 
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+  <info name="SiTrackerBarrelTest00">
+    <comment/>
+  </info>
+  <define>
+    <constant name="world_side" value="30000"/>
+    <constant name="world_x" value="world_side"/>
+    <constant name="world_y" value="world_side"/>
+    <constant name="world_z" value="world_side"/>
+    <constant name="tracking_region_radius" value="180.0 * cm"/>
+    <constant name="tracking_region_zmax" value="300.0 * cm"/>
+  </define>
+  <materials>
+  </materials>
+  <display>
+    <vis name="ModuleVis" alpha="1.0" r="0.8" g="1.0" b="0.1" drawingStyle="wireframe" lineStyle="unbroken" showDaughters="false" visible="true"/>
+    <vis name="LayerVis" alpha="0.0" r="0.0" g="0.0" b="1.0" drawingStyle="wireframe" showDaughters="true" visible="false"/>
+    <vis name="ComponentVis" alpha="0.0" r="0.0" g="0.2" b="0.4" drawingStyle="solid" showDaughters="false" visible="false"/>
+  </display>
+  <detectors>
+    <detector id="1" name="SiTrackerBarrel" type="SiTrackerBarrel" readout="SiTrackerBarrel_RO">
+      <module name="SiTrackerModule" vis="ModuleVis">
+	<module_envelope width="97.79" length="97.79" thickness="5.5" vis="ComponentVis"/>
+	<module_component width="97.79" length="97.79" thickness="0.228" material="CarbonFiber" sensitive="false" vis="ComponentVis">
+	  <position z="-1.702"/>
+	</module_component>
+	<module_component width="97.79" length="97.79" thickness="3.175" material="Rohacell31" sensitive="false" vis="ComponentVis">
+	  <position z="0.0"/>
+	</module_component>
+	<module_component width="97.79" length="97.79" thickness="0.228" material="CarbonFiber" sensitive="false" vis="ComponentVis">
+	  <position z="1.702"/>
+	</module_component>
+	<module_component width="93.531" length="93.031" thickness="0.3" material="Silicon" sensitive="true" vis="ComponentVis">
+	  <position z="2.082"/>
+	</module_component>
+	<module_component width="63.8" length="6.67" thickness="0.3" material="Silicon" sensitive="false" vis="ComponentVis">
+	  <position z="2.492"/>
+	</module_component>
+	<module_component width="97.79" length="97.79" thickness="0.1" material="Kapton" sensitive="false" vis="ComponentVis">
+	  <position z="2.692"/>
+	</module_component>
+      </module>
+      <layer module="SiTrackerModule" id="1" vis="LayerVis">
+	<barrel_envelope inner_r="195.0" outer_r="245.0" z_length="267.0 * 2.0"/>
+	<rphi_layout phi_tilt="0.19" nphi="16" phi0="0.196" rc="205.0" dr="0"/>
+	<z_layout dr="5.5" z0="218.0" nz="7"/>
+      </layer>
+      <layer module="SiTrackerModule" id="2" vis="LayerVis">
+	<barrel_envelope inner_r="451.0" outer_r="501.0" z_length="608.0 * 2.0"/>
+	<rphi_layout phi_tilt="0.19" nphi="36" phi0="0.087" rc="461.0" dr="0.0"/>
+	<z_layout dr="5.5" z0="559.0" nz="15"/>
+      </layer>
+      <layer module="SiTrackerModule" id="3" vis="LayerVis">
+	<barrel_envelope inner_r="706.0" outer_r="756.0" z_length="948.0 * 2.0"/>
+	<rphi_layout phi_tilt="0.19" nphi="54" phi0="0.058" rc="716.0" dr="0.0"/>
+	<z_layout dr="5.5" z0="899.0" nz="23"/>
+      </layer>
+      <layer module="SiTrackerModule" id="4" vis="LayerVis">
+	<barrel_envelope inner_r="962.0" outer_r="1012.0" z_length="1289.0 * 2.0"/>
+	<rphi_layout phi_tilt="0.19" nphi="72" phi0="0.0436" rc="972.0" dr="0.0"/>
+	<z_layout dr="5.5" z0="1240.0" nz="29"/>
+      </layer>
+      <layer module="SiTrackerModule" id="5" vis="LayerVis">
+	<barrel_envelope inner_r="1218.0" outer_r="1265.0" z_length="3260.0"/>
+	<rphi_layout phi_tilt="0.19" nphi="90" phi0="0.01745" rc="1228.0" dr="0.0"/>
+	<z_layout dr="5.5" z0="1581.0" nz="37"/>
+      </layer>
+    </detector>
+  </detectors>
+  <readouts>
+    <readout name="SiTrackerBarrel_RO">
+      <id>system:6,barrel:3,layer:4,module:12,sensor:1,side:32:-2,strip:12</id>
+    </readout>
+  </readouts>
+  <fields>
+  </fields>
+</lccdd>

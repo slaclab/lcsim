@@ -1,0 +1,110 @@
+    ---
+LCSim - Maven Repository
+    ---
+    
+Maven Repository
+
+* Remote Repositories
+
+    LCSim module artifacts such as jar files are deployed to a remote repository where they are 
+    publically available for download, either manually or via a dependency in a POM file.  These repositories
+    have directory and file structures that allow Maven to find these dependencies when building dependent
+    projects.
+
+* Local Repository
+
+    When building, Maven will cache artifacts from remote repositories into a local repository so that
+    it does not need to fetch them from the internet every time.  By default, the location of the
+    local repository is <~/.m2/settings.xml> on Linux and OSX or the user home area on Windows.
+
+    This location can be configured differently via the settings file at <~/.m2/settings.xml>:
+
++--
+<settings>
+  ...
+  <localRepository>/path/to/local/repo/</localRepository>
+  ...
+</settings>
++--
+
+    Or it may be set from the command line for an individual build, as follows:
+
++--
+mvn -Dmaven.repo.local=/path/to/my/repo
++--
+
+    In fact, periodically removing and then rebuilding the local repository is a good idea, as it can 
+    make clear any possible dependency problems that might be otherwise hidden.
+
+* Repository Information
+    
+    The following information can be put into the repositories section of your project's POM file
+    so that LCSim artifacts will be downloaded when found in the dependencies: 
+    
++--        
+<repository>
+    <id>lcsim-repo-public</id>
+    <name>LCSIM Public Maven Repository</name>
+    <url>http://srs.slac.stanford.edu/nexus/content/groups/lcsim-maven2-public/</url>
+</repository>
++--
+
+    Both releases and snapshots are available through that URL, so this should be the only
+    configuration that is required.
+
+* Nexus
+
+    The {{{http://www.sonatype.org/nexus/}Sonatype Nexus}} application is used to manage the repository.
+    
+    To search for jars, go to the {{{http://srs.slac.stanford.edu/nexus/index.html}SLAC SRS Nexus Application}} and
+    enter "lcsim" in the "Keyword Search" box, which will show the artifacts that are available.
+
+* Snapshots
+
+    Maven has the concept of the snapshot version, which is a rolling release that is subject to change over time.
+    There can be many remote snapshot versions, because they are deployed automatically by the continuous integration system.
+
+    Artifacts of this type have long names including a unique identifer, such as:
+
++--
+lcsim-distribution-3.0-20131214.221640-10-bin.jar
++--
+
+    It is easy to spot snapshot dependencies in POM files as these have "SNAPSHOT" in the name, for instance:
+
++--
+<dependency>
+    <groupId>org.lcsim</groupId>
+    <artifactId>lcsim-distribution</artifactId>
+    <version>3.0-SNAPSHOT</version>
+<dependency>
++--
+
+    When referenced in this way, the latest version of the snapshot will be pulled automatically from the remote repository,
+    or a copy will be used from the local repository if it has a more recent timestamp.
+
+    Snapshot versions must be updated when releases are made, so after the "3.0" release is made, the snapshot version would
+    be changed to "3.1-SNAPSHOT" in anticipation of the "3.1" release.
+
+* Releases
+
+    Release versions point to artifacts that usually do not change once deployed to the remote repository.
+
+    These artifacts have short names including the release such as:
+
++--
+lcsim-distribution-3.0-bin.jar
++--
+
+    A dependency on that release would look like this in a POM file:
+
++--
+<dependency>
+    <groupId>org.lcsim</groupId>
+    <artifactId>lcsim-distribution</artifactId>
+    <version>3.0</version>
+<dependency>
++--
+
+    Depending on release versions has the benefit that a project will not be affected by changes in the HEAD copy of the dependency
+    which are usually deployed automatically to remote repositories.

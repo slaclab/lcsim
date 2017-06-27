@@ -1,0 +1,48 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <info name="TPCTest">
+  </info>
+
+  <!-- Constants -->
+  <define>
+
+    <!-- world -->
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+
+    <!-- tracking region -->
+    <constant name="tracking_region_radius" value="1100.0*cm"/>
+    <constant name="tracking_region_zmax" value="150.0*cm"/>
+  </define>
+
+  <materials>
+  </materials>
+
+  <detectors>
+    <detector id="1" name="TPCTest" type="TPC" readout="TPCHits">
+         <dimensions inner_r = "100.0*cm" outer_z = "150.0*cm" />
+         <position z="500.0" /> <!-- Just a simple test of z displacement. -->
+         <layer repeat="10">
+           <slice material="Nitrogen" thickness="1.0*cm" sensitive="yes" />
+         </layer>
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="TPCHits"> 
+      <id>layer:10,system:3,barrel:3</id>
+    </readout>
+  </readouts>
+  
+  <fields>
+    <field type="Solenoid" name="GlobalSolenoid"
+              inner_field="5.0"
+              outer_field="-0.6"
+              zmax="1000"
+              outer_radius="(221.0+ 5.0 + 17.5 + 40./2.)*cm"/>  <!-- SolenoidCoilBarrel inner_radius + Al support + Oxygen gap + half coil-->
+   </fields>
+</lccdd>

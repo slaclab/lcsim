@@ -1,0 +1,60 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:element name="StrategyList" type ="StrategyListType"/>
+
+	<xsd:complexType name="StrategyListType"> 
+		<xsd:sequence>
+			<xsd:element name="TargetDetector" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Strategy" type="StrategyType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+
+	</xsd:complexType>
+
+	<xsd:complexType name = "StrategyType">
+		<xsd:all>
+			<xsd:element name="MinPT" type="xsd:double"/>
+			<xsd:element name="MinHits" type="xsd:int"/>
+			<xsd:element name="MinConfirm" type="xsd:int"/>
+			<xsd:element name="MaxDCA" type="xsd:double"/>
+			<xsd:element name="MaxZ0" type="xsd:double"/>
+			<xsd:element name="MaxChisq" type="xsd:double"/>
+			<xsd:element name="BadHitChisq" type="xsd:double"/>
+                        <xsd:element name="Layers" type="LayersType"/>
+                </xsd:all>
+                <xsd:attribute name="name" type="xsd:string"/>	
+	</xsd:complexType>
+
+        
+        <xsd:complexType name="LayersType">
+            <xsd:sequence>
+                <xsd:element name="Layer" type="LayerType" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+            
+	<xsd:complexType name="LayerType">
+		<xsd:attribute name="type" type="LayerCategory"/> 
+		<xsd:attribute name="layer_number" type="xsd:int"/>
+		<xsd:attribute name="detector_name" type="xsd:string"/>
+		<xsd:attribute name="be_flag" type="BEFlag"/>
+	</xsd:complexType>
+
+	<xsd:simpleType name="LayerCategory">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Extend"/>
+			<xsd:enumeration value="Confirm"/>
+			<xsd:enumeration value="Seed"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="BEFlag">
+		<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="BARREL"/>
+				<xsd:enumeration value="ENDCAP_NORTH"/>
+				<xsd:enumeration value="ENDCAP_SOUTH"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+</xsd:schema>
+
+

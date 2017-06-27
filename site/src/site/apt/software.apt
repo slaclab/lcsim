@@ -1,0 +1,23 @@
+    ---
+LCSim - Software
+    ---
+
+Software
+
+    There are several other related pieces of software that interface with LCSim, mostly via shared data formats.
+
+    These include:
+
+    * {{{http://lcio.desy.de/}Linear Collider IO (LCIO)}} - API and binary implementation for sharing physics event data
+
+    * {{{https://confluence.slac.stanford.edu/display/ilc/SLIC}Simulator for the Linear Collider (SLIC)}} - detector simulation with Geant4
+
+    * {{{https://confluence.slac.stanford.edu/display/ilc/LCDD}Linear Collider Detector Description (LCDD)}} - detector description XML format
+
+    * {{{http://gdml.web.cern.ch/GDML/}Geometry Description Markup Language (GDML}} - geometry description format
+
+    * {{{https://confluence.slac.stanford.edu/display/ilc/New+Build+Instructions+for+PandoraPFANew}PandoraPFA}} - particle flow algorithm
+
+    * {{{http://ilcsoft.desy.de/portal/software_packages/ilcinstall/}ILCInstall}} - ILC software installation framework
+
+    * {{{https://twiki.cern.ch/twiki/bin/view/CLIC/DiracUsage}ILCDIRAC}} - grid toolkit

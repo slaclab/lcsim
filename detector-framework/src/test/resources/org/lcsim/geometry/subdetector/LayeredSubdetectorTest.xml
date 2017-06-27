@@ -1,0 +1,131 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <!-- info tag containing author, version, time, unique id (url) -->
+  <info name="LayeredSubdetectorTest">
+    <comment>
+      This is meant to test layering.  As a detector, it makes no sense.
+    </comment>
+  </info>
+
+  <!-- Constants -->
+  <define>
+      
+    <!-- world -->
+    <constant name="world_side" value="15000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+    
+    <!-- tracking region -->
+    <constant name="tracking_region_radius" value="127.0"/>
+    <constant name="tracking_region_zmax" value="168.0"/>
+    
+    <constant name="vertex_inner_r" value="1.2"/>
+    <constant name="vertex_delta_r" value="1.2"/>
+    <constant name="vertex_outer_z" value="12.5"/>
+    
+  </define>
+
+  <materials>
+
+      <!-- so can easily replace references 
+	   with something more realistic later -->
+      <material  name="MuonAir"  >
+	<D type="density" unit="g/cm3" value="0.0012"/>
+	<fraction n="0.7803"  ref="N"/>
+	<fraction n="0.2103"  ref="O"/>
+	<fraction n="0.0094"  ref="Ar"/>
+      </material>
+
+  </materials>
+ 
+  <detectors>
+      
+     <detector id="1" name="TrackerBarrelTest" type="MultiLayerTracker" readout="TkrBarrHits">
+          <layer id="1" inner_r = "20.0" outer_z = "100.0">
+                <slice material = "G10" thickness = "3.0" />
+                <slice material = "Silicon" thickness = "2.0" sensitive = "yes" />
+          </layer>
+          <layer id="2" inner_r = "30" outer_z = "100.0">
+                <slice material = "G10" thickness = "3.0" />
+                <slice material = "Silicon" thickness = "2.0" sensitive = "yes" />
+          </layer>
+     </detector>
+     
+     <detector id="2" name="TrackerEndcapTest" type="DiskTracker" reflect="true" readout="TkrEndcapHits">
+        <layer id="1" inner_r = "0.0" inner_z = "20.0" outer_r = "20.0">
+                <slice material = "G10" thickness = "3.0" />
+                <slice material = "Silicon" thickness = "2.0" sensitive = "yes" />
+        </layer>
+        <layer id="2" inner_r = "0.0" inner_z = "30.0" outer_r = "20.0">
+               <slice material = "G10" thickness = "3.0" />
+               <slice material = "Silicon" thickness = "2.0" sensitive = "yes" />
+        </layer>       
+    </detector>
+    
+    <detector id="3" name="CalorimeterBarrel" type="CylindricalBarrelCalorimeter" readout="HcalBarrHits">  
+         <dimensions inner_r = "100.0" outer_z = "200.0" />
+         <layer repeat="2" >
+          <slice material = "G10" thickness = "3.0" />
+          <slice material = "Silicon" thickness = "2.0" sensitive = "yes" />
+        </layer>
+    </detector>  
+
+        <detector id="4" name="CalorimeterEndcapTest" reflect="true" type="CylindricalEndcapCalorimeter" readout="EcalEndcapHits">
+        <dimensions inner_r = "20.0" inner_z = "200.0" outer_r = "125.0" />
+        <layer repeat="2" >
+          <slice material = "G10" thickness = "3.0" />
+          <slice material = "Silicon" thickness = "2.0" sensitive = "yes" />
+        </layer>
+    </detector> 
+     
+  </detectors>
+  <readouts>
+         <readout name="MuonBarrHits"> 
+             <segmentation type="ProjectiveCylinder" thetaBins="150" phiBins="300"/>
+             <id>layer:7,system:3,barrel:3,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="MuonEndcapHits"> 
+             <segmentation type="ProjectiveZPlane" thetaBins="150" phiBins="300"/>
+             <id>layer:7,system:3,barrel:3,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="LumEndcapHits"> 
+             <segmentation type="ProjectiveZPlane" thetaBins="600" phiBins="1200"/>
+             <id>layer:7,system:3,barrel:3,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="HcalEndcapHits"> 
+             <segmentation type="ProjectiveZPlane" thetaBins="600" phiBins="1200"/>
+             <id>layer:7,system:3,barrel:3,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="HcalBarrHits"> 
+             <segmentation type="ProjectiveCylinder" thetaBins="600" phiBins="1200"/>
+             <id>layer:7,system:3,barrel:3,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="EcalEndcapHits"> 
+           <segmentation type="ProjectiveZPlane" thetaBins="840" phiBins="1680"/>
+           <id>layer:7,system:3,barrel:3,theta:32:11,phi:11</id>
+        </readout>
+         <readout name="EcalBarrHits"> 
+             <segmentation type="ProjectiveCylinder" thetaBins="840" phiBins="1680"/>
+             <id>layer:7,system:3,barrel:3,theta:32:11,phi:11</id>
+         </readout>
+         <readout name="TkrBarrHits"> 
+             <id>layer:10,system:3,barrel:3</id>
+         </readout>
+         <readout name="TkrEndcapHits"> 
+             <id>layer:10,system:3,barrel:3</id>
+         </readout>
+         <readout name="VtxBarrHits"> 
+             <id>layer:10,system:3,barrel:3</id>
+         </readout>
+   </readouts>
+   <fields>
+    <field type="Solenoid" name="GlobalSolenoid"
+              inner_field="5.0"
+              outer_field="-0.6"
+              zmax="1000"
+              outer_radius="144+(2+1)*34"/>
+   </fields>
+</lccdd>

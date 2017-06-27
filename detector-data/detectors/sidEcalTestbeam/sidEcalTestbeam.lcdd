@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lcdd xmlns:lcdd="http://www.lcsim.org/schemas/lcdd/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/lcdd/1.0/lcdd.xsd">
+  <header>
+    <detector name="sidEcalTestbeam" />
+    <generator name="GeomConverter" version="1.0" file="C:\work\lcsimSVN\detector-data\detectors\sidEcalTestbeam\compact.xml" checksum="2932631973" />
+    <author name="NONE" />
+    <comment>SiD ECal Test beam module 2014.01.15 Norman Graf</comment>
+  </header>
+  <iddict>
+    <idspec name="CalHits" length="64">
+      <idfield signed="false" label="system" length="6" start="0" />
+      <idfield signed="false" label="barrel" length="3" start="6" />
+      <idfield signed="false" label="module" length="4" start="9" />
+      <idfield signed="false" label="layer" length="6" start="13" />
+      <idfield signed="false" label="slice" length="5" start="19" />
+      <idfield signed="true" label="x" length="16" start="32" />
+      <idfield signed="true" label="y" length="16" start="48" />
+    </idspec>
+  </iddict>
+  <sensitive_detectors>
+    <calorimeter name="SiDTestBeamCalorimeter" ecut="0.0" eunit="MeV" verbose="0" hits_collection="CalHits">
+      <idspecref ref="CalHits" />
+      <global_grid_xy grid_size_x="3.5" grid_size_y="3.5" />
+    </calorimeter>
+  </sensitive_detectors>
+  <limits>
+    <limitset name="cal_limits">
+      <limit name="step_length_max" unit="mm" particles="*" value="3.5" />
+    </limitset>
+  </limits>
+  <regions>
+    <region name="TrackingRegion" store_secondaries="true" kill_tracks="false" cut="10.0" lunit="mm" threshold="1.0" eunit="MeV" />
+  </regions>
+  <display>
+    <vis name="WorldVis" line_style="unbroken" drawing_style="wireframe" show_daughters="true" visible="false">
+      <color R="1.0" G="1.0" B="1.0" alpha="1.0" />
+    </vis>
+    <vis name="TrackingVis" line_style="unbroken" drawing_style="wireframe" show_daughters="true" visible="false">
+      <color R="1.0" G="1.0" B="1.0" alpha="1.0" />
+    </vis>
+  </display>
+  <gdml>
+    <define>
+      <rotation name="identity_rot" x="0.0" y="0.0" z="0.0" unit="radian" />
+      <rotation name="reflect_rot" x="3.141592653589793" y="0.0" z="0.0" unit="radian" />
+      <position name="identity_pos" x="0.0" y="0.0" z="0.0" unit="mm" />
+      <constant name="world_side" value="30000.0" />
+      <constant name="cm" value="10.0" />
+      <constant name="tracking_region_radius" value="1500.0" />
+      <constant name="world_y" value="30000.0" />
+      <constant name="world_z" value="30000.0" />
+      <constant name="tracking_region_zmax" value="2000.0" />
+      <constant name="world_x" value="30000.0" />
+      <position name="SiDTestBeamCalorimeter_position" x="0.0" y="0.0" z="100.0" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType0_slice0_position" x="0.0" y="0.0" z="-0.18499999999999997" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType0_slice1_position" x="0.0" y="0.0" z="-0.009999999999999974" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType0_slice2_position" x="0.0" y="0.0" z="0.17500000000000004" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer0_position" x="0.0" y="0.0" z="-75.54999999999997" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType1_slice0_position" x="0.0" y="0.0" z="-0.8249999999999997" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType1_slice1_position" x="0.0" y="0.0" z="0.9350000000000003" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType1_slice2_position" x="0.0" y="0.0" z="1.5750000000000002" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType1_slice3_position" x="0.0" y="0.0" z="1.75" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType1_slice4_position" x="0.0" y="0.0" z="1.9349999999999998" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer1_position" x="0.0" y="0.0" z="-73.11999999999998" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer2_position" x="0.0" y="0.0" z="-68.92999999999998" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer3_position" x="0.0" y="0.0" z="-64.73999999999998" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer4_position" x="0.0" y="0.0" z="-60.54999999999998" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer5_position" x="0.0" y="0.0" z="-56.359999999999985" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer6_position" x="0.0" y="0.0" z="-52.16999999999999" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer7_position" x="0.0" y="0.0" z="-47.97999999999999" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer8_position" x="0.0" y="0.0" z="-43.78999999999999" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer9_position" x="0.0" y="0.0" z="-39.599999999999994" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer10_position" x="0.0" y="0.0" z="-35.41" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer11_position" x="0.0" y="0.0" z="-31.22" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer12_position" x="0.0" y="0.0" z="-27.03" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer13_position" x="0.0" y="0.0" z="-22.840000000000003" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer14_position" x="0.0" y="0.0" z="-18.650000000000006" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer15_position" x="0.0" y="0.0" z="-14.460000000000008" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer16_position" x="0.0" y="0.0" z="-10.27000000000001" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer17_position" x="0.0" y="0.0" z="-6.080000000000012" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer18_position" x="0.0" y="0.0" z="-1.8900000000000121" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer19_position" x="0.0" y="0.0" z="2.2999999999999874" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer20_position" x="0.0" y="0.0" z="6.489999999999987" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType2_slice0_position" x="0.0" y="0.0" z="-0.8250000000000002" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType2_slice1_position" x="0.0" y="0.0" z="2.205" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType2_slice2_position" x="0.0" y="0.0" z="2.845" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType2_slice3_position" x="0.0" y="0.0" z="3.02" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layerType2_slice4_position" x="0.0" y="0.0" z="3.205" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer21_position" x="0.0" y="0.0" z="11.949999999999987" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer22_position" x="0.0" y="0.0" z="18.679999999999986" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer23_position" x="0.0" y="0.0" z="25.40999999999999" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer24_position" x="0.0" y="0.0" z="32.13999999999999" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer25_position" x="0.0" y="0.0" z="38.87" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer26_position" x="0.0" y="0.0" z="45.6" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer27_position" x="0.0" y="0.0" z="52.330000000000005" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer28_position" x="0.0" y="0.0" z="59.06000000000001" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer29_position" x="0.0" y="0.0" z="65.79" unit="mm" />
+      <position name="SiDTestBeamCalorimeter_layer30_position" x="0.0" y="0.0" z="72.52" unit="mm" />
+    </define>
+    <materials>
+      <element Z="74" formula="W" name="W">
+        <atom type="A" unit="g/mol" value="183.842" />
+      </element>
+      <element Z="28" formula="Ni" name="Ni">
+        <atom type="A" unit="g/mol" value="58.6933" />
+      </element>
+      <element Z="29" formula="Cu" name="Cu">
+        <atom type="A" unit="g/mol" value="63.5456" />
+      </element>
+      <material name="TungstenDens23">
+        <D value="17.66" unit="g/cm3" type="density" />
+        <fraction n="0.925" ref="W" />
+        <fraction n="0.050" ref="Ni" />
+        <fraction n="0.025" ref="Cu" />
+      </material>
+      <element name="N" formula="N" Z="7">
+        <atom type="A" unit="g/mol" value="14.0068" />
+      </element>
+      <element name="O" formula="O" Z="8">
+        <atom type="A" unit="g/mol" value="15.9994" />
+      </element>
+      <element name="Ar" formula="Ar" Z="18">
+        <atom type="A" unit="g/mol" value="39.9477" />
+      </element>
+      <material name="Air">
+        <D type="density" unit="g/cm3" value="0.0012" />
+        <fraction n="0.754" ref="N" />
+        <fraction n="0.234" ref="O" />
+        <fraction n="0.012" ref="Ar" />
+      </material>
+      <element name="C" formula="C" Z="6">
+        <atom type="A" unit="g/mol" value="12.0107" />
+      </element>
+      <element name="H" formula="H" Z="1">
+        <atom type="A" unit="g/mol" value="1.00794" />
+      </element>
+      <material name="Kapton">
+        <D value="1.43" unit="g/cm3" />
+        <composite n="22" ref="C" />
+        <composite n="10" ref="H" />
+        <composite n="2" ref="N" />
+        <composite n="5" ref="O" />
+      </material>
+      <material name="Copper">
+        <RL type="X0" unit="cm" value="1.43558" />
+        <NIL type="lambda" unit="cm" value="15.5141" />
+        <D type="density" unit="g/cm3" value="8.96" />
+        <composite n="1" ref="Cu" />
+      </material>
+      <element name="Si" formula="Si" Z="14">
+        <atom type="A" unit="g/mol" value="28.0854" />
+      </element>
+      <material name="Silicon">
+        <RL type="X0" unit="cm" value="9.36607" />
+        <NIL type="lambda" unit="cm" value="45.7531" />
+        <D type="density" unit="g/cm3" value="2.33" />
+        <composite n="1" ref="Si" />
+      </material>
+    </materials>
+    <solids>
+      <box name="world_box" x="world_x" y="world_y" z="world_z" />
+      <tube name="tracking_cylinder" deltaphi="6.283185307179586" rmin="0.0" rmax="tracking_region_radius" z="2*tracking_region_zmax" />
+      <box name="SiDTestBeamCalorimeter_box" x="60.0" y="60.0" z="151.76999999999992" />
+      <box name="SiDTestBeamCalorimeter_layerType0_box" x="60.0" y="60.0" z="0.6699999999999999" />
+      <box name="SiDTestBeamCalorimeter_layerType0_slice0_box" x="60.0" y="60.0" z="0.3" />
+      <box name="SiDTestBeamCalorimeter_layerType0_slice1_box" x="60.0" y="60.0" z="0.05" />
+      <box name="SiDTestBeamCalorimeter_layerType0_slice2_box" x="60.0" y="60.0" z="0.32" />
+      <box name="SiDTestBeamCalorimeter_layerType1_box" x="60.0" y="60.0" z="4.1899999999999995" />
+      <box name="SiDTestBeamCalorimeter_layerType1_slice0_box" x="60.0" y="60.0" z="2.54" />
+      <box name="SiDTestBeamCalorimeter_layerType1_slice1_box" x="60.0" y="60.0" z="0.98" />
+      <box name="SiDTestBeamCalorimeter_layerType1_slice2_box" x="60.0" y="60.0" z="0.3" />
+      <box name="SiDTestBeamCalorimeter_layerType1_slice3_box" x="60.0" y="60.0" z="0.05" />
+      <box name="SiDTestBeamCalorimeter_layerType1_slice4_box" x="60.0" y="60.0" z="0.32" />
+      <box name="SiDTestBeamCalorimeter_layerType2_box" x="60.0" y="60.0" z="6.73" />
+      <box name="SiDTestBeamCalorimeter_layerType2_slice0_box" x="60.0" y="60.0" z="5.08" />
+      <box name="SiDTestBeamCalorimeter_layerType2_slice1_box" x="60.0" y="60.0" z="0.98" />
+      <box name="SiDTestBeamCalorimeter_layerType2_slice2_box" x="60.0" y="60.0" z="0.3" />
+      <box name="SiDTestBeamCalorimeter_layerType2_slice3_box" x="60.0" y="60.0" z="0.05" />
+      <box name="SiDTestBeamCalorimeter_layerType2_slice4_box" x="60.0" y="60.0" z="0.32" />
+    </solids>
+    <structure>
+      <volume name="SiDTestBeamCalorimeter_layerType0_slice0">
+        <materialref ref="Kapton" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType0_slice0_box" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType0_slice1">
+        <materialref ref="Copper" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType0_slice1_box" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType0_slice2">
+        <materialref ref="Silicon" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType0_slice2_box" />
+        <sdref ref="SiDTestBeamCalorimeter" />
+        <limitsetref ref="cal_limits" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType0">
+        <materialref ref="Air" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType0_box" />
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType0_slice0" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType0_slice0_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="0" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType0_slice1" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType0_slice1_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="1" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType0_slice2" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType0_slice2_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="2" />
+        </physvol>
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType1_slice0">
+        <materialref ref="TungstenDens23" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType1_slice0_box" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType1_slice1">
+        <materialref ref="Air" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType1_slice1_box" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType1_slice2">
+        <materialref ref="Kapton" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType1_slice2_box" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType1_slice3">
+        <materialref ref="Copper" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType1_slice3_box" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType1_slice4">
+        <materialref ref="Silicon" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType1_slice4_box" />
+        <sdref ref="SiDTestBeamCalorimeter" />
+        <limitsetref ref="cal_limits" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType1">
+        <materialref ref="Air" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType1_box" />
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1_slice0" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType1_slice0_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="0" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1_slice1" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType1_slice1_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="1" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1_slice2" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType1_slice2_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="2" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1_slice3" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType1_slice3_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="3" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1_slice4" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType1_slice4_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="4" />
+        </physvol>
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType2_slice0">
+        <materialref ref="TungstenDens23" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType2_slice0_box" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType2_slice1">
+        <materialref ref="Air" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType2_slice1_box" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType2_slice2">
+        <materialref ref="Kapton" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType2_slice2_box" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType2_slice3">
+        <materialref ref="Copper" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType2_slice3_box" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType2_slice4">
+        <materialref ref="Silicon" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType2_slice4_box" />
+        <sdref ref="SiDTestBeamCalorimeter" />
+        <limitsetref ref="cal_limits" />
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_layerType2">
+        <materialref ref="Air" />
+        <solidref ref="SiDTestBeamCalorimeter_layerType2_box" />
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2_slice0" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType2_slice0_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="0" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2_slice1" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType2_slice1_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="1" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2_slice2" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType2_slice2_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="2" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2_slice3" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType2_slice3_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="3" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2_slice4" />
+          <positionref ref="SiDTestBeamCalorimeter_layerType2_slice4_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="slice" value="4" />
+        </physvol>
+      </volume>
+      <volume name="SiDTestBeamCalorimeter_envelope">
+        <materialref ref="Air" />
+        <solidref ref="SiDTestBeamCalorimeter_box" />
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType0" />
+          <positionref ref="SiDTestBeamCalorimeter_layer0_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="0" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer1_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="1" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer2_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="2" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer3_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="3" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer4_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="4" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer5_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="5" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer6_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="6" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer7_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="7" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer8_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="8" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer9_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="9" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer10_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="10" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer11_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="11" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer12_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="12" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer13_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="13" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer14_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="14" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer15_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="15" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer16_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="16" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer17_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="17" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer18_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="18" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer19_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="19" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType1" />
+          <positionref ref="SiDTestBeamCalorimeter_layer20_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="20" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2" />
+          <positionref ref="SiDTestBeamCalorimeter_layer21_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="21" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2" />
+          <positionref ref="SiDTestBeamCalorimeter_layer22_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="22" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2" />
+          <positionref ref="SiDTestBeamCalorimeter_layer23_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="23" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2" />
+          <positionref ref="SiDTestBeamCalorimeter_layer24_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="24" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2" />
+          <positionref ref="SiDTestBeamCalorimeter_layer25_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="25" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2" />
+          <positionref ref="SiDTestBeamCalorimeter_layer26_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="26" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2" />
+          <positionref ref="SiDTestBeamCalorimeter_layer27_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="27" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2" />
+          <positionref ref="SiDTestBeamCalorimeter_layer28_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="28" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2" />
+          <positionref ref="SiDTestBeamCalorimeter_layer29_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="29" />
+        </physvol>
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_layerType2" />
+          <positionref ref="SiDTestBeamCalorimeter_layer30_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="layer" value="30" />
+        </physvol>
+      </volume>
+      <volume name="tracking_volume">
+        <materialref ref="Air" />
+        <solidref ref="tracking_cylinder" />
+        <physvol>
+          <volumeref ref="SiDTestBeamCalorimeter_envelope" />
+          <positionref ref="SiDTestBeamCalorimeter_position" />
+          <rotationref ref="identity_rot" />
+          <physvolid field_name="system" value="1" />
+        </physvol>
+        <regionref ref="TrackingRegion" />
+        <visref ref="TrackingVis" />
+      </volume>
+      <volume name="world_volume">
+        <materialref ref="Air" />
+        <solidref ref="world_box" />
+        <physvol>
+          <volumeref ref="tracking_volume" />
+          <positionref ref="identity_pos" />
+          <rotationref ref="identity_rot" />
+        </physvol>
+        <visref ref="WorldVis" />
+      </volume>
+    </structure>
+    <setup name="Default" version="1.0">
+      <world ref="world_volume" />
+    </setup>
+  </gdml>
+  <fields />
+</lcdd>
+

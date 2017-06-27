@@ -1,0 +1,40 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+	<info name="subdetectors_test">
+		<comment/>
+	</info>
+	<!-- Constants -->
+	<define>
+		<!-- world -->
+		<constant name="world_side" value="30000"/>
+		<constant name="world_x" value="world_side"/>
+		<constant name="world_y" value="world_side"/>
+		<constant name="world_z" value="world_side"/>
+		<!-- tracking region -->
+		<constant name="tracking_region_radius" value="0.1*cm"/>
+		<constant name="tracking_region_zmax" value="0.1*cm"/>
+	</define>
+	<materials>
+  </materials>
+	<display>
+		<vis name="TestVis" alpha="1.0" r="1.0" g="0.0" b="0.0" drawingStyle="wireframe" lineStyle="unbroken" showDaughters="true" visible="true" />
+	</display>
+	<detectors>
+		<detector id="1" name="MultiLayerTracker" type="MultiLayerTracker" readout="MultiLayerTracker_RO" vis="TestVis">
+			<layer id="1" inner_r="20.0" outer_z="100.0">
+				<slice material="G10" thickness="3.0"/>
+				<slice material="Silicon" thickness="2.0" sensitive="yes"/>
+			</layer>
+			<layer id="2" inner_r="30" outer_z="100.0">
+				<slice material="G10" thickness="3.0"/>
+				<slice material="Silicon" thickness="2.0" sensitive="yes"/>
+			</layer>
+		</detector>
+	</detectors>
+	<readouts>
+		<readout name="MultiLayerTracker_RO">
+			<id>layer:10,system:3,barrel:3</id>
+		</readout>
+	</readouts>
+	<fields>
+   </fields>
+</lccdd>

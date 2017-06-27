@@ -1,0 +1,61 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+    <info name="BoxDipoleTest">
+        <comment>Test detector for org.lcsim.geometry.field.BoxDipole class.</comment>
+    </info>
+    
+    <define>
+        
+        <constant name="world_side" value="30000" />
+        <constant name="world_x" value="world_side" />
+        <constant name="world_y" value="world_side" />
+        <constant name="world_z" value="world_side" />
+                
+        <constant name="tracking_region_radius" value="1100.0*cm"/>
+        <constant name="tracking_region_zmax" value="150.0*cm"/>
+        
+    </define>
+
+    <materials>
+    </materials>
+    
+    <detectors>
+    </detectors>
+    
+    <readouts>
+    </readouts>
+    
+    <fields>
+
+        <field type="BoxDipole" 
+               name="BoxDipoleTest1"
+               lunit="mm"
+               funit="tesla"
+               x="0."
+               y="0."
+               z="0."
+               dx="500."
+               dy="500."
+               dz="500."
+               bx="1.0"
+               by="0.5"
+               bz="0.25" />
+
+        <field type="BoxDipole" 
+               name="BoxDipoleTest2"
+               lunit="mm"
+               funit="tesla"
+               x="250."
+               y="0."
+               z="0."
+               dx="100."
+               dy="100."
+               dz="100."
+               bx="0.1"
+               by="0.2"
+               bz="0.3" />
+
+    </fields>
+</lccdd>

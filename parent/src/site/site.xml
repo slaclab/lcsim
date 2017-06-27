@@ -1,0 +1,24 @@
+<project>
+
+    <body>
+    
+        <menu name="Navigation" inherit="top">         
+            <item name="LCSim Home" href="index.html"/>
+        </menu>
+
+<!--
+        <menu name="Module" inherit="top">
+            <item name="Summary" href="./project-summary.html"/>
+            <item name="Source Repository" href="./source-repository.html"/>
+            <item name="Source Xref" href="./xref/index.html"/>
+            <item name="JavaDocs" href="./apidocs/index.html"/>
+            <item name="Dependencies" href="./dependencies.html"/>
+            <item name="Surefire Tests Report" href="./surefire-report.html"/>
+        </menu>
+-->
+
+        <menu name="Module" ref="reports" inherit="top" />
+
+    </body> 
+
+</project>

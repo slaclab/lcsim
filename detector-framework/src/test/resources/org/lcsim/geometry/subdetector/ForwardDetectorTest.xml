@@ -1,0 +1,64 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <!-- info tag containing author, version, time, unique id (url) -->
+  <info name="ForwardDetectorTest">
+    <comment>
+      Compact format template file.
+    </comment>
+  </info>
+
+  <!-- Constants -->
+  <define>
+
+    <!-- world -->
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+
+    <!-- tracking region -->
+    <constant name="tracking_region_radius" value="0.001*cm"/>
+    <constant name="tracking_region_zmax" value="0.001*cm"/>
+
+  </define>
+
+  <materials>
+  </materials>
+
+  <detectors>
+    <detector id="1" name="LuminosityMonitor" type="ForwardDetector" reflect="true" readout="LuminosityMonitorHits" >
+      <dimensions outer_r="800.0"
+		  inner_r="0.0"
+		  inner_z="2000.0"
+		  />
+
+      <layer repeat="5">
+	<!-- <slice material = "Tungsten" thickness = "400.0" /> -->
+	<slice material = "Silicon" thickness = "100.0" sensitive = "yes" />
+      </layer>
+
+      <beampipe crossing_angle="0.2"
+		outgoing_r="20.0"
+		incoming_r="10.0"
+		/>
+
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="LuminosityMonitorHits">
+      <segmentation type="GridXYZ" gridSizeX="10.0" gridSizeY="10.0" />
+      <id>layer:7,system:3,barrel:3,x:32:11,y:11</id>
+    </readout>
+  </readouts>
+
+  <fields>
+    <field type="Solenoid" name="GlobalSolenoid"
+	   inner_field="5.0"
+	   outer_field="-0.6"
+	   zmax="1000"
+	   outer_radius="144*cm+(2+1)*34*cm" />
+  </fields>
+</lccdd>

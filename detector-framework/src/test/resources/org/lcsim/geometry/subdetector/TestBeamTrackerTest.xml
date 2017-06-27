@@ -1,0 +1,53 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <info name="TestBeamCalorimeterTest">
+    <comment>Test of class org.lcsim.geometry.compact.converter.lcdd.TestBeamCalorimeter</comment>
+  </info>
+
+  <define>
+
+    <!-- world -->
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+
+    <!-- tracking region -->
+    <constant name="tracking_region_radius" value="150.0*cm"/>
+    <constant name="tracking_region_zmax" value="200.0*cm"/>
+
+  </define>
+
+  <materials>
+  </materials>
+
+  <detectors>
+    
+    <detector id="1" 
+              name="TestBeamTrackerTest" 
+              type="TestBeamTracker" 
+              readout="TrackerHits"
+              insideTrackingVolume="true">
+        <dimensions x="10.0 * cm" y="10.0 * cm" />
+        <layer repeat="5">
+            <slice material="Silicon" thickness="1.0*cm" sensitive="yes"/>
+        </layer>         
+    </detector>
+    
+  </detectors>
+
+  <readouts>
+        <readout name="TrackerHits">
+            <id>system:3,barrel:2,layer:7</id>
+        </readout>
+   </readouts>
+    <fields>
+    <field type="Solenoid" name="GlobalSolenoid"
+              inner_field="5.0"
+              outer_field="-0.6"
+              zmax="1000"
+              outer_radius="(221.0+ 5.0 + 17.5 + 40./2.)*cm"/>
+   </fields>
+</lccdd>

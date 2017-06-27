@@ -1,0 +1,29 @@
+<lcsim xmlns:lcsim="http://www.lcsim.org/schemas/lcsim/1.0"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+    xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/lcsim/1.0/lcsim.xsd">
+    <inputFiles>
+        <file>${inputFile}</file>
+    </inputFiles>
+    <execute>
+        <driver name="EventMarkerDriver"/>
+        <driver name="StripIdrup"/>
+        <driver name="Writer"/>
+    </execute>
+    <drivers>
+        <!-- Driver to give some feedback on progress -->
+        <driver name="EventMarkerDriver"
+                type="org.lcsim.job.EventMarkerDriver">
+            <eventInterval>1</eventInterval>
+        </driver>
+        <!-- Driver to strip events based on MC process ID -->
+       <driver name="StripIdrup"
+                type="org.lcsim.analysis.StripIdrupEvent">
+            <idrup>${idrup}</idrup>
+        </driver>
+        <!-- Driver to write output slcio file -->
+        <driver name="Writer"
+                type="org.lcsim.util.loop.LCIODriver">
+            <outputFilePath>${outputFile}_${idrup}.slcio</outputFilePath>
+        </driver>
+    </drivers>
+</lcsim>

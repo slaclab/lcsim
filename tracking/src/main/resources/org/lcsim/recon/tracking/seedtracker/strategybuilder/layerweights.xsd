@@ -1,0 +1,78 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="LayerWeight" type ="LayerWeightsType"/>
+
+    <xsd:complexType name="LayerWeightsType">
+            <xsd:all>
+       
+                    <xsd:element name="TargetDetector" type="TargetDetectorType" minOccurs="0"/>
+                    <xsd:element name="DivideByTwoInTrackerEndcap" type="xsd:boolean" minOccurs="0"/>
+                    <xsd:element name="AdjacenceMultiplier" type="xsd:double" minOccurs="0"/>		
+                    <xsd:element name="DefaultWeight" type="xsd:double"/>
+                    <xsd:element name="ReadoutEfficiencies" type="ReadoutEfficienciesType" minOccurs="0"/>
+                    <xsd:element name="Layers" type="LayersType" minOccurs="0"/>
+                    <xsd:element name="DefaultReadoutEfficiency" type="Efficiency"/>
+            </xsd:all>
+    </xsd:complexType>
+
+    
+    <xsd:complexType name="TargetDetectorType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="divide_by_two_in_tracker_endcap" type="xsd:boolean" default="false"/>
+                <xsd:attribute name="divide_by_two_in_tracker_forward" type="xsd:boolean" default="false"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+        
+      
+    
+    <xsd:complexType name="LayersType">
+        <xsd:sequence>
+
+            <xsd:element name="Layer" type="LayerType" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ReadoutEfficienciesType">
+        <xsd:sequence>
+
+            <xsd:element name="ReadoutEfficiency" type="ReadoutEfficiencyType" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="LayerType">
+            <xsd:simpleContent>
+                    <xsd:extension base="xsd:double">
+                            <xsd:attribute name="layer_number" type="xsd:int"/>
+                            <xsd:attribute name="detector_name" type="xsd:string"/>
+                            <xsd:attribute name="be_flag" type = "BEFlag"/>
+                    </xsd:extension>
+            </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="ReadoutEfficiencyType">
+        <xsd:simpleContent>
+            <xsd:extension base="Efficiency">
+                <xsd:attribute name="readout" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="BEFlag">
+            <xsd:restriction base="xsd:string">
+                            <xsd:enumeration value="BARREL"/>
+                            <xsd:enumeration value="ENDCAP_NORTH"/>
+                            <xsd:enumeration value="ENDCAP_SOUTH"/>
+            </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:simpleType name="Efficiency">
+        <xsd:restriction base="xsd:double">
+            <xsd:minInclusive value="0.0"/>
+            <xsd:maxInclusive value="1.0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

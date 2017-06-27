@@ -1,0 +1,292 @@
+package org.lcsim.geometry.compact.converter.lcdd;
+
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.tan;
+
+import java.util.Iterator;
+
+import org.jdom.Attribute;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.lcsim.geometry.compact.converter.lcdd.util.Define;
+import org.lcsim.geometry.compact.converter.lcdd.util.LCDD;
+import org.lcsim.geometry.compact.converter.lcdd.util.Material;
+import org.lcsim.geometry.compact.converter.lcdd.util.PhysVol;
+import org.lcsim.geometry.compact.converter.lcdd.util.PolyhedraRegular;
+import org.lcsim.geometry.compact.converter.lcdd.util.Position;
+import org.lcsim.geometry.compact.converter.lcdd.util.Rotation;
+import org.lcsim.geometry.compact.converter.lcdd.util.SensitiveDetector;
+import org.lcsim.geometry.compact.converter.lcdd.util.Solids;
+import org.lcsim.geometry.compact.converter.lcdd.util.Structure;
+import org.lcsim.geometry.compact.converter.lcdd.util.Trapezoid;
+import org.lcsim.geometry.compact.converter.lcdd.util.Volume;
+import org.lcsim.geometry.layer.LayerStack;
+import org.lcsim.geometry.layer.Layering;
+
+/**
+ * Convert a PolyhedraEndcapCalorimeter to the LCDD format.
+ *
+ * @author Jeremy McCormick <jeremym@slac.stanford.edu>
+ * @version $id: $
+ */
+public class PolyhedraEndcapCalorimeter_OLD extends LCDDSubdetector
+{
+    private Element node;
+
+    // 25 micron tolerance for staves and layers.
+    double tolerance=0.025;
+    
+    // 1 micron tolerance between sublayers.
+    double slice_tolerance=0.001;
+
+    public PolyhedraEndcapCalorimeter_OLD(Element node) throws JDOMException
+    {
+        super(node);
+        this.node = node;
+    }
+
+    public void addToLCDD(LCDD lcdd, SensitiveDetector sens) throws JDOMException
+    {
+        if ( sens == null)
+        {
+            throw new IllegalArgumentException("PolyhedraBarrelCalorimeter <" + getName() + " has null SD.");
+        }
+
+        // Get important LCDD objects.
+        Solids solids = lcdd.getSolids();
+        Structure structure = lcdd.getStructure();
+        Volume motherVolume = lcdd.pickMotherVolume(this);
+        Material air = lcdd.getMaterial("Air");
+        Define define = lcdd.getDefine();
+
+        // Subdetector name and ID.
+        String detName = node.getAttributeValue("name");
+        int id = node.getAttribute("id").getIntValue();
+
+        // Subdetector envelope dimensions.
+        Element dimensions = node.getChild("dimensions");
+        double zmin = dimensions.getAttribute("zmin").getDoubleValue();
+        double rmin = dimensions.getAttribute("rmin").getDoubleValue();
+        double rmax = dimensions.getAttribute("rmax").getDoubleValue();
+        int numsides = dimensions.getAttribute("numsides").getIntValue();
+
+        // Rotation of polyhedra into correct frame.
+        double zrot = Math.PI / numsides;
+        Rotation envelopeRotation = new Rotation(detName + "_rotation");
+        envelopeRotation.setZ(zrot);
+        define.addRotation(envelopeRotation);
+
+        // Total thickness of the subdetector.
+        double subdetector_thickness = org.lcsim.geometry.layer.LayerFromCompactCnv.computeDetectorTotalThickness(node);
+        double radial_thickness = rmax - rmin;
+        double detZ = subdetector_thickness;
+
+        // The detector envelope volume.
+        PolyhedraRegular polyhedra = new PolyhedraRegular(
+                detName + "_polyhedra",
+                numsides, rmin, rmax, detZ);
+        solids.addSolid(polyhedra);
+
+        Volume envelopeVolume = new Volume(detName + "_envelope");
+        envelopeVolume.setSolid(polyhedra);
+        envelopeVolume.setMaterial(air);
+
+        // The stave's trapezoid.
+        double innerAngle = Math.PI * 2 / numsides;
+        double halfInnerAngle = innerAngle/2;
+        double innerFaceLength = rmin * tan(halfInnerAngle) * 2;
+        double outerFaceLength = rmax * tan(halfInnerAngle) * 2;
+
+        Trapezoid sectTrd = new Trapezoid(detName + "_stave_trapezoid");
+        sectTrd.setY2(subdetector_thickness - tolerance);
+        sectTrd.setY1(subdetector_thickness - tolerance);
+        sectTrd.setZ(radial_thickness - tolerance);
+        sectTrd.setX1(innerFaceLength - tolerance);
+        sectTrd.setX2(outerFaceLength - tolerance);
+
+        solids.addSolid(sectTrd);
+        Volume sectVolume = new Volume(detName + "_stave");
+        sectVolume.setMaterial(air);
+        sectVolume.setSolid(sectTrd);
+
+        LayerStack layers = Layering.makeLayering(this.node).getLayerStack();
+
+        // Build the layers.
+        int layer_number = 0;
+        double layer_position_y = subdetector_thickness / 2;
+        for (Iterator i = node.getChildren("layer").iterator(); i.hasNext();)
+        {
+            Element layer_element = (Element) i.next();
+
+            int repeat = layer_element.getAttribute("repeat").getIntValue();
+
+            for ( int j=0; j<repeat; j++)
+            {
+            	String layer_name = detName + "_stave_layer" + layer_number;;
+
+            	double layer_thickness = layers.getLayer(layer_number).getThickness();
+
+            	layer_position_y -= layer_thickness / 2;
+
+            	// Layer position.
+                Position layer_position = new Position(layer_name + "_position");
+                layer_position.setY(layer_position_y);
+                define.addPosition(layer_position);
+
+                // Layer trapezoid.
+                Trapezoid layer_trd = new Trapezoid(layer_name + "_trapezoid");
+                layer_trd.setX1(innerFaceLength - tolerance);
+                layer_trd.setX2(outerFaceLength - tolerance);
+                layer_trd.setY1(layer_thickness - tolerance);
+                layer_trd.setY2(layer_thickness - tolerance);
+                layer_trd.setZ(radial_thickness - tolerance);
+                solids.addSolid(layer_trd);
+
+                Volume layer_volume = new Volume(layer_name);
+                layer_volume.setSolid(layer_trd);
+                layer_volume.setMaterial(lcdd.getMaterial("Air"));
+
+                int slice_number = 0;
+                double slice_position_y = layer_thickness / 2;
+                for ( Iterator k = layer_element.getChildren("slice").iterator(); k.hasNext();)
+                {
+                	Element slice_element = (Element)k.next();
+
+                	String slice_name = layer_name + "_slice" + slice_number;
+
+                	Attribute s = slice_element.getAttribute("sensitive");
+                    boolean sensitive = s != null && s.getBooleanValue();
+
+                    double slice_thickness = slice_element.getAttribute("thickness").getDoubleValue();
+                    slice_position_y -=  slice_thickness / 2;
+
+                    Position slicePosition = new Position(slice_name + "_position");
+                    slicePosition.setY(slice_position_y);
+                    define.addPosition(slicePosition);
+
+                    Trapezoid sliceTrd = new Trapezoid(slice_name + "_trapezoid");
+                    sliceTrd.setX1(innerFaceLength - tolerance);
+                    sliceTrd.setX2(outerFaceLength - tolerance);
+                    sliceTrd.setY1(slice_thickness - slice_tolerance);
+                    sliceTrd.setY2(slice_thickness - slice_tolerance);
+                    sliceTrd.setZ(radial_thickness - tolerance);
+                    solids.addSolid(sliceTrd);
+
+                    Volume sliceVolume = new Volume(slice_name);
+                    sliceVolume.setSolid(sliceTrd);
+                    Material sliceMaterial = lcdd.getMaterial(slice_element.getAttributeValue("material"));
+                    sliceVolume.setMaterial(sliceMaterial);
+                    if ( sensitive ) sliceVolume.setSensitiveDetector(sens);
+
+                    setRegion(lcdd, slice_element, sliceVolume);
+                    setLimitSet(lcdd, slice_element, sliceVolume);
+
+                    setVisAttributes(lcdd, node, sliceVolume);
+                    structure.addVolume(sliceVolume);
+
+                    PhysVol slicePhysVol = new PhysVol(sliceVolume);
+                    slicePhysVol.setPosition(slicePosition);
+                    slicePhysVol.addPhysVolID("slice", slice_number);
+                    layer_volume.addPhysVol(slicePhysVol);
+
+                    slice_position_y -= slice_thickness / 2;
+
+                    ++slice_number;
+                }
+
+                lcdd.add(layer_volume);
+
+                setRegion(lcdd, layer_element, layer_volume);
+                setLimitSet(lcdd, layer_element, layer_volume);
+                setVisAttributes(lcdd, node, layer_volume);
+
+                PhysVol layer_physvol = new PhysVol(layer_volume);
+                layer_physvol.setPosition(layer_position);
+                layer_physvol.addPhysVolID("layer", layer_number);
+                sectVolume.addPhysVol(layer_physvol);
+
+                layer_position_y -= layer_thickness / 2;
+
+                ++layer_number;
+            }
+        }
+
+        // Add the section volume after layers created.
+        setVisAttributes(lcdd, node, sectVolume);
+        structure.addVolume(sectVolume);
+
+        // Place the sections.
+        double innerRotation = innerAngle;
+        double offsetRotation = -innerRotation / 2;
+
+        double sectCenterRadius = rmin + radial_thickness / 2;
+        double rotY = -offsetRotation;
+        double rotX = PI / 2;
+        double posX = -sectCenterRadius * sin(rotY);
+        double sectPosY = sectCenterRadius * cos(rotY);
+        for ( int i=0; i < numsides; i++)
+        {
+            int moduleNumber=i;
+
+            Position position = new Position(detName + "_stave0_module" + moduleNumber + "_position");
+            position.setX(posX);
+            position.setY(sectPosY);
+
+            Rotation rotation = new Rotation(detName + "_stave0_module" + moduleNumber + "_rotation");
+            rotation.setX(rotX);
+            rotation.setY(rotY);
+
+            define.addPosition(position);
+            define.addRotation(rotation);
+
+            PhysVol sectPhysVol = new PhysVol(sectVolume);
+            sectPhysVol.setPosition(position);
+            sectPhysVol.setRotation(rotation);
+
+            envelopeVolume.addPhysVol(sectPhysVol);
+            sectPhysVol.addPhysVolID("stave",0);
+            sectPhysVol.addPhysVolID("module",moduleNumber);
+
+            rotY -= innerRotation;
+            posX = -sectCenterRadius * sin(rotY);
+            sectPosY = sectCenterRadius * cos(rotY);
+        }
+
+        // Place the subdetector envelope.
+        PhysVol envelopePhysvol = new PhysVol(envelopeVolume);
+        envelopePhysvol.setZ(zmin + subdetector_thickness/2);
+        envelopePhysvol.addPhysVolID("system",id);
+        envelopePhysvol.setRotation(envelopeRotation);
+        envelopePhysvol.addPhysVolID("barrel",1);
+
+        motherVolume.addPhysVol(envelopePhysvol);
+
+        // Place the reflected subdetector envelope.
+        boolean reflect = node.getAttribute("reflect").getBooleanValue();
+        if (reflect)
+        {
+        	Rotation envelopeRotationReflect = new Rotation(detName + "_reflect_rotation");
+            envelopeRotationReflect.setX(Math.PI);
+            envelopeRotationReflect.setZ(zrot);
+            define.addRotation(envelopeRotationReflect);
+
+            PhysVol physvol2 = new PhysVol(envelopeVolume);
+            physvol2.setZ(-zmin-subdetector_thickness/2);
+            physvol2.setRotation(envelopeRotationReflect);
+            physvol2.addPhysVolID("system",id);
+            physvol2.addPhysVolID("barrel",2);
+            motherVolume.addPhysVol(physvol2);
+        }
+
+        // Add the envelope volume to LCDD once staves are all created.
+        setVisAttributes(lcdd, node, envelopeVolume);
+        structure.addVolume(envelopeVolume);
+    }
+
+    public boolean isCalorimeter()
+    {
+        return true;
+    }
+}

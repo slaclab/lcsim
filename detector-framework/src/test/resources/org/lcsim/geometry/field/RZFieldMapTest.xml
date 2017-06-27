@@ -1,0 +1,40 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <info name="TPCTest">
+    <comment>Test of org.lcsim.geometry.subdetector.TPC class.</comment>
+  </info>
+
+  <!-- Constants -->
+  <define>
+
+    <!-- world -->
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+
+    <!-- tracking region -->
+    <constant name="tracking_region_radius" value="1100.0*cm"/>
+    <constant name="tracking_region_zmax" value="150.0*cm"/>
+  </define>
+
+  <materials>
+  </materials>
+
+  <detectors>
+  </detectors>
+
+  <readouts>
+  </readouts>
+  
+  <fields>
+    <field type="RZFieldMap" name="RZFieldMapTest"
+              gridSizeZ="10.0"
+              gridSizeR="10.0"             
+              numBinsZ="64"
+              numBinsR="67"
+              url="http://www.lcsim.org/test/fieldmap/solenoid_5tesla.dat"/>
+   </fields>
+</lccdd>

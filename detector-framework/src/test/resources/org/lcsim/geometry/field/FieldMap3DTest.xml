@@ -1,0 +1,36 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <info name="FieldMap3DTest"/>
+
+  <define>
+
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+
+    <!-- tracking region -->
+        <constant name="tracking_region_radius" value="200.0*cm"/>
+        <constant name="tracking_region_zmax" value="131.8*cm"/>
+          
+  </define>
+
+  <materials>     
+  </materials>
+
+  <detectors>  
+  </detectors>
+
+  <readouts>      
+  </readouts>
+  
+  <fields>
+   <field type="FieldMap3D" name="FieldMap3DTest" 
+           filename="src/test/resources/org/lcsim/geometry/field/HPS_b18d36_unfolded.dat" 
+           xoffset="2.117"
+           yoffset="0.0"
+           zoffset="45.72" />   
+  </fields>
+</lccdd>

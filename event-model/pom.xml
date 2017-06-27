@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>lcsim-event-model</artifactId>
+    <name>event-model</name>
+    <description>physics event packages including interfaces, base classes and LCIO implementation</description>    
+    <parent>
+        <groupId>org.lcsim</groupId>
+        <artifactId>lcsim-parent</artifactId>
+        <version>3.9-SNAPSHOT</version>
+        <relativePath>../parent/pom.xml</relativePath>
+    </parent>    
+    <scm>
+        <url>http://java.freehep.org/svn/repos/lcdet/list/projects/lcsim/trunk/event-model/</url>
+        <connection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/event-model/</connection>
+        <developerConnection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/event-model/</developerConnection>
+    </scm>            
+    <dependencies>
+        <dependency>
+            <groupId>org.freehep</groupId>
+            <artifactId>freehep-sio</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.lcsim</groupId>
+            <artifactId>lcsim-detector-framework</artifactId>
+        </dependency>
+    </dependencies>    
+</project>

@@ -1,0 +1,103 @@
+    ---
+LCSim - Source Code
+    ---
+    
+Source Code
+
+* Check Out the Code
+
+    The full project sources are stored in a Subversion repository at the following location:
+    
++--
+svn://svn.freehep.org/lcdet/
++--
+       
+* Repository Credentials
+
+    The project sources can be downloaded anonymously, but checking in changes to the SVN requires a valid username and password combination.
+    
+    These should be supplied when executing the 'commit' command:
+
++--
+svn commit --username [username] --password [password] -m "commit message goes here" the/file/to/commit
++--
+
+    Generally, this will only need to be done once, as you may allow Subversion to cache this information locally (unencrypted unfortunately!).
+
+    Repository write access can be requested by emailing jeremym AT slac.stanford.edu and including your full name, institution, and desired username.
+   
+* Getting All the Modules        
+
+    The entire set of modules can be found under this directory:
+    
++--
+svn://svn.freehep.org/lcdet/projects/lcsim/trunk/
++--    
+
+    This command will checkout all of the modules locally:
+    
++--
+svn co svn://svn.freehep.org/lcdet/projects/lcsim/trunk/ lcsim
++--    
+    
+* Getting a Single Module
+
+    The HEAD revision of an individual module can be found at a URL with the following form:
+    
++--
+svn://svn.freehep.org/lcdet/projects/lcsim/trunk/[module]
++--        
+
+    To see a list of available modules, e.g. directories containing Maven modules, the following
+    command can be used:
+
++--
+svn list svn://svn.freehep.org/lcdet/projects/lcsim/trunk/
++--            
+    
+    For instance, to checkout the HEAD copy of the tracking module, this command can be used:
+    
++--
+svn co svn://svn.freehep.org/lcdet/projects/lcsim/trunk/tracking lcsim-tracking
++--
+    
+* Downloading Tags and Branches
+
+    Global tag names are used, and Maven generates these automatically for releases.
+
+    All tags can be found at this URL:
+
++--
+svn://svn.freehep.org/lcdet/projects/lcsim/tags
++--    
+
+   To download a certain tag, use a command with this form:
+   
++--   
+svn co svn://svn.freehep.org/lcdet/projects/lcsim/tags/[tagName]
++--        
+
+   To see what tags are available, use this command:
+   
++--
+svn list svn://svn.freehep.org/lcdet/projects/lcsim/tags/
++--   
+   
+   Similarily, branch names also have globally unique names, and all branches can be found here:
+
++--
+svn://svn.freehep.org/lcdet/projects/lcsim/branches
++--   
+
+   To download a certain branch, use a command with this form:
+   
++--   
+svn co svn://svn.freehep.org/lcdet/projects/lcsim/tags/[branchName]
++--
+
+    To see what branches are available, use this command:
+    
++--
+svn list svn://svn.freehep.org/lcdet/projects/lcsim/branches/
++--
+  

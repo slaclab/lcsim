@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/gdml/1.0/gdml.xsd" >
+ <define> 
+  <position name="v0" unit="mm" x="-132.047" y="-7.83498" z="1760" /> 
+  <position name="v1" unit="mm" x="-122.497" y="-21.0941" z="1760" /> 
+  <position name="v2" unit="mm" x="-135.512" y="-14.3545" z="1760" /> 
+  <position name="v3" unit="mm" x="-332.2" y="-12.9112" z="1760" /> 
+  <position name="v4" unit="mm" x="-327.886" y="0.165014" z="1760" /> 
+  <position name="v5" unit="mm" x="-136.634" y="-13.835" z="1760" /> 
+  <position name="v6" unit="mm" x="-4.69809" y="-32.165" z="1760" /> 
+  <position name="v7" unit="mm" x="-120.713" y="-31.793" z="1760" /> 
+  <position name="v8" unit="mm" x="-3.81478" y="-31.7531" z="1760" /> 
+  <position name="v9" unit="mm" x="48.77" y="0.165014" z="1760" /> 
+  <position name="v10" unit="mm" x="73.0692" y="-3.33602" z="1760" /> 
+  <position name="v11" unit="mm" x="45.6234" y="-7.53774" z="1760" /> 
+  <position name="v12" unit="mm" x="30.2849" y="-14.7833" z="1760" /> 
+  <position name="v13" unit="mm" x="73.0692" y="-10.835" z="1760" /> 
+  <position name="v14" unit="mm" x="37.9831" y="-10.833" z="1760" /> 
+  <position name="v15" unit="mm" x="11.3981" y="-14.2161" z="1760" /> 
+  <position name="v16" unit="mm" x="10.0008" y="-15.2883" z="1760" /> 
+  <position name="v17" unit="mm" x="13.1175" y="-13.835" z="1760" /> 
+  <position name="v18" unit="mm" x="4.9772" y="-7.83498" z="1760" /> 
+  <position name="v19" unit="mm" x="-63.5368" y="-26.1654" z="1760" /> 
+  <position name="v20" unit="mm" x="-300.512" y="-14.3545" z="2760" /> 
+  <position name="v21" unit="mm" x="-301.634" y="-13.8349" z="2760" /> 
+  <position name="v22" unit="mm" x="-333.104" y="0.165074" z="2760" /> 
+  <position name="v23" unit="mm" x="-19.5745" y="-21.0947" z="2760" /> 
+  <position name="v24" unit="mm" x="-297.047" y="-7.83493" z="2760" /> 
+  <position name="v25" unit="mm" x="-331.467" y="-5.41745" z="2760" /> 
+  <position name="v26" unit="mm" x="-271.962" y="-26.1649" z="2760" /> 
+  <position name="v27" unit="mm" x="-287.497" y="-21.0941" z="2760" /> 
+  <position name="v28" unit="mm" x="-153.537" y="-26.1653" z="2760" /> 
+  <position name="v29" unit="mm" x="73.0692" y="-3.33596" z="2760" /> 
+  <position name="v30" unit="mm" x="-10.0228" y="-7.83493" z="2760" /> 
+  <position name="v31" unit="mm" x="73.0692" y="-10.8349" z="2760" /> 
+  <position name="v32" unit="mm" x="48.0247" y="-13.8349" z="2760" /> 
+  <position name="v33" unit="mm" x="48.77" y="0.165074" z="2760" /> 
+  <position name="v34" unit="mm" x="37.9831" y="-10.8329" z="2760" /> 
+  <position name="v35" unit="mm" x="-4.99918" y="-15.2882" z="2760" /> 
+  <position name="v36" unit="mm" x="-1.88246" y="-13.8349" z="2760" /> 
+  <position name="v37" unit="mm" x="-3.60192" y="-14.2161" z="2760" /> 
+  <position name="v38" unit="mm" x="-19.6981" y="-32.1649" z="2760" /> 
+  <position name="v39" unit="mm" x="-284.909" y="-32.1649" z="2760" /> 
+  <position name="v40" unit="mm" x="68.0692" y="0.165074" z="2760" /> 
+  <position name="v41" unit="mm" x="68.0692" y="0.165014" z="1760" /> 
+  <position name="v42" unit="mm" x="45.6234" y="-7.53768" z="2760" /> 
+  <position name="v43" unit="mm" x="30.2214" y="-7.83493" z="2760" /> 
+  <position name="v44" unit="mm" x="30.2214" y="-7.83498" z="1760" /> 
+  <position name="v45" unit="mm" x="72.1905" y="-12.9562" z="2760" /> 
+  <position name="v46" unit="mm" x="72.1905" y="-12.9563" z="1760" /> 
+  <position name="v47" unit="mm" x="70.0692" y="-13.8349" z="2760" /> 
+  <position name="v48" unit="mm" x="70.0692" y="-13.835" z="1760" /> 
+  <position name="v49" unit="mm" x="30.2849" y="-14.7833" z="2760" /> 
+  <position name="v50" unit="mm" x="39.2887" y="-16.8107" z="2760" /> 
+  <position name="v51" unit="mm" x="48.0247" y="-13.835" z="1760" /> 
+  <position name="v52" unit="mm" x="39.2887" y="-16.8108" z="1760" /> 
+  <position name="v53" unit="mm" x="26.5429" y="-13.835" z="1760" /> 
+  <position name="v54" unit="mm" x="28.473" y="-14.0757" z="2760" /> 
+  <position name="v55" unit="mm" x="26.5429" y="-13.8349" z="2760" /> 
+  <position name="v56" unit="mm" x="28.473" y="-14.0758" z="1760" /> 
+  <position name="v57" unit="mm" x="5.61754" y="-13.8349" z="2260" /> 
+  <position name="v58" unit="mm" x="3.89807" y="-14.2161" z="2260" /> 
+  <position name="v59" unit="mm" x="-18.8148" y="-31.753" z="2760" /> 
+  <position name="v60" unit="mm" x="2.50082" y="-15.2883" z="2260" /> 
+  <position name="v61" unit="mm" x="-11.3148" y="-31.7531" z="2260" /> 
+  <position name="v62" unit="mm" x="-12.1981" y="-32.165" z="2260" /> 
+  <position name="v63" unit="mm" x="-119.909" y="-32.165" z="1760" /> 
+  <position name="v64" unit="mm" x="-285.713" y="-31.793" z="2760" /> 
+  <position name="v65" unit="mm" x="-203.213" y="-31.793" z="2260" /> 
+  <position name="v66" unit="mm" x="-202.409" y="-32.165" z="2260" /> 
+  <position name="v67" unit="mm" x="-218.012" y="-14.3545" z="2260" /> 
+  <position name="v68" unit="mm" x="-219.134" y="-13.835" z="2260" /> 
+  <position name="v69" unit="mm" x="-345.057" y="-13.8349" z="2760" /> 
+  <position name="v70" unit="mm" x="-333.069" y="-10.835" z="1760" /> 
+  <position name="v71" unit="mm" x="-340.569" y="-10.835" z="2260" /> 
+  <position name="v72" unit="mm" x="-347.183" y="-12.9569" z="2760" /> 
+  <position name="v73" unit="mm" x="-330.057" y="-13.835" z="1760" /> 
+  <position name="v74" unit="mm" x="-339.756" y="-12.8659" z="2260" /> 
+  <position name="v75" unit="mm" x="-337.557" y="-13.835" z="2260" /> 
+  <position name="v76" unit="mm" x="-348.069" y="-3.33596" z="2760" /> 
+  <position name="v77" unit="mm" x="-348.069" y="-10.8349" z="2760" /> 
+  <position name="v78" unit="mm" x="-333.069" y="-3.33602" z="1760" /> 
+  <position name="v79" unit="mm" x="-342.886" y="0.165074" z="2760" /> 
+  <position name="v80" unit="mm" x="-318.675" y="-7.83496" z="2260" /> 
+  <position name="v81" unit="mm" x="-324.166" y="-5.10664" z="2260" /> 
+  <position name="v82" unit="mm" x="-326.175" y="-7.83493" z="2760" /> 
+  <position name="v83" unit="mm" x="-317.441" y="-3.65114" z="1760" /> 
+  <position name="v84" unit="mm" x="-314.829" y="-6.37173" z="1760" /> 
+  <position name="v85" unit="mm" x="-318.104" y="0.165014" z="1760" /> 
+  <position name="v86" unit="mm" x="-325.604" y="0.165044" z="2260" /> 
+  <position name="v87" unit="mm" x="-311.175" y="-7.83498" z="1760" /> 
+  <position name="v88" unit="mm" x="-106.962" y="-26.165" z="1760" /> 
+  <position name="v89" unit="mm" x="-189.462" y="-26.165" z="2260" /> 
+  <position name="v90" unit="mm" x="-108.537" y="-26.1654" z="2260" /> 
+  <position name="v91" unit="mm" x="-27.6111" y="-26.1658" z="2260" /> 
+  <position name="v92" unit="mm" x="-35.1111" y="-26.1657" z="2760" /> 
+  <position name="v93" unit="mm" x="-4.57452" y="-21.0948" z="1760" /> 
+  <position name="v94" unit="mm" x="-20.1111" y="-26.1658" z="1760" /> 
+  <position name="v95" unit="mm" x="-4.57452" y="21.0948" z="1760" /> 
+  <position name="v96" unit="mm" x="45.6234" y="7.53774" z="1760" /> 
+  <position name="v97" unit="mm" x="-3.81478" y="31.7531" z="1760" /> 
+  <position name="v98" unit="mm" x="28.473" y="14.0758" z="1760" /> 
+  <position name="v99" unit="mm" x="48.0247" y="13.835" z="1760" /> 
+  <position name="v100" unit="mm" x="4.9772" y="7.83498" z="1760" /> 
+  <position name="v101" unit="mm" x="73.0692" y="10.835" z="1760" /> 
+  <position name="v102" unit="mm" x="13.1175" y="13.835" z="1760" /> 
+  <position name="v103" unit="mm" x="37.9831" y="10.833" z="1760" /> 
+  <position name="v104" unit="mm" x="-122.497" y="21.0941" z="1760" /> 
+  <position name="v105" unit="mm" x="10.0008" y="15.2883" z="1760" /> 
+  <position name="v106" unit="mm" x="-63.5368" y="26.1654" z="1760" /> 
+  <position name="v107" unit="mm" x="-106.962" y="26.165" z="1760" /> 
+  <position name="v108" unit="mm" x="-120.713" y="31.793" z="1760" /> 
+  <position name="v109" unit="mm" x="-132.047" y="7.83498" z="1760" /> 
+  <position name="v110" unit="mm" x="-333.069" y="3.33602" z="1760" /> 
+  <position name="v111" unit="mm" x="-318.104" y="-0.165017" z="1760" /> 
+  <position name="v112" unit="mm" x="73.0692" y="3.33596" z="2760" /> 
+  <position name="v113" unit="mm" x="73.0692" y="3.33602" z="1760" /> 
+  <position name="v114" unit="mm" x="48.77" y="-0.165017" z="1760" /> 
+  <position name="v115" unit="mm" x="68.0692" y="-0.165017" z="1760" /> 
+  <position name="v116" unit="mm" x="68.0692" y="-0.165077" z="2760" /> 
+  <position name="v117" unit="mm" x="30.2214" y="7.83498" z="1760" /> 
+  <position name="v118" unit="mm" x="30.2214" y="7.83492" z="2760" /> 
+  <position name="v119" unit="mm" x="-4.99918" y="15.2882" z="2760" /> 
+  <position name="v120" unit="mm" x="-19.5745" y="21.0947" z="2760" /> 
+  <position name="v121" unit="mm" x="45.6234" y="7.53768" z="2760" /> 
+  <position name="v122" unit="mm" x="30.2849" y="14.7833" z="2760" /> 
+  <position name="v123" unit="mm" x="48.0247" y="13.8349" z="2760" /> 
+  <position name="v124" unit="mm" x="48.77" y="-0.165077" z="2760" /> 
+  <position name="v125" unit="mm" x="37.9831" y="10.8329" z="2760" /> 
+  <position name="v126" unit="mm" x="-35.1111" y="26.1657" z="2760" /> 
+  <position name="v127" unit="mm" x="-3.60192" y="14.2161" z="2760" /> 
+  <position name="v128" unit="mm" x="-285.713" y="31.793" z="2760" /> 
+  <position name="v129" unit="mm" x="-153.537" y="26.1653" z="2760" /> 
+  <position name="v130" unit="mm" x="-326.175" y="7.83492" z="2760" /> 
+  <position name="v131" unit="mm" x="-348.069" y="3.33596" z="2760" /> 
+  <position name="v132" unit="mm" x="-297.047" y="7.83492" z="2760" /> 
+  <position name="v133" unit="mm" x="-301.634" y="13.8349" z="2760" /> 
+  <position name="v134" unit="mm" x="-345.057" y="13.8349" z="2760" /> 
+  <position name="v135" unit="mm" x="-300.512" y="14.3545" z="2760" /> 
+  <position name="v136" unit="mm" x="-20.1111" y="26.1658" z="1760" /> 
+  <position name="v137" unit="mm" x="-108.537" y="26.1654" z="2260" /> 
+  <position name="v138" unit="mm" x="-189.462" y="26.165" z="2260" /> 
+  <position name="v139" unit="mm" x="-271.962" y="26.1649" z="2760" /> 
+  <position name="v140" unit="mm" x="-287.497" y="21.0941" z="2760" /> 
+  <position name="v141" unit="mm" x="-318.675" y="7.83495" z="2260" /> 
+  <position name="v142" unit="mm" x="-316.467" y="5.41759" z="1760" /> 
+  <position name="v143" unit="mm" x="-311.175" y="7.83498" z="1760" /> 
+  <position name="v144" unit="mm" x="-333.104" y="-0.165077" z="2760" /> 
+  <position name="v145" unit="mm" x="-331.186" y="5.72308" z="2760" /> 
+  <position name="v146" unit="mm" x="-324.166" y="5.10664" z="2260" /> 
+  <position name="v147" unit="mm" x="-327.886" y="-0.165017" z="1760" /> 
+  <position name="v148" unit="mm" x="-325.604" y="-0.165047" z="2260" /> 
+  <position name="v149" unit="mm" x="-342.886" y="-0.165077" z="2760" /> 
+  <position name="v150" unit="mm" x="-333.069" y="10.835" z="1760" /> 
+  <position name="v151" unit="mm" x="-332.183" y="12.9571" z="1760" /> 
+  <position name="v152" unit="mm" x="-348.069" y="10.8349" z="2760" /> 
+  <position name="v153" unit="mm" x="-339.756" y="12.8659" z="2260" /> 
+  <position name="v154" unit="mm" x="-347.084" y="13.0505" z="2760" /> 
+  <position name="v155" unit="mm" x="-330.057" y="13.835" z="1760" /> 
+  <position name="v156" unit="mm" x="-219.134" y="13.835" z="2260" /> 
+  <position name="v157" unit="mm" x="-337.557" y="13.835" z="2260" /> 
+  <position name="v158" unit="mm" x="-340.569" y="10.835" z="2260" /> 
+  <position name="v159" unit="mm" x="-135.512" y="14.3545" z="1760" /> 
+  <position name="v160" unit="mm" x="-136.634" y="13.835" z="1760" /> 
+  <position name="v161" unit="mm" x="-218.012" y="14.3545" z="2260" /> 
+  <position name="v162" unit="mm" x="-202.409" y="32.165" z="2260" /> 
+  <position name="v163" unit="mm" x="-12.1981" y="32.165" z="2260" /> 
+  <position name="v164" unit="mm" x="-119.909" y="32.165" z="1760" /> 
+  <position name="v165" unit="mm" x="-284.909" y="32.1649" z="2760" /> 
+  <position name="v166" unit="mm" x="-4.69809" y="32.165" z="1760" /> 
+  <position name="v167" unit="mm" x="-203.213" y="31.793" z="2260" /> 
+  <position name="v168" unit="mm" x="-18.8148" y="31.753" z="2760" /> 
+  <position name="v169" unit="mm" x="-19.6981" y="32.1649" z="2760" /> 
+  <position name="v170" unit="mm" x="2.50082" y="15.2883" z="2260" /> 
+  <position name="v171" unit="mm" x="-11.3148" y="31.7531" z="2260" /> 
+  <position name="v172" unit="mm" x="3.89807" y="14.2161" z="2260" /> 
+  <position name="v173" unit="mm" x="11.3981" y="14.2161" z="1760" /> 
+  <position name="v174" unit="mm" x="5.61754" y="13.8349" z="2260" /> 
+  <position name="v175" unit="mm" x="-1.88246" y="13.8349" z="2760" /> 
+  <position name="v176" unit="mm" x="26.5429" y="13.835" z="1760" /> 
+  <position name="v177" unit="mm" x="39.2887" y="16.8107" z="2760" /> 
+  <position name="v178" unit="mm" x="39.2887" y="16.8108" z="1760" /> 
+  <position name="v179" unit="mm" x="30.2849" y="14.7833" z="1760" /> 
+  <position name="v180" unit="mm" x="70.0692" y="13.8349" z="2760" /> 
+  <position name="v181" unit="mm" x="26.5429" y="13.8349" z="2760" /> 
+  <position name="v182" unit="mm" x="28.473" y="14.0757" z="2760" /> 
+  <position name="v183" unit="mm" x="-10.0228" y="7.83492" z="2760" /> 
+  <position name="v184" unit="mm" x="-27.6111" y="26.1658" z="2260" /> 
+  <position name="v185" unit="mm" x="72.1905" y="12.9562" z="2760" /> 
+  <position name="v186" unit="mm" x="73.0692" y="10.8349" z="2760" /> 
+  <position name="v187" unit="mm" x="70.0692" y="13.835" z="1760" /> 
+  <position name="v188" unit="mm" x="72.1905" y="12.9563" z="1760" /> 
+  <position name="p0" unit="mm" x="0" y="0" z="0" /> 
+  <rotation name="r0" unit="radian" x="0" y="0" z="0" /> 
+ </define> 
+ <materials>
+  <element Z="7" formula="N" name="N0xa65b138" >
+   <atom value="14.0067" />
+  </element>
+  <element Z="8" formula="O" name="O0xa65b060" >
+   <atom value="15.9994" />
+  </element>
+  <element Z="18" formula="Ar" name="Ar0xa56fb18" >
+   <atom value="39.948" />
+  </element>
+  <material formula=" " name="Air3" >
+   <D value="0.0012" />
+   <fraction n="0.754" ref="N0xa65b138" />
+   <fraction n="0.234" ref="O0xa65b060" />
+   <fraction n="0.012" ref="Ar0xa56fb18" />
+  </material>
+  <material Z="13" formula=" " name="Aluminum3" >
+   <D value="2.7" />
+   <atom value="26.9815" />
+  </material>
+ </materials>
+ <solids> 
+  <box lunit="mm" name="WorldBox" x="1122.86" y="129.303" z="6552.6" /> 
+  <tessellated name="split_0" lunit="mm" > 
+   <triangular vertex1="v0" vertex2="v1" vertex3="v2" /> 
+   <triangular vertex1="v3" vertex2="v70" vertex3="v87" /> 
+   <triangular vertex1="v73" vertex2="v3" vertex3="v87" /> 
+   <triangular vertex1="v83" vertex2="v84" vertex3="v78" /> 
+   <triangular vertex1="v4" vertex2="v85" vertex3="v78" /> 
+   <triangular vertex1="v85" vertex2="v83" vertex3="v78" /> 
+   <triangular vertex1="v44" vertex2="v14" vertex3="v18" /> 
+   <triangular vertex1="v78" vertex2="v84" vertex3="v70" /> 
+   <triangular vertex1="v87" vertex2="v5" vertex3="v73" /> 
+   <triangular vertex1="v70" vertex2="v84" vertex3="v87" /> 
+   <triangular vertex1="v5" vertex2="v87" vertex3="v0" /> 
+   <triangular vertex1="v6" vertex2="v63" vertex3="v7" /> 
+   <triangular vertex1="v1" vertex2="v88" vertex3="v7" /> 
+   <triangular vertex1="v19" vertex2="v8" vertex3="v7" /> 
+   <triangular vertex1="v93" vertex2="v8" vertex3="v94" /> 
+   <triangular vertex1="v94" vertex2="v8" vertex3="v19" /> 
+   <triangular vertex1="v14" vertex2="v13" vertex3="v46" /> 
+   <triangular vertex1="v9" vertex2="v10" vertex3="v11" /> 
+   <triangular vertex1="v56" vertex2="v51" vertex3="v12" /> 
+   <triangular vertex1="v13" vertex2="v14" vertex3="v11" /> 
+   <triangular vertex1="v9" vertex2="v41" vertex3="v10" /> 
+   <triangular vertex1="v10" vertex2="v13" vertex3="v11" /> 
+   <triangular vertex1="v46" vertex2="v51" vertex3="v14" /> 
+   <triangular vertex1="v46" vertex2="v48" vertex3="v51" /> 
+   <triangular vertex1="v93" vertex2="v16" vertex3="v8" /> 
+   <triangular vertex1="v51" vertex2="v52" vertex3="v12" /> 
+   <triangular vertex1="v53" vertex2="v17" vertex3="v14" /> 
+   <triangular vertex1="v51" vertex2="v53" vertex3="v14" /> 
+   <triangular vertex1="v56" vertex2="v53" vertex3="v51" /> 
+   <triangular vertex1="v18" vertex2="v14" vertex3="v17" /> 
+   <triangular vertex1="v18" vertex2="v15" vertex3="v16" /> 
+   <triangular vertex1="v18" vertex2="v17" vertex3="v15" /> 
+   <triangular vertex1="v18" vertex2="v16" vertex3="v93" /> 
+   <triangular vertex1="v7" vertex2="v8" vertex3="v6" /> 
+   <triangular vertex1="v19" vertex2="v7" vertex3="v88" /> 
+   <triangular vertex1="v2" vertex2="v1" vertex3="v7" /> 
+   <triangular vertex1="v5" vertex2="v0" vertex3="v2" /> 
+   <triangular vertex1="v31" vertex2="v13" vertex3="v10" /> 
+   <triangular vertex1="v31" vertex2="v10" vertex3="v29" /> 
+   <triangular vertex1="v41" vertex2="v40" vertex3="v29" /> 
+   <triangular vertex1="v41" vertex2="v29" vertex3="v10" /> 
+   <triangular vertex1="v27" vertex2="v20" vertex3="v64" /> 
+   <triangular vertex1="v28" vertex2="v59" vertex3="v92" /> 
+   <triangular vertex1="v24" vertex2="v20" vertex3="v27" /> 
+   <triangular vertex1="v21" vertex2="v77" vertex3="v72" /> 
+   <triangular vertex1="v20" vertex2="v24" vertex3="v21" /> 
+   <triangular vertex1="v21" vertex2="v72" vertex3="v69" /> 
+   <triangular vertex1="v76" vertex2="v77" vertex3="v25" /> 
+   <triangular vertex1="v79" vertex2="v76" vertex3="v22" /> 
+   <triangular vertex1="v22" vertex2="v76" vertex3="v25" /> 
+   <triangular vertex1="v59" vertex2="v23" vertex3="v92" /> 
+   <triangular vertex1="v77" vertex2="v24" vertex3="v82" /> 
+   <triangular vertex1="v77" vertex2="v82" vertex3="v25" /> 
+   <triangular vertex1="v64" vertex2="v26" vertex3="v27" /> 
+   <triangular vertex1="v24" vertex2="v77" vertex3="v21" /> 
+   <triangular vertex1="v59" vertex2="v28" vertex3="v38" /> 
+   <triangular vertex1="v64" vertex2="v39" vertex3="v28" /> 
+   <triangular vertex1="v26" vertex2="v64" vertex3="v28" /> 
+   <triangular vertex1="v33" vertex2="v42" vertex3="v29" /> 
+   <triangular vertex1="v49" vertex2="v32" vertex3="v54" /> 
+   <triangular vertex1="v30" vertex2="v34" vertex3="v43" /> 
+   <triangular vertex1="v45" vertex2="v31" vertex3="v34" /> 
+   <triangular vertex1="v32" vertex2="v47" vertex3="v45" /> 
+   <triangular vertex1="v33" vertex2="v29" vertex3="v40" /> 
+   <triangular vertex1="v29" vertex2="v42" vertex3="v31" /> 
+   <triangular vertex1="v32" vertex2="v45" vertex3="v34" /> 
+   <triangular vertex1="v42" vertex2="v34" vertex3="v31" /> 
+   <triangular vertex1="v55" vertex2="v34" vertex3="v36" /> 
+   <triangular vertex1="v35" vertex2="v23" vertex3="v59" /> 
+   <triangular vertex1="v32" vertex2="v49" vertex3="v50" /> 
+   <triangular vertex1="v32" vertex2="v34" vertex3="v55" /> 
+   <triangular vertex1="v54" vertex2="v32" vertex3="v55" /> 
+   <triangular vertex1="v30" vertex2="v36" vertex3="v34" /> 
+   <triangular vertex1="v30" vertex2="v35" vertex3="v37" /> 
+   <triangular vertex1="v30" vertex2="v37" vertex3="v36" /> 
+   <triangular vertex1="v30" vertex2="v23" vertex3="v35" /> 
+   <triangular vertex1="v38" vertex2="v28" vertex3="v39" /> 
+   <triangular vertex1="v9" vertex2="v33" vertex3="v40" /> 
+   <triangular vertex1="v9" vertex2="v40" vertex3="v41" /> 
+   <triangular vertex1="v11" vertex2="v34" vertex3="v42" /> 
+   <triangular vertex1="v9" vertex2="v11" vertex3="v42" /> 
+   <triangular vertex1="v9" vertex2="v42" vertex3="v33" /> 
+   <triangular vertex1="v11" vertex2="v14" vertex3="v34" /> 
+   <triangular vertex1="v34" vertex2="v14" vertex3="v43" /> 
+   <triangular vertex1="v14" vertex2="v44" vertex3="v43" /> 
+   <triangular vertex1="v18" vertex2="v30" vertex3="v43" /> 
+   <triangular vertex1="v18" vertex2="v43" vertex3="v44" /> 
+   <triangular vertex1="v45" vertex2="v13" vertex3="v31" /> 
+   <triangular vertex1="v47" vertex2="v48" vertex3="v46" /> 
+   <triangular vertex1="v46" vertex2="v13" vertex3="v45" /> 
+   <triangular vertex1="v47" vertex2="v46" vertex3="v45" /> 
+   <triangular vertex1="v48" vertex2="v47" vertex3="v32" /> 
+   <triangular vertex1="v48" vertex2="v32" vertex3="v51" /> 
+   <triangular vertex1="v49" vertex2="v12" vertex3="v52" /> 
+   <triangular vertex1="v51" vertex2="v32" vertex3="v50" /> 
+   <triangular vertex1="v50" vertex2="v52" vertex3="v51" /> 
+   <triangular vertex1="v49" vertex2="v52" vertex3="v50" /> 
+   <triangular vertex1="v56" vertex2="v54" vertex3="v53" /> 
+   <triangular vertex1="v53" vertex2="v54" vertex3="v55" /> 
+   <triangular vertex1="v49" vertex2="v54" vertex3="v56" /> 
+   <triangular vertex1="v56" vertex2="v12" vertex3="v49" /> 
+   <triangular vertex1="v53" vertex2="v57" vertex3="v17" /> 
+   <triangular vertex1="v55" vertex2="v36" vertex3="v57" /> 
+   <triangular vertex1="v55" vertex2="v57" vertex3="v53" /> 
+   <triangular vertex1="v57" vertex2="v36" vertex3="v58" /> 
+   <triangular vertex1="v36" vertex2="v37" vertex3="v58" /> 
+   <triangular vertex1="v37" vertex2="v35" vertex3="v60" /> 
+   <triangular vertex1="v58" vertex2="v37" vertex3="v60" /> 
+   <triangular vertex1="v58" vertex2="v16" vertex3="v15" /> 
+   <triangular vertex1="v17" vertex2="v57" vertex3="v15" /> 
+   <triangular vertex1="v15" vertex2="v57" vertex3="v58" /> 
+   <triangular vertex1="v16" vertex2="v58" vertex3="v60" /> 
+   <triangular vertex1="v60" vertex2="v8" vertex3="v16" /> 
+   <triangular vertex1="v35" vertex2="v61" vertex3="v60" /> 
+   <triangular vertex1="v35" vertex2="v59" vertex3="v61" /> 
+   <triangular vertex1="v8" vertex2="v60" vertex3="v61" /> 
+   <triangular vertex1="v59" vertex2="v62" vertex3="v61" /> 
+   <triangular vertex1="v59" vertex2="v38" vertex3="v62" /> 
+   <triangular vertex1="v6" vertex2="v61" vertex3="v62" /> 
+   <triangular vertex1="v61" vertex2="v6" vertex3="v8" /> 
+   <triangular vertex1="v38" vertex2="v39" vertex3="v66" /> 
+   <triangular vertex1="v38" vertex2="v66" vertex3="v62" /> 
+   <triangular vertex1="v66" vertex2="v63" vertex3="v62" /> 
+   <triangular vertex1="v62" vertex2="v63" vertex3="v6" /> 
+   <triangular vertex1="v39" vertex2="v65" vertex3="v66" /> 
+   <triangular vertex1="v39" vertex2="v64" vertex3="v65" /> 
+   <triangular vertex1="v7" vertex2="v66" vertex3="v65" /> 
+   <triangular vertex1="v66" vertex2="v7" vertex3="v63" /> 
+   <triangular vertex1="v64" vertex2="v20" vertex3="v67" /> 
+   <triangular vertex1="v65" vertex2="v64" vertex3="v67" /> 
+   <triangular vertex1="v67" vertex2="v2" vertex3="v65" /> 
+   <triangular vertex1="v65" vertex2="v2" vertex3="v7" /> 
+   <triangular vertex1="v20" vertex2="v68" vertex3="v67" /> 
+   <triangular vertex1="v20" vertex2="v21" vertex3="v68" /> 
+   <triangular vertex1="v5" vertex2="v67" vertex3="v68" /> 
+   <triangular vertex1="v67" vertex2="v5" vertex3="v2" /> 
+   <triangular vertex1="v68" vertex2="v73" vertex3="v5" /> 
+   <triangular vertex1="v21" vertex2="v75" vertex3="v68" /> 
+   <triangular vertex1="v21" vertex2="v69" vertex3="v75" /> 
+   <triangular vertex1="v73" vertex2="v68" vertex3="v75" /> 
+   <triangular vertex1="v70" vertex2="v74" vertex3="v71" /> 
+   <triangular vertex1="v74" vertex2="v72" vertex3="v71" /> 
+   <triangular vertex1="v77" vertex2="v71" vertex3="v72" /> 
+   <triangular vertex1="v69" vertex2="v72" vertex3="v74" /> 
+   <triangular vertex1="v74" vertex2="v70" vertex3="v3" /> 
+   <triangular vertex1="v73" vertex2="v75" vertex3="v3" /> 
+   <triangular vertex1="v69" vertex2="v74" vertex3="v75" /> 
+   <triangular vertex1="v3" vertex2="v75" vertex3="v74" /> 
+   <triangular vertex1="v71" vertex2="v76" vertex3="v78" /> 
+   <triangular vertex1="v77" vertex2="v76" vertex3="v71" /> 
+   <triangular vertex1="v78" vertex2="v70" vertex3="v71" /> 
+   <triangular vertex1="v78" vertex2="v76" vertex3="v79" /> 
+   <triangular vertex1="v78" vertex2="v79" vertex3="v4" /> 
+   <triangular vertex1="v79" vertex2="v22" vertex3="v86" /> 
+   <triangular vertex1="v79" vertex2="v86" vertex3="v4" /> 
+   <triangular vertex1="v4" vertex2="v86" vertex3="v85" /> 
+   <triangular vertex1="v84" vertex2="v81" vertex3="v80" /> 
+   <triangular vertex1="v86" vertex2="v22" vertex3="v25" /> 
+   <triangular vertex1="v82" vertex2="v80" vertex3="v81" /> 
+   <triangular vertex1="v82" vertex2="v81" vertex3="v25" /> 
+   <triangular vertex1="v83" vertex2="v81" vertex3="v84" /> 
+   <triangular vertex1="v80" vertex2="v87" vertex3="v84" /> 
+   <triangular vertex1="v85" vertex2="v86" vertex3="v83" /> 
+   <triangular vertex1="v86" vertex2="v25" vertex3="v81" /> 
+   <triangular vertex1="v83" vertex2="v86" vertex3="v81" /> 
+   <triangular vertex1="v0" vertex2="v80" vertex3="v24" /> 
+   <triangular vertex1="v80" vertex2="v82" vertex3="v24" /> 
+   <triangular vertex1="v80" vertex2="v0" vertex3="v87" /> 
+   <triangular vertex1="v26" vertex2="v89" vertex3="v1" /> 
+   <triangular vertex1="v0" vertex2="v24" vertex3="v27" /> 
+   <triangular vertex1="v88" vertex2="v1" vertex3="v89" /> 
+   <triangular vertex1="v1" vertex2="v0" vertex3="v27" /> 
+   <triangular vertex1="v1" vertex2="v27" vertex3="v26" /> 
+   <triangular vertex1="v90" vertex2="v88" vertex3="v89" /> 
+   <triangular vertex1="v89" vertex2="v26" vertex3="v28" /> 
+   <triangular vertex1="v92" vertex2="v91" vertex3="v90" /> 
+   <triangular vertex1="v92" vertex2="v90" vertex3="v28" /> 
+   <triangular vertex1="v91" vertex2="v19" vertex3="v90" /> 
+   <triangular vertex1="v91" vertex2="v94" vertex3="v19" /> 
+   <triangular vertex1="v89" vertex2="v28" vertex3="v90" /> 
+   <triangular vertex1="v88" vertex2="v90" vertex3="v19" /> 
+   <triangular vertex1="v30" vertex2="v18" vertex3="v93" /> 
+   <triangular vertex1="v93" vertex2="v91" vertex3="v23" /> 
+   <triangular vertex1="v91" vertex2="v92" vertex3="v23" /> 
+   <triangular vertex1="v93" vertex2="v94" vertex3="v91" /> 
+   <triangular vertex1="v30" vertex2="v93" vertex3="v23" /> 
+  </tessellated> 
+  <tessellated name="split_1" lunit="mm" > 
+   <triangular vertex1="v164" vertex2="v97" vertex3="v108" /> 
+   <triangular vertex1="v100" vertex2="v95" vertex3="v105" /> 
+   <triangular vertex1="v101" vertex2="v96" vertex3="v103" /> 
+   <triangular vertex1="v166" vertex2="v97" vertex3="v164" /> 
+   <triangular vertex1="v98" vertex2="v99" vertex3="v176" /> 
+   <triangular vertex1="v106" vertex2="v108" vertex3="v97" /> 
+   <triangular vertex1="v173" vertex2="v100" vertex3="v105" /> 
+   <triangular vertex1="v101" vertex2="v113" vertex3="v96" /> 
+   <triangular vertex1="v173" vertex2="v102" vertex3="v100" /> 
+   <triangular vertex1="v188" vertex2="v101" vertex3="v103" /> 
+   <triangular vertex1="v178" vertex2="v99" vertex3="v179" /> 
+   <triangular vertex1="v188" vertex2="v99" vertex3="v187" /> 
+   <triangular vertex1="v179" vertex2="v99" vertex3="v98" /> 
+   <triangular vertex1="v188" vertex2="v103" vertex3="v99" /> 
+   <triangular vertex1="v114" vertex2="v113" vertex3="v115" /> 
+   <triangular vertex1="v103" vertex2="v117" vertex3="v100" /> 
+   <triangular vertex1="v102" vertex2="v176" vertex3="v103" /> 
+   <triangular vertex1="v99" vertex2="v103" vertex3="v176" /> 
+   <triangular vertex1="v102" vertex2="v103" vertex3="v100" /> 
+   <triangular vertex1="v104" vertex2="v109" vertex3="v159" /> 
+   <triangular vertex1="v97" vertex2="v105" vertex3="v95" /> 
+   <triangular vertex1="v97" vertex2="v136" vertex3="v106" /> 
+   <triangular vertex1="v97" vertex2="v95" vertex3="v136" /> 
+   <triangular vertex1="v108" vertex2="v106" vertex3="v107" /> 
+   <triangular vertex1="v159" vertex2="v108" vertex3="v104" /> 
+   <triangular vertex1="v108" vertex2="v107" vertex3="v104" /> 
+   <triangular vertex1="v160" vertex2="v109" vertex3="v143" /> 
+   <triangular vertex1="v160" vertex2="v159" vertex3="v109" /> 
+   <triangular vertex1="v142" vertex2="v110" vertex3="v150" /> 
+   <triangular vertex1="v143" vertex2="v155" vertex3="v160" /> 
+   <triangular vertex1="v147" vertex2="v110" vertex3="v111" /> 
+   <triangular vertex1="v142" vertex2="v111" vertex3="v110" /> 
+   <triangular vertex1="v143" vertex2="v142" vertex3="v150" /> 
+   <triangular vertex1="v155" vertex2="v143" vertex3="v151" /> 
+   <triangular vertex1="v150" vertex2="v151" vertex3="v143" /> 
+   <triangular vertex1="v101" vertex2="v112" vertex3="v113" /> 
+   <triangular vertex1="v112" vertex2="v101" vertex3="v186" /> 
+   <triangular vertex1="v116" vertex2="v115" vertex3="v113" /> 
+   <triangular vertex1="v116" vertex2="v113" vertex3="v112" /> 
+   <triangular vertex1="v124" vertex2="v114" vertex3="v115" /> 
+   <triangular vertex1="v124" vertex2="v115" vertex3="v116" /> 
+   <triangular vertex1="v96" vertex2="v121" vertex3="v103" /> 
+   <triangular vertex1="v124" vertex2="v96" vertex3="v114" /> 
+   <triangular vertex1="v96" vertex2="v124" vertex3="v121" /> 
+   <triangular vertex1="v121" vertex2="v125" vertex3="v103" /> 
+   <triangular vertex1="v103" vertex2="v125" vertex3="v117" /> 
+   <triangular vertex1="v125" vertex2="v118" vertex3="v117" /> 
+   <triangular vertex1="v100" vertex2="v117" vertex3="v118" /> 
+   <triangular vertex1="v100" vertex2="v118" vertex3="v183" /> 
+   <triangular vertex1="v182" vertex2="v181" vertex3="v123" /> 
+   <triangular vertex1="v120" vertex2="v119" vertex3="v168" /> 
+   <triangular vertex1="v129" vertex2="v128" vertex3="v139" /> 
+   <triangular vertex1="v183" vertex2="v119" vertex3="v120" /> 
+   <triangular vertex1="v119" vertex2="v183" vertex3="v127" /> 
+   <triangular vertex1="v186" vertex2="v125" vertex3="v121" /> 
+   <triangular vertex1="v183" vertex2="v125" vertex3="v175" /> 
+   <triangular vertex1="v185" vertex2="v125" vertex3="v186" /> 
+   <triangular vertex1="v177" vertex2="v122" vertex3="v123" /> 
+   <triangular vertex1="v185" vertex2="v180" vertex3="v123" /> 
+   <triangular vertex1="v122" vertex2="v182" vertex3="v123" /> 
+   <triangular vertex1="v185" vertex2="v123" vertex3="v125" /> 
+   <triangular vertex1="v112" vertex2="v121" vertex3="v124" /> 
+   <triangular vertex1="v116" vertex2="v112" vertex3="v124" /> 
+   <triangular vertex1="v140" vertex2="v139" vertex3="v128" /> 
+   <triangular vertex1="v125" vertex2="v181" vertex3="v175" /> 
+   <triangular vertex1="v186" vertex2="v121" vertex3="v112" /> 
+   <triangular vertex1="v123" vertex2="v181" vertex3="v125" /> 
+   <triangular vertex1="v118" vertex2="v125" vertex3="v183" /> 
+   <triangular vertex1="v168" vertex2="v126" vertex3="v120" /> 
+   <triangular vertex1="v175" vertex2="v127" vertex3="v183" /> 
+   <triangular vertex1="v128" vertex2="v129" vertex3="v165" /> 
+   <triangular vertex1="v168" vertex2="v169" vertex3="v129" /> 
+   <triangular vertex1="v126" vertex2="v168" vertex3="v129" /> 
+   <triangular vertex1="v133" vertex2="v154" vertex3="v152" /> 
+   <triangular vertex1="v132" vertex2="v152" vertex3="v130" /> 
+   <triangular vertex1="v152" vertex2="v145" vertex3="v130" /> 
+   <triangular vertex1="v145" vertex2="v152" vertex3="v131" /> 
+   <triangular vertex1="v144" vertex2="v131" vertex3="v149" /> 
+   <triangular vertex1="v144" vertex2="v145" vertex3="v131" /> 
+   <triangular vertex1="v133" vertex2="v152" vertex3="v132" /> 
+   <triangular vertex1="v133" vertex2="v134" vertex3="v154" /> 
+   <triangular vertex1="v128" vertex2="v135" vertex3="v140" /> 
+   <triangular vertex1="v140" vertex2="v135" vertex3="v132" /> 
+   <triangular vertex1="v132" vertex2="v135" vertex3="v133" /> 
+   <triangular vertex1="v165" vertex2="v129" vertex3="v169" /> 
+   <triangular vertex1="v184" vertex2="v106" vertex3="v136" /> 
+   <triangular vertex1="v184" vertex2="v126" vertex3="v137" /> 
+   <triangular vertex1="v106" vertex2="v184" vertex3="v137" /> 
+   <triangular vertex1="v138" vertex2="v107" vertex3="v137" /> 
+   <triangular vertex1="v129" vertex2="v139" vertex3="v138" /> 
+   <triangular vertex1="v129" vertex2="v137" vertex3="v126" /> 
+   <triangular vertex1="v138" vertex2="v137" vertex3="v129" /> 
+   <triangular vertex1="v107" vertex2="v106" vertex3="v137" /> 
+   <triangular vertex1="v138" vertex2="v104" vertex3="v107" /> 
+   <triangular vertex1="v138" vertex2="v139" vertex3="v104" /> 
+   <triangular vertex1="v104" vertex2="v139" vertex3="v140" /> 
+   <triangular vertex1="v104" vertex2="v140" vertex3="v109" /> 
+   <triangular vertex1="v140" vertex2="v132" vertex3="v109" /> 
+   <triangular vertex1="v141" vertex2="v109" vertex3="v132" /> 
+   <triangular vertex1="v143" vertex2="v109" vertex3="v141" /> 
+   <triangular vertex1="v132" vertex2="v130" vertex3="v141" /> 
+   <triangular vertex1="v141" vertex2="v146" vertex3="v142" /> 
+   <triangular vertex1="v141" vertex2="v130" vertex3="v146" /> 
+   <triangular vertex1="v142" vertex2="v143" vertex3="v141" /> 
+   <triangular vertex1="v146" vertex2="v148" vertex3="v111" /> 
+   <triangular vertex1="v145" vertex2="v144" vertex3="v148" /> 
+   <triangular vertex1="v145" vertex2="v146" vertex3="v130" /> 
+   <triangular vertex1="v148" vertex2="v146" vertex3="v145" /> 
+   <triangular vertex1="v111" vertex2="v142" vertex3="v146" /> 
+   <triangular vertex1="v147" vertex2="v111" vertex3="v148" /> 
+   <triangular vertex1="v147" vertex2="v148" vertex3="v149" /> 
+   <triangular vertex1="v149" vertex2="v148" vertex3="v144" /> 
+   <triangular vertex1="v150" vertex2="v153" vertex3="v151" /> 
+   <triangular vertex1="v152" vertex2="v154" vertex3="v158" /> 
+   <triangular vertex1="v151" vertex2="v153" vertex3="v157" /> 
+   <triangular vertex1="v134" vertex2="v157" vertex3="v153" /> 
+   <triangular vertex1="v153" vertex2="v154" vertex3="v134" /> 
+   <triangular vertex1="v151" vertex2="v157" vertex3="v155" /> 
+   <triangular vertex1="v150" vertex2="v158" vertex3="v153" /> 
+   <triangular vertex1="v154" vertex2="v153" vertex3="v158" /> 
+   <triangular vertex1="v156" vertex2="v160" vertex3="v155" /> 
+   <triangular vertex1="v156" vertex2="v155" vertex3="v157" /> 
+   <triangular vertex1="v156" vertex2="v157" vertex3="v133" /> 
+   <triangular vertex1="v133" vertex2="v157" vertex3="v134" /> 
+   <triangular vertex1="v131" vertex2="v158" vertex3="v110" /> 
+   <triangular vertex1="v158" vertex2="v131" vertex3="v152" /> 
+   <triangular vertex1="v158" vertex2="v150" vertex3="v110" /> 
+   <triangular vertex1="v135" vertex2="v156" vertex3="v133" /> 
+   <triangular vertex1="v156" vertex2="v135" vertex3="v161" /> 
+   <triangular vertex1="v159" vertex2="v160" vertex3="v161" /> 
+   <triangular vertex1="v160" vertex2="v156" vertex3="v161" /> 
+   <triangular vertex1="v165" vertex2="v167" vertex3="v128" /> 
+   <triangular vertex1="v108" vertex2="v167" vertex3="v162" /> 
+   <triangular vertex1="v164" vertex2="v108" vertex3="v162" /> 
+   <triangular vertex1="v165" vertex2="v162" vertex3="v167" /> 
+   <triangular vertex1="v162" vertex2="v163" vertex3="v164" /> 
+   <triangular vertex1="v169" vertex2="v162" vertex3="v165" /> 
+   <triangular vertex1="v163" vertex2="v166" vertex3="v164" /> 
+   <triangular vertex1="v162" vertex2="v169" vertex3="v163" /> 
+   <triangular vertex1="v167" vertex2="v108" vertex3="v159" /> 
+   <triangular vertex1="v167" vertex2="v159" vertex3="v161" /> 
+   <triangular vertex1="v167" vertex2="v161" vertex3="v128" /> 
+   <triangular vertex1="v128" vertex2="v161" vertex3="v135" /> 
+   <triangular vertex1="v168" vertex2="v163" vertex3="v169" /> 
+   <triangular vertex1="v97" vertex2="v166" vertex3="v171" /> 
+   <triangular vertex1="v166" vertex2="v163" vertex3="v171" /> 
+   <triangular vertex1="v168" vertex2="v171" vertex3="v163" /> 
+   <triangular vertex1="v170" vertex2="v105" vertex3="v97" /> 
+   <triangular vertex1="v170" vertex2="v97" vertex3="v171" /> 
+   <triangular vertex1="v170" vertex2="v171" vertex3="v119" /> 
+   <triangular vertex1="v119" vertex2="v171" vertex3="v168" /> 
+   <triangular vertex1="v105" vertex2="v172" vertex3="v173" /> 
+   <triangular vertex1="v172" vertex2="v127" vertex3="v175" /> 
+   <triangular vertex1="v119" vertex2="v127" vertex3="v170" /> 
+   <triangular vertex1="v173" vertex2="v172" vertex3="v174" /> 
+   <triangular vertex1="v175" vertex2="v174" vertex3="v172" /> 
+   <triangular vertex1="v173" vertex2="v174" vertex3="v102" /> 
+   <triangular vertex1="v127" vertex2="v172" vertex3="v170" /> 
+   <triangular vertex1="v105" vertex2="v170" vertex3="v172" /> 
+   <triangular vertex1="v181" vertex2="v174" vertex3="v175" /> 
+   <triangular vertex1="v176" vertex2="v102" vertex3="v174" /> 
+   <triangular vertex1="v176" vertex2="v174" vertex3="v181" /> 
+   <triangular vertex1="v122" vertex2="v177" vertex3="v178" /> 
+   <triangular vertex1="v179" vertex2="v122" vertex3="v178" /> 
+   <triangular vertex1="v99" vertex2="v178" vertex3="v177" /> 
+   <triangular vertex1="v177" vertex2="v123" vertex3="v99" /> 
+   <triangular vertex1="v180" vertex2="v187" vertex3="v99" /> 
+   <triangular vertex1="v180" vertex2="v99" vertex3="v123" /> 
+   <triangular vertex1="v181" vertex2="v182" vertex3="v98" /> 
+   <triangular vertex1="v176" vertex2="v181" vertex3="v98" /> 
+   <triangular vertex1="v179" vertex2="v98" vertex3="v182" /> 
+   <triangular vertex1="v182" vertex2="v122" vertex3="v179" /> 
+   <triangular vertex1="v183" vertex2="v120" vertex3="v95" /> 
+   <triangular vertex1="v100" vertex2="v183" vertex3="v95" /> 
+   <triangular vertex1="v184" vertex2="v136" vertex3="v95" /> 
+   <triangular vertex1="v126" vertex2="v184" vertex3="v120" /> 
+   <triangular vertex1="v184" vertex2="v95" vertex3="v120" /> 
+   <triangular vertex1="v110" vertex2="v147" vertex3="v149" /> 
+   <triangular vertex1="v110" vertex2="v149" vertex3="v131" /> 
+   <triangular vertex1="v187" vertex2="v180" vertex3="v185" /> 
+   <triangular vertex1="v186" vertex2="v101" vertex3="v188" /> 
+   <triangular vertex1="v188" vertex2="v185" vertex3="v186" /> 
+   <triangular vertex1="v187" vertex2="v185" vertex3="v188" /> 
+  </tessellated> 
+ </solids> 
+ <structure> 
+  <volume name="split_0_vol" > 
+   <materialref ref="Aluminum3" /> 
+   <solidref ref="split_0" /> 
+  </volume > 
+  <volume name="split_1_vol" > 
+   <materialref ref="Aluminum3" /> 
+   <solidref ref="split_1" /> 
+  </volume > 
+  <volume name="world_volume" > 
+   <materialref ref="Air3" /> 
+   <solidref ref="WorldBox" /> 
+   <physvol> 
+    <volumeref ref="split_0_vol" /> 
+    <positionref ref="p0" /> 
+    <rotationref ref="r0" /> 
+   </physvol > 
+   <physvol> 
+    <volumeref ref="split_1_vol" /> 
+    <positionref ref="p0" /> 
+    <rotationref ref="r0" /> 
+   </physvol > 
+  </volume > 
+ </structure> 
+ <setup name="Default" version="1.0" > 
+  <world ref="world_volume" />  
+ </setup> 
+</gdml > 

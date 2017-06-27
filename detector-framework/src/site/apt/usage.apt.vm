@@ -1,0 +1,31 @@
+    ---
+LCSim - Detector Framework - Converting Compact Descriptions
+    ---
+
+Converting Compact Descriptions to Other Formats    
+
+* Overview
+
+    The Detector Framework module can be used to convert compact.xml files to other output formats including LCDD files
+    for the SLIC detector simulation application.  
+
+* Basic Usage
+
+    Assuming that the entire trunk of LCSim was built successfully, then the Detector Framework jar can be executed from
+    the command line as follows:
+
++--
+cd lcsim/trunk
+java -jar ./${project.name}/target/${project.artifactId}-${project.version}-bin.jar
++--
+
+    This will show a GUI that allows you to select an input compact.xml file, a conversion format target, and the name of the 
+    output file.
+
+* Converting to LCDD
+
+    The LCDD output target can be used to generated a GDML based format for input to the SLIC simulation application.
+
++--
+java -jar ./${project.name}/target/${project.artifactId}-${project.version}-bin.jar -o lcdd compact.xml MyDetector.lcdd
++--

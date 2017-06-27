@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<materials>
+  <material name="Test1">
+    <D type="density" value="1.3" unit="g/cm3"/>
+    <composite n="44" ref="H"/>
+    <composite n="15" ref="C"/>
+    <composite n="7" ref="O"/>
+  </material>
+  <material name="Test2">
+    <D type="density" value="2.2" unit="g/cm3"/>
+    <composite n="1" ref="Si"/>
+    <composite n="2" ref="O"/>
+  </material>
+  <material name="Test3">
+    <D type="density" value="1.7" unit="g/cm3"/>
+    <fraction n="0.08" ref="Cl"/>
+    <fraction n="0.773" ref="Test1"/>
+    <fraction n="0.147" ref="Test2"/>
+  </material>
+  <material name="Test4">
+    <D type="density" value="1.0" unit="g/cm3"/>
+    <composite n="2" ref="H"/>
+    <composite n="1" ref="O"/>
+  </material>
+</materials>

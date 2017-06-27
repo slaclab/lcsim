@@ -1,0 +1,31 @@
+    ---
+LCSim - Features
+    ---
+
+Features    
+
+    LCSim has the following major features:
+
+    * Physics event model including an abstract API and IO implementation using LCIO.
+    
+    * Driver framework for creating a hierarchical set of reconstruction and analysis algorithms.
+    
+    * Histogramming and Plotting using AIDA.
+    
+    * Calorimeter hit clustering.
+
+    * Hadronic jet finding.
+    
+    * Track finding and fitting with Seedtracker and TRF.
+    
+    * Detailed hierarchical detector and geometry description framework.
+    
+    * Batch processing using a flexible XML steering format.
+    
+    * Math utility library.
+    
+    * Vertex finding.
+    
+    * HepRep output for binding to the Wired event display.
+    
+    * Plugin for JAS3 including an event browser, event display and binding to the record loop.

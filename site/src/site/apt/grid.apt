@@ -1,0 +1,88 @@
+    ---
+LCSim - Grid Usage
+    ---
+
+Grid Usage
+
+    Because it is packaged as standalone, runnable bin jar, LCSim is easily adapted for grid usage.
+
+* ILCDIRAC
+
+    The recommended way to run batch jobs with the application is using the {{{https://twiki.cern.ch/twiki/bin/view/CLIC/DiracUsage}ILCDIRAC}}
+    client, which wraps a suite of reconstruction and analysis tools with a structured Python API.  
+
+    The {{{https://twiki.cern.ch/twiki/bin/view/CLIC/DiracForUsers}DIRAC for Users}} guide shows how to configure jobs under
+    the "LCSIM" section.
+
+    The page {{{https://confluence.slac.stanford.edu/display/ilc/LCSim+Analysis+Jobs+on+the+Grid+with+DIRAC}LCSim Analysis Jobs on the Grid with DIRAC}}
+    on the SLAC Confluence Wiki gives a recipe for running a more complicated script.
+
+* Sample Script
+
+    The LCSim application can be run in a grid job with the {{{http://lcd-data.web.cern.ch/lcd-data/doc/ilcdiracdoc/ILCDIRAC.Interfaces.API.NewInterface.Applications.LCSIM-class.html}LCSIM class}}.
+
+    Below is a script showing how to use it:
+
++--
+#!/usr/bin/env python
+
+"""
+Simple test job that runs a dummy lcsim job in ILCDIRAC.
+"""
+
+# MUST call this first
+from DIRAC.Core.Base import Script
+Script.parseCommandLine()
+
+# imports
+import sys
+from ILCDIRAC.Interfaces.API.NewInterface.Applications import *
+from ILCDIRAC.Interfaces.API.NewInterface.UserJob import *
+from ILCDIRAC.Interfaces.API.DiracILC import *
+from DIRAC.Resources.Catalog.FileCatalogClient import FileCatalogClient
+
+# job parameters
+repositoryFile = 'myrepo.cfg'
+outputSandbox = [ "*.log" ]
+inputSandbox = []
+jobName = 'lcsim_test'
+systemConfig = 'x86_64-slc5-gcc43-opt'
+cpuLimit = 100000
+inputFile = '/ilc/user/j/jeremy/slic_test/slic.slcio'
+
+# lcsim config
+lcsimVer = '3.0-SNAPSHOT'
+nEvts = 1
+xmlFile = 'template.lcsim'
+
+# setup ILCDIRAC
+dirac = DiracILC ( True , repositoryFile )
+
+# configure lcsim
+lcsim = LCSIM()
+lcsim.setVersion( lcsimVer )
+lcsim.setNumberOfEvents( nEvts )
+lcsim.setSteeringFile( xmlFile )
+
+# add lcsim to the job
+job = UserJob()
+result = job.append( lcsim )
+if not result['OK']:
+    print result['Message']
+    sys.exit(2)
+    
+# configure the job
+job.setOutputSandbox ( outputSandbox )
+job.setInputSandbox ( inputSandbox )
+job.setCPUTime( cpuLimit )
+job.setName( jobName )
+job.setJobGroup( jobName )
+job.setSystemConfig ( systemConfig )
+job.setInputData( [ inputFile ] )
+
+# submit job
+job.submit ( dirac )
++--
+
+    The above is an example only, which prints out the number of each event.  The DIRAC Wiki contains all the information for setting
+    up and configuring your actual analysis jobs in Python, including managing the input and output of data files from the job.

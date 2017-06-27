@@ -1,0 +1,40 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <info name="PolyhedraEndcapCalorimeter3Test"/>
+
+  <define>    
+
+    <constant name="world_side" value="30000" />
+    <constant name="world_x" value="world_side" />
+    <constant name="world_y" value="world_side" />
+    <constant name="world_z" value="world_side" />
+
+    <constant name="tracking_region_radius" value="499.0"/>
+    <constant name="tracking_region_zmax" value="999.0"/>
+  </define>
+
+  <materials/>
+
+  <detectors>
+    <detector id="1" 
+              name="PolyhedraEndcapCalorimeterTest" 
+              type="PolyhedraEndcapCalorimeter3" 
+              readout="CalHits"
+              reflect="true">
+         <dimensions numsides="4" zmin="50.0" rmin="500.0" rmax="1000.0" angle="10.*deg" />
+         <layer repeat="30">
+           <slice material="Silicon" thickness="10.0" sensitive="yes" />
+           <slice material="Tungsten" thickness="40.0" sensitive="no" vis="AbsorberVis" />
+         </layer>
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="CalHits">
+      <segmentation type="GlobalGridXY" gridSizeX="1.0" gridSizeY="1.0" />
+      <id>layer:8,system:6,barrel:3,slice:4,x:32:-16,y:-16</id>
+    </readout>
+  </readouts>
+</lccdd>

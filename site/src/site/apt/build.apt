@@ -1,0 +1,211 @@
+    ---
+LCSim - Build Instructions
+    ---
+
+Build Instructions
+
+* Prerequisites
+
+    The following tools are required for building the software:
+
+    * {{{http://subversion.tigris.org/}Subversion}}
+      
+      This is a common revision control tool. Unix and OSX machines should have this installed by default.  
+      Windows users may install {{{http://tortoisesvn.net/}TortoiseSVN}} or the SVN command line tool.
+      
+    * {{{http://www.oracle.com/technetwork/java/javase/downloads/index.html}Java}}
+      
+      A valid JDK 1.7 installation is required for building and running the software.  
+      The commands "java" and "javac" must both work from the command line.
+      
+    * {{{http://maven.apache.org/}Maven}}
+    
+      This is the build tool used to create a local installation of the Java software.  
+      Any 3.x.x version of Maven should work fine for building LCSim.
+      
+    []
+
+    Should any of these tools be missing on your system, you need to install them before proceeding with the build instructions.
+
+    The following are optional IDE applications, either of which will be very useful for developing Java code:
+
+    * {{{http://eclipse.org/}Eclipse}}
+    
+      This is the most popular Java IDE and has a wide range of plugins available for various other languages and purposes. 
+
+    * {{{https://netbeans.org/}Netbeans}}
+    
+      This development tool is supported by Oracle and comes with built-in Maven support.
+      
+    []
+
+    The instructions below which involve command line input assume a bash shell on Unix, but those which don't use Unix-specific
+    utilities should also work from a Windows command prompt.
+
+* Downloading
+
+    The {{{./source-code.html}source code instructions}} should be followed to obtain the project code.
+
+* Maven Overview
+
+    LCSim projects are built using the Maven project management tool.  It provides facilities for compiling Java source code, 
+    as well as downloading a project's dependencies from remote repositories, among other 
+    {{{http://maven.apache.org/maven-features.html}features}}.
+
+* Installing Maven 
+
+    The command line 'mvn' tool can be installed by getting the latest release from the {{{http://maven.apache.org/download.cgi}download area}}
+    using a web browser.
+ 	
+    Or you may fetch it directly, e.g. using a wget command such as:
+ 	
++--
+wget http://mirror.cc.columbia.edu/pub/software/apache/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz
++--
+ 	      
+    Once downloaded, the file should be unpacked:
+	
++--
+tar -zxvf apache-maven-3.1.1-bin.tar.gz
++--
+
+    The shell environment can be configured to find the command line tool:
+   
++--
+cd apache-maven-3.1.1/
+export MAVEN_HOME=$(pwd)
+export PATH=$MAVEN_HOME/bin:$PATH
++--   	     	
+
+    This command will check if the command line build tool is accessible in your shell:
+    
++--
+mvn -version
++--
+
+   That command should output the local configuration to the terminal, starting with a line like:
+   
++--
+Apache Maven 3.1.1
++--
+         
+   Once Maven is successfully installed, LCSim can be built locally.
+   
+* IDE Support
+
+   Both Netbeans and Eclipse support Maven builds.  
+   
+   Netbeans comes with built-in support and will automatically detect if your project has a POM file in it.
+   
+   For Eclipse, install the {{{http://www.eclipse.org/m2e/}m2e}} plugin and then enable it for a given project
+   by right-clicking on it in the "Project Explorer" pane and selecting <Configure \> Convert to Maven Project>.
+    
+* Installing a Module
+
+    The default target of most modules is "install" which will compile, package and copy the artifacts
+    into the local Maven repository on your machine.  This can be done using either of the following commands
+    from a system shell, assuming that your current working directory is the module's root directory containing
+    the pom.xml file:
+
++--
+mvn 
+mvn install
++--
+
+    After the build completes successfully, the artifact for the project, usually a jar file containing compiled Java classfiles, 
+    will show up in the target directory with the form:
+   
++--
+target/${artifactId}-${version}.jar
++--       
+
+    For instance, suppose the tracking module was built; its artifact will be located at:
+        
++--
+target/lcsim-tracking-3.0-SNAPSHOT.jar
++-- 
+
+    This jar would also be installed into your local Maven repository here:
+    
++--
+~/.m2/repository/org/lcsim/lcsim-tracking/3.0-SNAPSHOT/lcsim-tracking-3.0-SNAPSHOT.jar       
++--
+
+    There it will be accessible to other Maven projects as a dependency.   
+
+* Running Tests
+
+    Some modules come with unit and integration tests, which run by default.
+    
+    To skip these tests, the following command can be used:
+      
++--
+mvn -DskipTests=true
++--      
+    
+    Tests can be executed individually using the following syntax:
+    
++--
+mvn test -Dtest=[TestCaseName]
++--
+    
+    For instance, suppose you are in the detector-framework module.  The test <org.lcsim.geometry.GeometryReaderTest> could
+    be executed as follows:  
+    
++--
+mvn test -Dtest=GeometryReaderTest
++--    
+
+    The package name is not used here, so it will always be a good idea to make the class names of tests unique within a 
+    given module. 
+
+* Resolving Dependencies
+
+    Maven can resolve project dependencies by downloading jar files from remote repositories.  But in order to do this, it must know
+    about the locations of the repositories where these jars are available.  When required artifacts are not avaiable either locally or
+    remotely, it can fail with errors about missing dependencies.
+    
+    When building all the modules together from the top project directory, this is unlikely to be an issue.  However, errors can occur
+    when building individual modules, if the parent POM files have not already been installed locally beforehand.
+    
+    There are several ways to deal with these kinds of issues:
+    
+    [[1]] Install the parent POM files.
+    
+    The modules site-parent and parent can be checked out individually and built using the standard build commands.  This should allow
+    other projects to find the external jar on which they depend. 
+   
+    [[2]] Install the entire project.
+    
+    If you install all modules by building from the top level directory in the SVN, then all necessary parent POM files will be put
+    into your local repository for other modules to use for resolving their dependencies.
+    
+    [[3]] Add the LCSim remote repository to your Maven settings.
+    
+    Repositories may also be added to a file at <~/.m2/settings.xml> which you may create if it does not already exist.  The following
+    text should be used:
+    
++--       
+<?xml version="1.0"?>
+<settings>
+    <profiles>
+        <profile>
+            <id>yourNameHere</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>lcsim-maven</id>
+                    <name>org.lcsim Maven Repository</name>
+                    <url>http://srs.slac.stanford.edu/nexus/content/groups/lcsim-maven2-public/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+</settings>
++--
+
+    This will allow the LCSim repository to be used by all projects for resolving their dependencies.
+
+    []

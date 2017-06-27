@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+    <info name="TestBeamCalorimeterTest">
+        <comment>Test of class org.lcsim.geometry.compact.converter.lcdd.TestBeamCalorimeter</comment>
+    </info>
+    <define>
+        <!-- world dimensions -->
+        <constant name="world_side" value="20000"/>
+        <constant name="world_x" value="world_side"/>
+        <constant name="world_y" value="world_side"/>
+        <constant name="world_z" value="world_side"/>
+        
+        <!-- tracking region dimensions -->
+        <constant name="tracking_region_radius" value="150.0*cm"/>
+        <constant name="tracking_region_zmax" value="200.0*cm"/>
+    </define>
+    <materials>
+  </materials>
+    <detectors>        
+        <detector id="1" name="Cal1" type="TestBeamCalorimeter" readout="CalHits" insideTrackingVolume="true">
+            <dimensions x="1000.0" y="1000.0"/>
+            <rotation x="0.174532925" />
+            <position z="-1500.0"/>
+            <layer repeat="1">
+                <slice material="Polystyrene" thickness="10.0" sensitive="yes"/>
+                <slice material="Lead" thickness="50.0"/>
+            </layer>
+        </detector>        
+        <detector id="2" name="Cal2" type="TestBeamCalorimeter" readout="CalHits" insideTrackingVolume="true">
+            <dimensions x="1000.0" y="1000.0"/>
+            <rotation y="0.174532925" />
+            <position z="-1000.0"/>
+            <layer repeat="2">
+                <slice material="Polystyrene" thickness="10.0" sensitive="yes"/>
+                <slice material="Lead" thickness="50.0"/>
+            </layer>
+        </detector>        
+        <detector id="3" name="Cal3" type="TestBeamCalorimeter" readout="CalHits" insideTrackingVolume="true">
+            <dimensions x="1000.0" y="1000.0"/>
+            <rotation z="0.174532925"/>
+            <position z="-500.0"/>
+            <layer repeat="3">
+                <slice material="Polystyrene" thickness="10.0" sensitive="yes"/>
+                <slice material="Lead" thickness="50.0"/>
+            </layer>
+        </detector>
+        <detector id="4" name="Cal4" type="TestBeamCalorimeter" readout="CalHits" insideTrackingVolume="true">
+            <dimensions x="1000.0" y="1000.0"/>
+            <position z="0.0" />           
+            <layer repeat="4">
+                <slice material="Polystyrene" thickness="10.0" sensitive="yes"/>
+                <slice material="Lead" thickness="50.0"/>
+            </layer>
+        </detector>
+        <detector id="5" name="Cal5" type="TestBeamCalorimeter" readout="CalHits" insideTrackingVolume="true">
+            <dimensions x="1000.0" y="1000.0"/>
+            <rotation x="0.174532925" y="0.174532925" z="0.174532925" />
+            <position z="500.0" />           
+            <layer repeat="4">
+                <slice material="Polystyrene" thickness="10.0" sensitive="yes"/>
+                <slice material="Lead" thickness="50.0"/>
+            </layer>
+        </detector>
+    </detectors>
+    <readouts>
+        <readout name="CalHits">
+            <segmentation type="GridXYZ" gridSizeX="10.0" gridSizeY="10.0"/>
+            <id>system:3,barrel:2,layer:7,x:32:-16,y:-16</id>
+        </readout>
+    </readouts>
+</lccdd>
