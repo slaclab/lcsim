@@ -10,14 +10,8 @@
     <groupId>org.lcsim</groupId>
     <artifactId>lcsim-parent</artifactId>
     <version>4.0-SNAPSHOT</version>
-    <relativePath>../parent/pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
-
-  <scm>
-    <url>http://java.freehep.org/svn/repos/lcdet/list/projects/lcsim/trunk/plugin/</url>
-    <connection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/plugin/</connection>
-    <developerConnection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/plugin/</developerConnection>
-  </scm>
 
   <dependencies>
     <dependency>
