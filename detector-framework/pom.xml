@@ -1,20 +1,18 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
   <artifactId>lcsim-detector-framework</artifactId>
   <name>detector-framework</name>
   <description>geometry and detector description framework (formerly GeomConverter)</description>
+
   <parent>
     <groupId>org.lcsim</groupId>
     <artifactId>lcsim-parent</artifactId>
     <version>4.0-SNAPSHOT</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
-  <scm>
-    <url>http://java.freehep.org/svn/repos/lcdet/list/projects/lcsim/trunk/detector-framework/</url>
-    <connection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/detector-framework/</connection>
-    <developerConnection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/detector-framework/</developerConnection>
-  </scm>
+
   <build>
     <plugins>
       <plugin>
@@ -59,6 +57,7 @@
       </plugin>
     </plugins>
   </build>
+
   <dependencies>
     <dependency>
       <groupId>org.lcsim</groupId>
@@ -107,4 +106,5 @@
       <version>0.9.9</version>
     </dependency>
   </dependencies>
+
 </project>

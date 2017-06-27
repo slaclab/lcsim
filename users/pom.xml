@@ -1,25 +1,24 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
   <artifactId>lcsim-users</artifactId>
   <groupId>org.lcsim</groupId>
   <name>users</name>
   <description>User code packages</description>
+
   <parent>
     <groupId>org.lcsim</groupId>
     <artifactId>lcsim-parent</artifactId>
     <relativePath>../parent/pom.xml</relativePath>
     <version>4.0-SNAPSHOT</version>
   </parent>
-  <scm>
-    <url>http://java.freehep.org/svn/repos/lcdet/list/projects/lcsim/trunk/users/</url>
-    <connection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/users/</connection>
-    <developerConnection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/users/</developerConnection>
-  </scm>
+
   <dependencies>
     <dependency>
       <groupId>org.lcsim</groupId>
       <artifactId>lcsim-analysis</artifactId>
     </dependency>
   </dependencies>
+
 </project>

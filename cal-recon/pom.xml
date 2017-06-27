@@ -1,22 +1,20 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
   <artifactId>lcsim-cal-recon</artifactId>
   <groupId>org.lcsim</groupId>
   <packaging>jar</packaging>
   <name>cal-recon</name>
   <description>calorimeter reconstruction tools such as clustering algorithms</description>
+
   <parent>
     <groupId>org.lcsim</groupId>
     <artifactId>lcsim-parent</artifactId>
     <relativePath>../parent/pom.xml</relativePath>
     <version>4.0-SNAPSHOT</version>
   </parent>
-  <scm>
-    <url>http://java.freehep.org/svn/repos/lcdet/list/projects/lcsim/trunk/cal-recon/</url>
-    <connection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/cal-recon/</connection>
-    <developerConnection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/cal-recon/</developerConnection>
-  </scm>
+
   <dependencies>
     <dependency>
       <groupId>org.lcsim</groupId>
@@ -27,4 +25,5 @@
       <artifactId>lcsim-aida</artifactId>
     </dependency>
   </dependencies>
+
 </project>

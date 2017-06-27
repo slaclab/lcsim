@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <prerequisites>
     <maven>3.0</maven>
   </prerequisites>
@@ -10,15 +11,12 @@
   <name>parent</name>
   <description>parent POM file for lcsim modules</description>
   <version>4.0-SNAPSHOT</version>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <org.lcsim.cacheDir>${user.home}</org.lcsim.cacheDir>
   </properties>
-  <scm>
-    <url>http://java.freehep.org/svn/repos/lcdet/list/projects/lcsim/trunk/parent/</url>
-    <connection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/parent/</connection>
-    <developerConnection>scm:svn:svn://svn.freehep.org/lcdet/projects/lcsim/trunk/parent/</developerConnection>
-  </scm>
+
   <repositories>
     <repository>
       <id>freehep-repo-public</id>
@@ -65,6 +63,7 @@
       <url>dav:http://srs.slac.stanford.edu/nexus/content/sites/lcsim-site/lcsim/</url>
     </site>
   </distributionManagement>
+
   <dependencyManagement>
     <dependencies>
       <!-- Do not edit org.lcsim dependencies manually. 
@@ -198,6 +197,7 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -210,6 +210,7 @@
       <version>1.1</version>
     </dependency>
   </dependencies>
+
   <build>
     <defaultGoal>install</defaultGoal>
     <extensions>
@@ -334,6 +335,7 @@
       </plugin>
     </plugins>
   </build>
+
   <reporting>
     <plugins>
       <plugin>
@@ -386,6 +388,7 @@
       </plugin>
     </plugins>
   </reporting>
+
   <profiles>
     <profile>
       <id>skipTests</id>
@@ -402,6 +405,7 @@
       </build>
     </profile>
   </profiles>
+
   <developers>
     <developer>
       <name>Jeremy McCormick</name>
@@ -489,18 +493,22 @@
       <timezone>1</timezone>
     </developer>
   </developers>
+
   <organization>
     <name>Linear Collider Detector (LCD)</name>
     <url>http://www.lcsim.org/</url>
   </organization>
+
   <ciManagement>
     <system>Jenkins</system>
     <url>http://srs.slac.stanford.edu/hudson/view/lcsim/</url>
   </ciManagement>
+
   <issueManagement>
     <system>JIRA</system>
     <url>https://jira.slac.stanford.edu/browse/LCSIM</url>
   </issueManagement>
+
   <mailingLists>
     <mailingList>
       <name>lcd-dev</name>
@@ -510,4 +518,5 @@
       <archive>https://listserv.slac.stanford.edu/cgi-bin/wa?A0=LCD-DEV</archive>
     </mailingList>
   </mailingLists>
+
 </project>
