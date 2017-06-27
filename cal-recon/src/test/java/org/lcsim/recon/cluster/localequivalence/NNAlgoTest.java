@@ -429,7 +429,7 @@ class Decoder implements IDDecoder
         return 0;
     }
     
-    /** @Deprecated use getSystemID() instead */
+    /** @deprecated use getSystemID() instead */
     public int getSystemNumber()
     {
         return 0;
