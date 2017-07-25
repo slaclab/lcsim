@@ -1,18 +1,25 @@
 package org.lcsim.geometry.field;
 
+import static java.lang.Math.sqrt;
 import hep.physics.vec.BasicHep3Vector;
 import hep.physics.vec.Hep3Vector;
+
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import static java.lang.Math.sqrt;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Paths;
 import java.util.StringTokenizer;
+
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.lcsim.util.cache.FileCache;
@@ -23,60 +30,107 @@ import org.lcsim.util.cache.FileCache;
  *
  * @version $Id:
  */
-public class FieldMap3D extends AbstractFieldMap
-{
-    private double[][][] _xField;
-    private double[][][] _yField;
-    private double[][][] _zField;
+public class FieldMap3D extends AbstractFieldMap {
+    private double[][][] xField;
+    private double[][][] yField;
+    private double[][][] zField;
     // The dimensions of the table
-    private int _nx, _ny, _nz;
+    private int nx, ny, nz;
     // The physical limits of the defined region
-    private double _minx, _maxx, _miny, _maxy, _minz, _maxz;
+    private double minx, maxx, miny, maxy, minz, maxz;
     // The physical extent of the defined region
-    private double _dx, _dy, _dz;
+    private double dx, dy, dz;
     // Offsets if field map is not in global coordinates
-    private double _xOffset;
-    private double _yOffset;
-    private double _zOffset;
+    private double xOffset;
+    private double yOffset;
+    private double zOffset;
     // maximum field strength
-    private double _bMax;
-    private double[] _Bfield = new double[3];
-    String _filename;
+    private double bMax;
+    private double[] bfield = new double[3];
+    String filename;
+    URL url;
 
-    public FieldMap3D(Element node) throws JDOMException
-    {
+    public FieldMap3D(Element node) throws JDOMException {
         super(node);
-        _xOffset = node.getAttribute("xoffset").getDoubleValue();
-        _yOffset = node.getAttribute("yoffset").getDoubleValue();
-        _zOffset = node.getAttribute("zoffset").getDoubleValue();
-        _filename = node.getAttributeValue("filename");
-        System.out.println("Field Map location: " + _filename);
+        xOffset = node.getAttribute("xoffset").getDoubleValue();
+        yOffset = node.getAttribute("yoffset").getDoubleValue();
+        zOffset = node.getAttribute("zoffset").getDoubleValue();
+        filename = node.getAttributeValue("filename");
+        if (node.getAttribute("url") != null) {            
+            try {
+                url = new URL(node.getAttribute("url").getValue());
+            } catch (MalformedURLException e) {                
+                throw new RuntimeException(e);
+            }
+        }
+        System.out.println("Field Map location: " + filename);
         try {
-            setup(_filename);
+            setup();
         } catch (Exception e) {
-            throw new RuntimeException("Error reading field map from " + _filename, e);
+            throw new RuntimeException("Error reading field map from " + filename, e);
         }
     }
-
-    private void setup(String filename) throws IOException
-    {
+    
+    private static int BUFFER_SIZE = 1024;
+    
+    /**
+     * Untar and unzip a field map file.
+     * Assumes there is one file in the archive.
+     * 
+     * @param is The input stream
+     * @throws IOException if there is an error decompressing the file
+     */
+    private static File untar(InputStream is, File cacheDir) throws IOException {
+        GzipCompressorInputStream gzipIn = new GzipCompressorInputStream(is);
+        File destFile = null;
+        try (TarArchiveInputStream tarIn = new TarArchiveInputStream(gzipIn)) {
+            TarArchiveEntry entry;
+            while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
+                int count;
+                byte data[] = new byte[BUFFER_SIZE];
+                destFile = new File(Paths.get(cacheDir.getAbsolutePath(), entry.getName()).toString());
+                FileOutputStream fos = new FileOutputStream(destFile, false);
+                try (BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER_SIZE)) {
+                    while ((count = tarIn.read(data, 0, BUFFER_SIZE)) != -1) {
+                        dest.write(data, 0, count);
+                    }
+                    dest.close();
+                }
+                break;
+            }
+            tarIn.close();
+        }
+        return destFile;
+    }
+     
+    private void setup() throws IOException {
         InputStream fis;
         BufferedReader br;
         String line;
-
-        //FIXME Should specify either filename or url in the xml. Needs change to schema.
-        if (filename.startsWith("http")) {
+        File file;
+        
+        if (url != null) {
+            // Cache file from remote URL and decompress if necessary.
             FileCache cache = new FileCache();
-            File file = cache.getCachedFile(new URL(filename));
+            System.out.println("caching field map from <" + url.toString() + ">");
+            file = cache.getCachedFile(url);
             fis = new FileInputStream(file);
+            if (file.getAbsolutePath().endsWith(".tar.gz")) {
+                System.out.println("untarring field map file <" + file.getAbsolutePath() + ">");
+                file = untar(fis, cache.getCacheDirectory());
+                System.out.println("field map untarred to <" + file.getAbsolutePath() + ">");
+            }
         } else {
-            fis = new FileInputStream(filename);
+            // Use local file only.
+            file = new File(filename);
         }
+        
+        fis = new FileInputStream(file);
 
         System.out.println("-----------------------------------------------------------");
         System.out.println("FieldMap3D ");
         System.out.println("-----------------------------------------------------------");
-        System.out.println("Reading the field grid from " + filename + " ... ");
+        System.out.println("Reading the field grid from " + file.getPath() + " ... ");
 
         br = new BufferedReader(new InputStreamReader(fis));
         // ignore the first blank line
@@ -85,14 +139,14 @@ public class FieldMap3D extends AbstractFieldMap
         line = br.readLine();
         // read in the table dimensions of the file
         StringTokenizer st = new StringTokenizer(line, " ");
-        _nx = Integer.parseInt(st.nextToken());
-        _ny = Integer.parseInt(st.nextToken());
-        _nz = Integer.parseInt(st.nextToken());
+        nx = Integer.parseInt(st.nextToken());
+        ny = Integer.parseInt(st.nextToken());
+        nz = Integer.parseInt(st.nextToken());
 
         // Set up storage space for table
-        _xField = new double[_nx + 1][_ny + 1][_nz + 1];
-        _yField = new double[_nx + 1][_ny + 1][_nz + 1];
-        _zField = new double[_nx + 1][_ny + 1][_nz + 1];
+        xField = new double[nx + 1][ny + 1][nz + 1];
+        yField = new double[nx + 1][ny + 1][nz + 1];
+        zField = new double[nx + 1][ny + 1][nz + 1];
 
         // Ignore other header information    
         // The first line whose second character is '0' is considered to
@@ -114,9 +168,9 @@ public class FieldMap3D extends AbstractFieldMap
         double yval = 0.;
         double zval = 0.;
         double bx, by, bz;
-        for (ix = 0; ix < _nx; ix++) {
-            for (iy = 0; iy < _ny; iy++) {
-                for (iz = 0; iz < _nz; iz++) {
+        for (ix = 0; ix < nx; ix++) {
+            for (iy = 0; iy < ny; iy++) {
+                for (iz = 0; iz < nz; iz++) {
                     line = br.readLine();
                     st = new StringTokenizer(line, " ");
                     xval = Double.parseDouble(st.nextToken());
@@ -126,102 +180,96 @@ public class FieldMap3D extends AbstractFieldMap
                     by = Double.parseDouble(st.nextToken())*conversionFactor;
                     bz = Double.parseDouble(st.nextToken())*conversionFactor;
                     if (ix == 0 && iy == 0 && iz == 0) {
-                        _minx = xval;
-                        _miny = yval;
-                        _minz = zval;
+                        minx = xval;
+                        miny = yval;
+                        minz = zval;
                     }
-                    _xField[ix][iy][iz] = bx;
-                    _yField[ix][iy][iz] = by;
-                    _zField[ix][iy][iz] = bz;
+                    xField[ix][iy][iz] = bx;
+                    yField[ix][iy][iz] = by;
+                    zField[ix][iy][iz] = bz;
                     double b = bx * bx + by * by + bz * bz;
-                    if (b > _bMax) {
-                        _bMax = b;
+                    if (b > bMax) {
+                        bMax = b;
                     }
                 }
             }
         }
-        _bMax = sqrt(_bMax);
+        bMax = sqrt(bMax);
 
-        _maxx = xval;
-        _maxy = yval;
-        _maxz = zval;
+        maxx = xval;
+        maxy = yval;
+        maxz = zval;
 
         System.out.println("\n ---> ... done reading ");
         System.out.println(" ---> assumed the order:  x, y, z, Bx, By, Bz "
                 + "\n ---> Min values x,y,z: "
-                + _minx + " " + _miny + " " + _minz
+                + minx + " " + miny + " " + minz
                 + "\n ---> Max values x,y,z: "
-                + _maxx + " " + _maxy + " " + _maxz
-                + "\n Maximum Field strength: " + _bMax + " "
-                + "\n ---> The field will be offset by " + _xOffset + " " + _yOffset + " " + _zOffset);
+                + maxx + " " + maxy + " " + maxz
+                + "\n Maximum Field strength: " + bMax + " "
+                + "\n ---> The field will be offset by " + xOffset + " " + yOffset + " " + zOffset);
 
-        _dx = _maxx - _minx;
-        _dy = _maxy - _miny;
-        _dz = _maxz - _minz;
+        dx = maxx - minx;
+        dy = maxy - miny;
+        dz = maxz - minz;
         System.out.println("\n ---> Range of values x,y,z: "
-                + _dx + " " + _dy + " " + _dz
+                + dx + " " + dy + " " + dz
                 + "\n-----------------------------------------------------------");
 
         br.close();
     }
 
     @Override
-    public void getField(double[] position, double[] b)
-    {
+    public void getField(double[] position, double[] b) {
         getField(position[0], position[1], position[2]);
-        System.arraycopy(_Bfield, 0, b, 0, 3);
+        System.arraycopy(bfield, 0, b, 0, 3);
     }
 
     @Override
-    public Hep3Vector getField(Hep3Vector position)
-    {
+    public Hep3Vector getField(Hep3Vector position) {
         getField(position.x(), position.y(), position.z());
-        return new BasicHep3Vector(_Bfield[0], _Bfield[1], _Bfield[2]);
+        return new BasicHep3Vector(bfield[0], bfield[1], bfield[2]);
     }
 
     @Override
-    public double[] getField(double[] position)
-    {
+    public double[] getField(double[] position) {
         getField(position[0], position[1], position[2]);
-        double[] field = {_Bfield[0], _Bfield[1], _Bfield[2]};
+        double[] field = {bfield[0], bfield[1], bfield[2]};
         return field;
     }
 
     @Override
-    void getField(double x, double y, double z, BasicHep3Vector field)
-    {
+    void getField(double x, double y, double z, BasicHep3Vector field) {
         getField(x, y, z);
-        field.setV(_Bfield[0], _Bfield[1], _Bfield[2]);
+        field.setV(bfield[0], bfield[1], bfield[2]);
     }
 
-    public double[] globalOffset()
-    {
-        return new double[]{_xOffset, _yOffset, _zOffset};
+    public double[] globalOffset() {
+        return new double[]{xOffset, yOffset, zOffset};
     }
 
-    private void getField(double x, double y, double z)
-    {
+    private void getField(double x, double y, double z) {
         // allow for offsets
-        x -= _xOffset;
-        y -= _yOffset;
-        z -= _zOffset;
+        x -= xOffset;
+        y -= yOffset;
+        z -= zOffset;
         // Check that the point is within the defined region 
-        if (x >= _minx && x <= _maxx
-                && y >= _miny && y <= _maxy
-                && z >= _minz && z <= _maxz) {
+        if (x >= minx && x <= maxx
+                && y >= miny && y <= maxy
+                && z >= minz && z <= maxz) {
 
             // Position of given point within region, normalized to the range
             // [0,1]
-            double xfraction = (x - _minx) / _dx;
-            double yfraction = (y - _miny) / _dy;
-            double zfraction = (z - _minz) / _dz;
+            double xfraction = (x - minx) / dx;
+            double yfraction = (y - miny) / dy;
+            double zfraction = (z - minz) / dz;
 
             //double xdindex, ydindex, zdindex;
             // Position of the point within the cuboid defined by the
             // nearest surrounding tabulated points
-            double[] xmodf = modf(xfraction * (_nx - 1));
-            double[] ymodf = modf(yfraction * (_ny - 1));
-            double[] zmodf = modf(zfraction * (_nz - 1));
+            double[] xmodf = modf(xfraction * (nx - 1));
+            double[] ymodf = modf(yfraction * (ny - 1));
+            double[] zmodf = modf(zfraction * (nz - 1));
 
             // The indices of the nearest tabulated point whose coordinates
             // are all less than those of the given point
@@ -232,44 +280,43 @@ public class FieldMap3D extends AbstractFieldMap
             double ylocal = ymodf[1];
             double zlocal = zmodf[1];
             // bilinear interpolation
-            _Bfield[0]
-                    = _xField[xindex][yindex][zindex] * (1 - xlocal) * (1 - ylocal) * (1 - zlocal)
-                    + _xField[xindex][yindex][zindex + 1] * (1 - xlocal) * (1 - ylocal) * zlocal
-                    + _xField[xindex][yindex + 1][zindex] * (1 - xlocal) * ylocal * (1 - zlocal)
-                    + _xField[xindex][yindex + 1][zindex + 1] * (1 - xlocal) * ylocal * zlocal
-                    + _xField[xindex + 1][yindex][zindex] * xlocal * (1 - ylocal) * (1 - zlocal)
-                    + _xField[xindex + 1][yindex][zindex + 1] * xlocal * (1 - ylocal) * zlocal
-                    + _xField[xindex + 1][yindex + 1][zindex] * xlocal * ylocal * (1 - zlocal)
-                    + _xField[xindex + 1][yindex + 1][zindex + 1] * xlocal * ylocal * zlocal;
-            _Bfield[1]
-                    = _yField[xindex][yindex][zindex] * (1 - xlocal) * (1 - ylocal) * (1 - zlocal)
-                    + _yField[xindex][yindex][zindex + 1] * (1 - xlocal) * (1 - ylocal) * zlocal
-                    + _yField[xindex][yindex + 1][zindex] * (1 - xlocal) * ylocal * (1 - zlocal)
-                    + _yField[xindex][yindex + 1][zindex + 1] * (1 - xlocal) * ylocal * zlocal
-                    + _yField[xindex + 1][yindex][zindex] * xlocal * (1 - ylocal) * (1 - zlocal)
-                    + _yField[xindex + 1][yindex][zindex + 1] * xlocal * (1 - ylocal) * zlocal
-                    + _yField[xindex + 1][yindex + 1][zindex] * xlocal * ylocal * (1 - zlocal)
-                    + _yField[xindex + 1][yindex + 1][zindex + 1] * xlocal * ylocal * zlocal;
-            _Bfield[2]
-                    = _zField[xindex][yindex][zindex] * (1 - xlocal) * (1 - ylocal) * (1 - zlocal)
-                    + _zField[xindex][yindex][zindex + 1] * (1 - xlocal) * (1 - ylocal) * zlocal
-                    + _zField[xindex][yindex + 1][zindex] * (1 - xlocal) * ylocal * (1 - zlocal)
-                    + _zField[xindex][yindex + 1][zindex + 1] * (1 - xlocal) * ylocal * zlocal
-                    + _zField[xindex + 1][yindex][zindex] * xlocal * (1 - ylocal) * (1 - zlocal)
-                    + _zField[xindex + 1][yindex][zindex + 1] * xlocal * (1 - ylocal) * zlocal
-                    + _zField[xindex + 1][yindex + 1][zindex] * xlocal * ylocal * (1 - zlocal)
-                    + _zField[xindex + 1][yindex + 1][zindex + 1] * xlocal * ylocal * zlocal;
+            bfield[0]
+                    = xField[xindex][yindex][zindex] * (1 - xlocal) * (1 - ylocal) * (1 - zlocal)
+                    + xField[xindex][yindex][zindex + 1] * (1 - xlocal) * (1 - ylocal) * zlocal
+                    + xField[xindex][yindex + 1][zindex] * (1 - xlocal) * ylocal * (1 - zlocal)
+                    + xField[xindex][yindex + 1][zindex + 1] * (1 - xlocal) * ylocal * zlocal
+                    + xField[xindex + 1][yindex][zindex] * xlocal * (1 - ylocal) * (1 - zlocal)
+                    + xField[xindex + 1][yindex][zindex + 1] * xlocal * (1 - ylocal) * zlocal
+                    + xField[xindex + 1][yindex + 1][zindex] * xlocal * ylocal * (1 - zlocal)
+                    + xField[xindex + 1][yindex + 1][zindex + 1] * xlocal * ylocal * zlocal;
+            bfield[1]
+                    = yField[xindex][yindex][zindex] * (1 - xlocal) * (1 - ylocal) * (1 - zlocal)
+                    + yField[xindex][yindex][zindex + 1] * (1 - xlocal) * (1 - ylocal) * zlocal
+                    + yField[xindex][yindex + 1][zindex] * (1 - xlocal) * ylocal * (1 - zlocal)
+                    + yField[xindex][yindex + 1][zindex + 1] * (1 - xlocal) * ylocal * zlocal
+                    + yField[xindex + 1][yindex][zindex] * xlocal * (1 - ylocal) * (1 - zlocal)
+                    + yField[xindex + 1][yindex][zindex + 1] * xlocal * (1 - ylocal) * zlocal
+                    + yField[xindex + 1][yindex + 1][zindex] * xlocal * ylocal * (1 - zlocal)
+                    + yField[xindex + 1][yindex + 1][zindex + 1] * xlocal * ylocal * zlocal;
+            bfield[2]
+                    = zField[xindex][yindex][zindex] * (1 - xlocal) * (1 - ylocal) * (1 - zlocal)
+                    + zField[xindex][yindex][zindex + 1] * (1 - xlocal) * (1 - ylocal) * zlocal
+                    + zField[xindex][yindex + 1][zindex] * (1 - xlocal) * ylocal * (1 - zlocal)
+                    + zField[xindex][yindex + 1][zindex + 1] * (1 - xlocal) * ylocal * zlocal
+                    + zField[xindex + 1][yindex][zindex] * xlocal * (1 - ylocal) * (1 - zlocal)
+                    + zField[xindex + 1][yindex][zindex + 1] * xlocal * (1 - ylocal) * zlocal
+                    + zField[xindex + 1][yindex + 1][zindex] * xlocal * ylocal * (1 - zlocal)
+                    + zField[xindex + 1][yindex + 1][zindex + 1] * xlocal * ylocal * zlocal;
 
         } else {
-            _Bfield[0] = 0.0;
-            _Bfield[1] = 0.0;
-            _Bfield[2] = 0.0;
+            bfield[0] = 0.0;
+            bfield[1] = 0.0;
+            bfield[2] = 0.0;
         }
     }
 
     //TODO pass double[] as argument to minimize internal array creation
-    private double[] modf(double fullDouble)
-    {
+    private double[] modf(double fullDouble) {
         int intVal = (int) fullDouble;
         double remainder = fullDouble - intVal;
 
