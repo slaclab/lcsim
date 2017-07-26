@@ -55,32 +55,27 @@ public class FieldMap3D extends AbstractFieldMap {
         xOffset = node.getAttribute("xoffset").getDoubleValue();
         yOffset = node.getAttribute("yoffset").getDoubleValue();
         zOffset = node.getAttribute("zoffset").getDoubleValue();
+        
         filename = node.getAttributeValue("filename");
+        
         if (node.getAttribute("url") != null) {            
             try {
                 url = new URL(node.getAttribute("url").getValue());
-            } catch (MalformedURLException e) {                
+            } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("Field Map location: " + filename);
+        
         try {
             setup();
         } catch (Exception e) {
-            throw new RuntimeException("Error reading field map from " + filename, e);
+            throw new RuntimeException("Error reading the field map.", e);
         }
     }
     
     private static int BUFFER_SIZE = 1024;
-    
-    /**
-     * Untar and unzip a field map file.
-     * Assumes there is one file in the archive.
-     * 
-     * @param is The input stream
-     * @throws IOException if there is an error decompressing the file
-     */
-    private static File untar(InputStream is, File cacheDir) throws IOException {
+       
+    private static void untar(InputStream is, File cacheDir) throws IOException {
         GzipCompressorInputStream gzipIn = new GzipCompressorInputStream(is);
         File destFile = null;
         try (TarArchiveInputStream tarIn = new TarArchiveInputStream(gzipIn)) {
@@ -94,35 +89,46 @@ public class FieldMap3D extends AbstractFieldMap {
                     while ((count = tarIn.read(data, 0, BUFFER_SIZE)) != -1) {
                         dest.write(data, 0, count);
                     }
-                    dest.close();
+                    dest.close();                    
                 }
+                break;
+            }
+            tarIn.close();
+        }
+    }
+    
+    private static File getFieldMapFile(File file, File cacheDir) throws IOException {
+        GzipCompressorInputStream gzipIn = new GzipCompressorInputStream(new FileInputStream(file));
+        File destFile = null;
+        try (TarArchiveInputStream tarIn = new TarArchiveInputStream(gzipIn)) {
+            TarArchiveEntry entry;
+            while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
+                destFile = new File(Paths.get(cacheDir.getAbsolutePath(), entry.getName()).toString());
                 break;
             }
             tarIn.close();
         }
         return destFile;
     }
-     
+    
+    
     private void setup() throws IOException {
         InputStream fis;
         BufferedReader br;
         String line;
-        File file;
+        File file  = new File(filename);
         
         if (url != null) {
-            // Cache file from remote URL and decompress if necessary.
             FileCache cache = new FileCache();
-            System.out.println("caching field map from <" + url.toString() + ">");
-            file = cache.getCachedFile(url);
-            fis = new FileInputStream(file);
-            if (file.getAbsolutePath().endsWith(".tar.gz")) {
-                System.out.println("untarring field map file <" + file.getAbsolutePath() + ">");
-                file = untar(fis, cache.getCacheDirectory());
-                System.out.println("field map untarred to <" + file.getAbsolutePath() + ">");
+            File cacheFile = cache.getCachedFile(url);
+            if (cacheFile.getAbsolutePath().endsWith(".tar.gz")) {
+                file = getFieldMapFile(cacheFile, cache.getCacheDirectory());
+                if (!file.exists()) {
+                    untar(new FileInputStream(cacheFile), cache.getCacheDirectory());
+                }
+            } else {
+                file = cacheFile;
             }
-        } else {
-            // Use local file only.
-            file = new File(filename);
         }
         
         fis = new FileInputStream(file);
