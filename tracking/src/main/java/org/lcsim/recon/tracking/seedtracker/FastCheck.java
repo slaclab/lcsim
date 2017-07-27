@@ -26,9 +26,9 @@ public class FastCheck {
     private double _dMax;
     private double _z0Max;
     private double _nsig;
-    private TwoPointCircleFitter _cfit2;
-    private ThreePointCircleFitter _cfit3;
-    private static double twopi = 2. * Math.PI;
+    protected TwoPointCircleFitter _cfit2;
+    protected ThreePointCircleFitter _cfit3;
+    protected static double twopi = 2. * Math.PI;
     private double _eps = 1.0e-6;
     private ISeedTrackerDiagnostics _diag;
     private boolean _skipchecks = false;
@@ -53,9 +53,38 @@ public class FastCheck {
         _cfit3 = new ThreePointCircleFitter();
     }
     
+    public boolean getSkipChecks() {
+    	return _skipchecks;
+    }
+    
+    public double getDMax() {
+    	return _dMax;
+    }
+    
+    public double getRMin() {
+    	return _RMin;
+    }
+    
+    public double getZ0Max() {
+    	return _z0Max;
+    }
+    
+    public double getEps() {
+    	return _eps;
+    }
+    
+    public double getNSig() {
+    	return _nsig;
+    }
+    
+    
     public void setDoSectorBinCheck(SectorManager sectorManager) {
         _doSectorBinCheck = true;
         _sectorManager = sectorManager;
+    }
+    
+    public boolean getDoSectorBinCheck() {
+    	return _doSectorBinCheck;
     }
 
     public boolean CheckHitSeed(HelicalTrackHit hit, SeedCandidate seed) {
@@ -429,7 +458,7 @@ public class FastCheck {
     }
 
 
-    private double dphimax(double r1, double r2) {
+    protected double dphimax(double r1, double r2) {
 
         //  Order the two radii
         double rmin = r1;
@@ -455,17 +484,17 @@ public class FastCheck {
         return phidif(Math.acos(cth1), Math.acos(cth2));
     }
 
-    private double smin(double r) {
+    protected double smin(double r) {
         return r - _dMax;
     }
 
-    private double smax(double r) {
+    protected double smax(double r) {
         double R = _RMin;
         if (r > _RMin) R = r;
         return 2.0 * R * Math.asin((r + _dMax) / (2.0 * R));
     }
 
-    private boolean checkz0(double s1min, double s1max, double zmin1, double zmax1,
+    protected boolean checkz0(double s1min, double s1max, double zmin1, double zmax1,
             double s2min, double s2max, double zmin2, double zmax2) {
 
         double z0[] = new double[2];
@@ -531,7 +560,7 @@ public class FastCheck {
         return checkz0;
     }
 
-    private double phidif(double phi1, double phi2) {
+    protected double phidif(double phi1, double phi2) {
 
         //  Find the magnitude of the phi difference
         double phidif = Math.abs(phi2 - phi1);
@@ -541,7 +570,7 @@ public class FastCheck {
         return phidif;
     }
 
-    private void CorrectHitPosition(HelicalTrackHit hit, SeedCandidate seed) {
+    protected void CorrectHitPosition(HelicalTrackHit hit, SeedCandidate seed) {
         if (hit instanceof HelicalTrackCross) {
             HelicalTrackCross cross = (HelicalTrackCross) hit;
             HelicalTrackFit helix = null;
@@ -550,7 +579,7 @@ public class FastCheck {
         }
     }
 
-    private double dz(HelicalTrackHit hit) {
+    protected double dz(HelicalTrackHit hit) {
 
         //  Axial strip hits: use half strip length
         if (hit instanceof HelicalTrack2DHit) {
@@ -562,17 +591,17 @@ public class FastCheck {
         }
     }
 
-    private boolean zSectorCheck(Sector s1, Sector s2) {
+    protected boolean zSectorCheck(Sector s1, Sector s2) {
         return s1.zSector()==s2.zSector();
     }
 
-    private boolean zSectorCheck(HelicalTrackHit hit, Sector sector) {
+    protected boolean zSectorCheck(HelicalTrackHit hit, Sector sector) {
         int zSector = sector.zSector();
         int zBin = this._sectorManager.ZBin(hit);
         return zBin==zSector;
     }
 
-    private boolean zSectorCheck(HelicalTrackHit hit, HelicalTrackHit hit2) {
+    protected boolean zSectorCheck(HelicalTrackHit hit, HelicalTrackHit hit2) {
         int zBin = this._sectorManager.ZBin(hit);
         int zBin2 = this._sectorManager.ZBin(hit2);
         return zBin==zBin2;

@@ -60,11 +60,13 @@ public class SeedTrackFinder {
         _diag = d;
         _confirmer.setDiagnostics(_diag);
     }
-
+    
     public boolean FindTracks(SeedStrategy strategy, double bfield) {
+    	FastCheck checker = new FastCheck(strategy, bfield, _diag);
+    	return FindTracks(strategy, bfield, checker);
+    }
 
-        //  Instantiate the fast hit checker
-        FastCheck checker = new FastCheck(strategy, bfield, _diag);
+    public boolean FindTracks(SeedStrategy strategy, double bfield, FastCheck checker) {
         if(_applySectorBinning) checker.setDoSectorBinCheck(_hitmanager.getSectorManager());
         
         //  Find the valid sector combinations
@@ -152,7 +154,7 @@ public class SeedTrackFinder {
                         }
 
                         //  See if we can confirm this seed candidate
-                        success = _confirmer.Confirm(seed, strategy, bfield);
+                        success = _confirmer.Confirm(seed, strategy, bfield, checker);
                         if (!success) continue;
 
                         if(_debug) System.out.println(this.getClass().getSimpleName()+": confirmed seed");
@@ -169,7 +171,7 @@ public class SeedTrackFinder {
                         for (SeedCandidate confirmedseed : confirmedlist) {
 
                             //  See if we can extend this seed candidate
-                            _confirmer.Extend(confirmedseed, strategy, bfield, _trackseeds);
+                            _confirmer.Extend(confirmedseed, strategy, bfield, _trackseeds, checker);
                         }
                     }
                 }
