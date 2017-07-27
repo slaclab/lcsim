@@ -105,6 +105,11 @@ public class ConfirmerExtender {
      * @return true if seed was confirmed
      */
     public boolean Confirm(SeedCandidate seed, SeedStrategy strategy, double bfield) {
+    	FastCheck checker = new FastCheck(strategy, bfield, _diag);
+    	return Confirm(seed, strategy, bfield, checker);
+    }
+    
+    public boolean Confirm(SeedCandidate seed, SeedStrategy strategy, double bfield, FastCheck checker) {
 
         //  Create a list to hold the confirmed / extended seeds
         _result = new ArrayList<SeedCandidate>();
@@ -113,7 +118,7 @@ public class ConfirmerExtender {
         seed.setUncheckedLayers(strategy.getLayers(SeedLayer.SeedType.Confirm));
 
         //  Process the seed
-        doTask(seed, Task.CONFIRM, strategy, bfield);
+        doTask(seed, Task.CONFIRM, strategy, bfield, checker);
 
         //  Return true if we found at least one confirming seed candidate
         return _result.size() > 0;
@@ -134,6 +139,12 @@ public class ConfirmerExtender {
      */
     public void Extend(SeedCandidate seed, SeedStrategy strategy, double bfield,
             List<SeedCandidate> foundseeds) {
+    	FastCheck checker = new FastCheck(strategy, bfield, _diag);
+    	Extend(seed, strategy, bfield, foundseeds, checker);
+    }
+    
+    public void Extend(SeedCandidate seed, SeedStrategy strategy, double bfield,
+            List<SeedCandidate> foundseeds, FastCheck checker) {
 
         //  Initialize the list of extended seed candidates to those already found
         _result = foundseeds;
@@ -142,7 +153,7 @@ public class ConfirmerExtender {
         seed.setUncheckedLayers(strategy.getLayers(SeedLayer.SeedType.Extend));
 
         //  Extend the seed and return
-        doTask(seed, Task.EXTEND, strategy, bfield);
+        doTask(seed, Task.EXTEND, strategy, bfield, checker);
         return;
     }
 
@@ -154,13 +165,11 @@ public class ConfirmerExtender {
      * @param strategy strategy to use
      * @param bfield magnetic field
      */
-    private void doTask(SeedCandidate inputseed, Task task, SeedStrategy strategy, double bfield) {
+    private void doTask(SeedCandidate inputseed, Task task, SeedStrategy strategy, double bfield, FastCheck checker) {
 
         //  Initialize the counter for the number of fits performed on this seed
         _nfit = 0;
 
-        //  Instantiate the fast hit checker
-        FastCheck checker = new FastCheck(strategy, bfield, _diag);
         if(this._applySectorBinning) checker.setDoSectorBinCheck(this._hmanager.getSectorManager());
 
         //  Calculate the minimum number of hits to succeed, retrieve the chisq cuts
