@@ -9,32 +9,30 @@
 
 package org.lcsim.recon.tracking.digitization.sisim;
 
-import org.lcsim.detector.solids.GeomOp3D;
-import org.lcsim.event.SimTrackerHit;
-import org.lcsim.detector.tracker.silicon.SiSensor;
-import org.lcsim.detector.tracker.silicon.SiSensorElectrodes;
-import org.lcsim.detector.tracker.silicon.ChargeCarrier;
-import org.lcsim.detector.ITransform3D;
-import org.lcsim.detector.IRotation3D;
-import org.lcsim.detector.tracker.silicon.ChargeDistribution;
-import org.lcsim.detector.tracker.silicon.GaussianDistribution2D;
-
-import hep.physics.vec.Hep3Vector;
-import hep.physics.vec.BasicHep3Vector;
 import hep.physics.matrix.BasicMatrix;
+import hep.physics.vec.BasicHep3Vector;
+import hep.physics.vec.Hep3Vector;
 import hep.physics.vec.VecOp;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.EnumMap;
-import java.util.Map.Entry;
 import java.util.SortedMap;
 
+import org.lcsim.detector.IRotation3D;
+import org.lcsim.detector.ITransform3D;
 import org.lcsim.detector.Transform3D;
 import org.lcsim.detector.Translation3D;
+import org.lcsim.detector.solids.GeomOp3D;
 import org.lcsim.detector.solids.Line3D;
 import org.lcsim.detector.solids.Point3D;
+import org.lcsim.detector.tracker.silicon.ChargeCarrier;
+import org.lcsim.detector.tracker.silicon.ChargeDistribution;
+import org.lcsim.detector.tracker.silicon.GaussianDistribution2D;
+import org.lcsim.detector.tracker.silicon.SiSensor;
+import org.lcsim.detector.tracker.silicon.SiSensorElectrodes;
+import org.lcsim.event.SimTrackerHit;
 
 /**
  *
@@ -64,6 +62,8 @@ public class CDFSiSensorSim implements SiSensorSim
     private static final double DISTANCE_ERROR_THRESHOLD = 0.001; //This is the maximum distance outside of the sensor allowed before an error is thrown. 
     
     private final boolean debug = false;
+    
+    private List<SimTrackerHit> _hits;
     
     /**
      * Creates a new instance of CDFSiSensorSim
@@ -102,6 +102,10 @@ public class CDFSiSensorSim implements SiSensorSim
     public void setSensor(SiSensor sensor)
     {
         _sensor = sensor;
+    }
+    
+    public void setHits(List<SimTrackerHit> hits) {
+        _hits = hits;
     }
     
     public Map<ChargeCarrier,SiElectrodeDataCollection> computeElectrodeData()
@@ -169,9 +173,9 @@ public class CDFSiSensorSim implements SiSensorSim
         }
         
         ITransform3D global_to_sensor = _sensor.getGeometry().getGlobalToLocal();
-        List<SimTrackerHit> hits = _sensor.getReadout().getHits(SimTrackerHit.class);
-        
-        for (SimTrackerHit hit : hits)
+        //List<SimTrackerHit> hits = _sensor.getReadout().getHits(SimTrackerHit.class);
+                
+        for (SimTrackerHit hit : _hits)
         {
             if(debug) 
             		System.out.printf("%s: depositChargeOnSense for sim tracker hit at %s \n", this.getClass().getSimpleName(),hit.getPositionVec().toString());
