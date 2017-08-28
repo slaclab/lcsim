@@ -32,6 +32,9 @@ public class BaseTrackState implements TrackState
     public BaseTrackState()
     {}
     
+    public BaseTrackState(int location)
+    {_location = location; }
+    
     //fully qualified constructor
     public BaseTrackState(double[] trackParameters, double[] covarianceMatrix, double[] position, int location)
     {
