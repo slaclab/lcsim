@@ -114,23 +114,25 @@ public class FieldMap3D extends AbstractFieldMap {
     
     
     private void setup() throws IOException {
+        
+        System.out.println("-----------------------------------------------------------");
+        System.out.println("FieldMap3D ");
+        System.out.println("-----------------------------------------------------------");
+        
         InputStream fis;
         BufferedReader br;
         String line;
         File file  = new File(filename);
         if (!file.exists() && url != null) {
-            System.out.println("FieldMap3D: Using field map URL '" + url.toString() + "'");
+            System.out.println("Using field map URL '" + url.toString() + "'");
             file = cacheFile();
         } else {
-            System.out.println("FieldMap3D: Using field map local file '" + file.getPath() + "'");
+            System.out.println("Using field map local file '" + file.getPath() + "'");
         }
         
         fis = new FileInputStream(file);
 
-        System.out.println("-----------------------------------------------------------");
-        System.out.println("FieldMap3D ");
-        System.out.println("-----------------------------------------------------------");
-        System.out.println("Reading the field grid from " + file.getPath() + " ... ");
+        System.out.println("Reading the field grid from '" + file.getPath() + "' ... ");
 
         br = new BufferedReader(new InputStreamReader(fis));
         // ignore the first blank line
