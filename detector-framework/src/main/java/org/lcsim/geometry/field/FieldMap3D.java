@@ -8,6 +8,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -117,18 +118,11 @@ public class FieldMap3D extends AbstractFieldMap {
         BufferedReader br;
         String line;
         File file  = new File(filename);
-        
-        if (url != null) {
-            FileCache cache = new FileCache();
-            File cacheFile = cache.getCachedFile(url);
-            if (cacheFile.getAbsolutePath().endsWith(".tar.gz")) {
-                file = getFieldMapFile(cacheFile, cache.getCacheDirectory());
-                if (!file.exists()) {
-                    untar(new FileInputStream(cacheFile), cache.getCacheDirectory());
-                }
-            } else {
-                file = cacheFile;
-            }
+        if (!file.exists() && url != null) {
+            System.out.println("FieldMap3D: Using field map URL '" + url.toString() + "'");
+            file = cacheFile();
+        } else {
+            System.out.println("FieldMap3D: Using field map local file '" + file.getPath() + "'");
         }
         
         fis = new FileInputStream(file);
@@ -223,6 +217,21 @@ public class FieldMap3D extends AbstractFieldMap {
                 + "\n-----------------------------------------------------------");
 
         br.close();
+    }
+
+    private File cacheFile() throws IOException, FileNotFoundException {
+        File file;
+        FileCache cache = new FileCache();
+        File cacheFile = cache.getCachedFile(url);
+        if (cacheFile.getAbsolutePath().endsWith(".tar.gz")) {
+            file = getFieldMapFile(cacheFile, cache.getCacheDirectory());
+            if (!file.exists()) {
+                untar(new FileInputStream(cacheFile), cache.getCacheDirectory());
+            }
+        } else {
+            file = cacheFile;
+        }
+        return file;
     }
 
     @Override
