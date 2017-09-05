@@ -22,16 +22,16 @@ import org.lcsim.recon.tracking.seedtracker.diagnostic.ISeedTrackerDiagnostics;
  */
 public class SeedTrackFinder {
 
-    private HitManager _hitmanager;
-    private HelixFitter _helixfitter;
-    private ConfirmerExtender _confirmer;
-    private List<SeedCandidate> _trackseeds;
-    private ISeedTrackerDiagnostics _diag = null;
-    private Set<MCParticle> _seededmcp;
-    private Set<MCParticle> _confirmedmcp;
-    TrackCheck _trackCheck; // set by SeedTracker
-    private boolean _debug = false;
-    private boolean _applySectorBinning = false;
+    protected HitManager _hitmanager;
+    protected HelixFitter _helixfitter;
+    protected ConfirmerExtender _confirmer;
+    protected List<SeedCandidate> _trackseeds;
+    protected ISeedTrackerDiagnostics _diag = null;
+    protected Set<MCParticle> _seededmcp;
+    protected Set<MCParticle> _confirmedmcp;
+    protected TrackCheck _trackCheck; // set by SeedTracker
+    protected boolean _debug = false;
+    protected boolean _applySectorBinning = false;
 
     /**
      * Creates a new instance of SeedTrackFinder

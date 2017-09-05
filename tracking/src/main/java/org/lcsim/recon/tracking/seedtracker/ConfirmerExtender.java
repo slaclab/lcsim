@@ -33,14 +33,14 @@ public class ConfirmerExtender {
         CONFIRM,
         EXTEND;
     }
-    private int _nfit;
-    private int _maxfit = 1000000000;  // initialize maximum number of fits to 10^9
-    private HitManager _hmanager;
-    private HelixFitter _fitter;
-    private MergeSeedLists _merger;
-    private List<SeedCandidate> _result;
-    private ISeedTrackerDiagnostics _diag = null;
-    private boolean _applySectorBinning=false;
+    protected int _nfit;
+    protected int _maxfit = 1000000000;  // initialize maximum number of fits to 10^9
+    protected HitManager _hmanager;
+    protected HelixFitter _fitter;
+    protected MergeSeedLists _merger;
+    protected List<SeedCandidate> _result;
+    protected ISeedTrackerDiagnostics _diag = null;
+    protected boolean _applySectorBinning=false;
 
     /**
      * Constructor for the ConfirmerExtender class.
@@ -199,6 +199,7 @@ public class ConfirmerExtender {
         //  Create a map between the SeedLayers to be checked and a list of hits on the layer to check
         Map<SeedLayer, List<HelicalTrackHit>> hitmap = new HashMap<SeedLayer, List<HelicalTrackHit>>();
 
+        if(this._applySectorBinning) {
         //  Loop over the layers to be checked
         for (SeedLayer lyr : inputseed.getUncheckedLayers()) {
 
@@ -220,6 +221,7 @@ public class ConfirmerExtender {
 
             //  Save the list of hits in the hitmap
             if (!hitlist.isEmpty()) hitmap.put(lyr, hitlist);
+        }
         }
 
         //  Create a list of layers that have hits to check
@@ -369,7 +371,7 @@ public class ConfirmerExtender {
      * @param strategy strategy in use
      * @return best track candidate
      */
-    private SeedCandidate findBestCandidate(SeedCandidate trial, SeedCandidate oldbest, SeedStrategy strategy) {
+    protected SeedCandidate findBestCandidate(SeedCandidate trial, SeedCandidate oldbest, SeedStrategy strategy) {
 
         //  If the old best candidate is null, return the trial candidate
         if (oldbest == null) return trial;
