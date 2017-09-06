@@ -199,7 +199,6 @@ public class ConfirmerExtender {
         //  Create a map between the SeedLayers to be checked and a list of hits on the layer to check
         Map<SeedLayer, List<HelicalTrackHit>> hitmap = new HashMap<SeedLayer, List<HelicalTrackHit>>();
 
-        if(this._applySectorBinning) {
         //  Loop over the layers to be checked
         for (SeedLayer lyr : inputseed.getUncheckedLayers()) {
 
@@ -221,7 +220,6 @@ public class ConfirmerExtender {
 
             //  Save the list of hits in the hitmap
             if (!hitlist.isEmpty()) hitmap.put(lyr, hitlist);
-        }
         }
 
         //  Create a list of layers that have hits to check
