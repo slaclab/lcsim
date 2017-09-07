@@ -329,7 +329,7 @@ public class DetectorElement implements IDetectorElement
         }
 
         // Look recursively through the children.
-        if (hasChildren())
+        if ((!hasGeometryInfo() || srch != null) && hasChildren())
         {
             for (IDetectorElement child : getChildren())
             {
@@ -337,6 +337,7 @@ public class DetectorElement implements IDetectorElement
                 if (childSrch != null)
                 {
                     srch = childSrch;
+                    break;
                 }
             }
         }
