@@ -643,17 +643,19 @@ public class JobControlManager {
 
         if (commandLine.hasOption("d")) {
             this.detectorName = commandLine.getOptionValue("d");
+            this.conditionsSetup.setDetectorName(this.detectorName);
             LOGGER.config("detector: " + this.detectorName);
         }
 
         if (commandLine.hasOption("R")) {
             this.runNumber = Integer.parseInt(commandLine.getOptionValue("R"));
+            this.conditionsSetup.setRun(this.runNumber);
             LOGGER.config("runNumber: " + this.runNumber);
         }
 
         if (this.detectorName != null && this.runNumber == null || 
                 this.runNumber != null && this.detectorName == null) {
-            throw new IllegalArgumentException("The detector name and run number must be given together.");
+            throw new IllegalArgumentException("The detector name and run number must be provided together.");
         }
         
         // This will actually initialize everything from the steering file so it must come last.

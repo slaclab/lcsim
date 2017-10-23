@@ -32,6 +32,9 @@ public class BaseTrackState implements TrackState
     public BaseTrackState()
     {}
     
+    public BaseTrackState(int location)
+    {_location = location; }
+    
     //fully qualified constructor
     public BaseTrackState(double[] trackParameters, double[] covarianceMatrix, double[] position, int location)
     {
@@ -124,7 +127,7 @@ public class BaseTrackState implements TrackState
     
     public void setLocation(int location)
     {
-        if (location < 0 || location > TrackState.LastLocation)
+        if (location > TrackState.LastLocation)
             throw new IllegalArgumentException("The location must be between 0 and " + TrackState.LastLocation);
         this._location = location;
     }

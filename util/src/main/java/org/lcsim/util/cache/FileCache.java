@@ -15,7 +15,7 @@ import java.net.URLEncoder;
  * @author tonyj
  */
 public class FileCache {
-    private static final File home = new File(getCacheRoot(), ".cache");
+    private static final File home = new File(getCacheRoot(), ".cache/lcsim");
     private static final ByteFormat format = new ByteFormat();
     private File cache;
     private PrintStream print = System.out;
