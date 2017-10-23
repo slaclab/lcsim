@@ -10,31 +10,28 @@ import org.lcsim.geometry.util.BaseIDDecoder;
  * 
  * @author tonyj
  */
-public class Segmentation extends BaseIDDecoder
-{
+public class Segmentation extends BaseIDDecoder {
     protected List<Double> cellSizes = new ArrayList<Double>(2);
     boolean useForHitPosition = true;
 
-    protected Segmentation(Element segmentation)
-    {
+    protected Segmentation(Element segmentation) {
         super();
 
         // Flag if hit position is to be kept independent of cell position.
-        useForHitPosition = Boolean.parseBoolean(segmentation.getAttribute("useForHitPosition").getValue());
+        if (segmentation.getAttribute("useForHitPosition") != null) {
+            useForHitPosition = Boolean.parseBoolean(segmentation.getAttribute("useForHitPosition").getValue());
+        }
     }
 
-    public boolean useForHitPosition()
-    {
+    public boolean useForHitPosition() {
         return this.useForHitPosition;
     }
 
-    public double getCellSizeU()
-    {
+    public double getCellSizeU() {
         return this.cellSizes.get(0);
     }
 
-    public double getCellSizeV()
-    {
+    public double getCellSizeV() {
         return this.cellSizes.get(1);
     }
     
