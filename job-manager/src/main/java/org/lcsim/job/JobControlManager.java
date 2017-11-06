@@ -255,11 +255,6 @@ public class JobControlManager {
     private final List<File> inputFiles = new ArrayList<File>();
 
     /**
-     * Flag set to <code>true</code> after setup is performed.
-     */
-    private boolean isSetup;
-
-    /**
      * The job end timestamp in ms.
      */
     private long jobEnd = 0;
@@ -272,7 +267,7 @@ public class JobControlManager {
     /**
      * The LCIO record loop.
      */
-    private LCSimLoop loop;
+    private LCSimLoop loop = new LCSimLoop();
 
     /**
      * Number of events to run before stopping job.
@@ -354,9 +349,6 @@ public class JobControlManager {
      * @param inputFile The input LCIO file.
      */
     public void addInputFile(final File inputFile) {
-        if (isSetup) {
-            throw new RuntimeException("Input files cannot be added when manager has already been setup.");
-        }
         inputFiles.add(inputFile);
     }
 
@@ -387,12 +379,11 @@ public class JobControlManager {
      * Create a driver adapter.
      */
     private void createDriverAdapter() {
-        if (this.isSetup == false) {
-            throw new IllegalStateException("The job manager was never setup.");
-        }
         final Driver topDriver = new Driver();
-        for (final Driver driver : this.getDriverExecList()) {
-            topDriver.add(driver);
+        if (this.getDriverExecList().size() > 0) {
+            for (final Driver driver : this.getDriverExecList()) {
+                topDriver.add(driver);
+            }
         }
         driverAdapter = new DriverAdapter(topDriver);
     }
@@ -489,9 +480,8 @@ public class JobControlManager {
     /**
      * Initialize the <code>LCSimLoop</code>.
      */
-    private void initializeLoop() {
+    public void initializeLoop() {
         LOGGER.config("initializing LCSim loop");
-        loop = new LCSimLoop();
         if (this.eventPrintInterval != null) {
             loop.addRecordListener(new EventPrintLoopAdapter(this.eventPrintInterval));
             LOGGER.config("Added EventPrintLoopAdapter with event print interval " + eventPrintInterval);
@@ -925,11 +915,6 @@ public class JobControlManager {
 
         LOGGER.info("running job");
 
-        // If setup was not called first, then abort the job.
-        if (!isSetup) {
-            throw new IllegalStateException("The job manager was never setup!");
-        }
-
         if (!dryRun) {
 
             // Setup dummy detector if selected.
@@ -1023,11 +1008,6 @@ public class JobControlManager {
      */
     private void setup(final Document xmlDocument) {
 
-        // This method should not be called more than once.
-        if (isSetup) {
-            throw new IllegalStateException("The job manager was already setup.");
-        }
-
         // Set the root element from the XML document.
         root = xmlDocument.getRootElement();
 
@@ -1071,9 +1051,6 @@ public class JobControlManager {
             LOGGER.severe("No input files provided and dry run is not enabled.");
             throw new IllegalStateException("No input files to process.");
         }
-
-        // Flag JobManager as setup.
-        isSetup = true;
     }
 
     /**
