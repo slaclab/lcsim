@@ -285,6 +285,16 @@ public class LCDD extends Element {
     public void addSensitiveDetector(SensitiveDetector det) {
         getChild("sensitive_detectors").addContent(det);
     }
+    
+    public SensitiveDetector getSensitiveDetector(String name) {
+        for (Object o : getChild("sensitive_detectors").getChildren()) {
+            SensitiveDetector det = (SensitiveDetector) o;
+            if (det.getRefName().equals(name)) {
+                return det;
+            }
+        }
+        return null;
+    }
 
     public void add(Field field) {
         getChild("fields").addContent(field);
