@@ -11,7 +11,7 @@ import org.lcsim.event.EventHeader;
  * 
  * @author Jeremy McCormick, SLAC
  */
-class EventPrintLoopAdapter implements RecordListener {
+public class EventPrintLoopAdapter implements RecordListener {
 
     /**
      * Setup the logger.
@@ -32,7 +32,11 @@ class EventPrintLoopAdapter implements RecordListener {
      * Class constructor.
      * @param printInterval the event print interval
      */
-    EventPrintLoopAdapter(long printInterval) {
+    public EventPrintLoopAdapter(long printInterval) {
+        this.printInterval = printInterval;
+    }
+
+    public void setPrintInterval(long printInterval) {
         this.printInterval = printInterval;
     }
 
