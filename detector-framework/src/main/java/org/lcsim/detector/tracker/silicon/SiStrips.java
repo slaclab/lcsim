@@ -51,7 +51,7 @@ public class SiStrips implements SiSensorElectrodes
     private double _capacitance_slope = 0.1;  //  capacitance per unit length of strip
     
     // Cached for convenience
-    public double _strip_offset;
+    protected double _strip_offset;
 
      public SiStrips(){
          
