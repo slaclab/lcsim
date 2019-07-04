@@ -40,8 +40,8 @@ public class SiStrips implements SiSensorElectrodes
     
     // Object definition
     private ChargeCarrier _carrier; // charge carrier collected
-    private int _nstrips; // number of strips
-    private double _pitch; // sense pitch
+    protected int _nstrips; // number of strips
+    protected double _pitch; // sense pitch
     private IDetectorElement _detector; // associated detector element
     private ITransform3D _parent_to_local; // parent to local transform
     private ITransform3D _local_to_global; // transformation to global coordinates
@@ -51,7 +51,7 @@ public class SiStrips implements SiSensorElectrodes
     private double _capacitance_slope = 0.1;  //  capacitance per unit length of strip
     
     // Cached for convenience
-    private double _strip_offset;
+    protected double _strip_offset;
 
      public SiStrips(){
          
@@ -224,6 +224,8 @@ public class SiStrips implements SiSensorElectrodes
     
     public Hep3Vector getCellPosition(int strip_number)
     {
+        //System.out.println("[ SiStrips ][ getCellPosition ]: strip #: " + strip_number);  
+        //System.out.println("[ SiStrips ][ getCellPosition ]: Cell Position x: " + (strip_number*_pitch - _strip_offset)); 
         return new BasicHep3Vector(strip_number*_pitch-_strip_offset,0.0,0.0);
     }
     
@@ -280,12 +282,17 @@ public class SiStrips implements SiSensorElectrodes
     {
         SortedMap<Integer,Integer> electrode_data = new TreeMap<Integer,Integer>();
         
+        //System.out.println("[ SiStrips ][ computeElectrodeData ]: Distribution mean: " + distribution.getMean()); 
+
         int base_strip = getCellID(distribution.getMean());
+
+        //System.out.println("[ SiStrips ][ computeElectrodeData ]: Base strip: " + base_strip); 
         
         // put charge on strips in window 3-sigma strips on each side of base strip
         int axis = 0;
         int window_size = (int)Math.ceil(3.0*distribution.sigma1D(getMeasuredCoordinate(axis))/getPitch(axis));
-        
+        //System.out.println("[ SiStrips ][ computeElectrodeData ]: Window size: " + window_size); 
+
         double integral_lower = distribution.getNormalization();
         double integral_upper = distribution.getNormalization();
         
@@ -293,15 +300,15 @@ public class SiStrips implements SiSensorElectrodes
         {
             double cell_edge_upper = getCellPosition(istrip).x() + getPitch(axis)/2.0;
             
-//            System.out.println("cell_edge_upper: "+cell_edge_upper);
+            //System.out.println("cell_edge_upper: "+cell_edge_upper);
             
             double integration_limit = cell_edge_upper;        //cell_edge_upper-distribution.mean().x();
             
-//            System.out.println("integration_limit: "+integration_limit);
+            //System.out.println("integration_limit: "+integration_limit);
             
             integral_upper = distribution.upperIntegral1D(getMeasuredCoordinate(axis),integration_limit);
             
-//            System.out.println("integral_upper: "+integral_upper);
+            //System.out.println("integral_upper: "+integral_upper);
             
             if (integral_lower<integral_upper)
             {
@@ -310,7 +317,7 @@ public class SiStrips implements SiSensorElectrodes
             
             int strip_charge = (int)Math.round(integral_lower-integral_upper);
             
-//            System.out.println("strip_charge: "+strip_charge);
+            //System.out.println("strip_charge: "+strip_charge);
             
             if (strip_charge != 0)
             {
@@ -329,7 +336,7 @@ public class SiStrips implements SiSensorElectrodes
     // length of strip
     public double getStripLength(int cell_id)
     {
-//        System.out.println("strip_length: "+getStrip(cell_id).getLength());
+        //System.out.println("strip_length: "+getStrip(cell_id).getLength());
         return getStrip(cell_id).getLength();
     }
     
@@ -345,20 +352,16 @@ public class SiStrips implements SiSensorElectrodes
     {
         Line3D strip_line = new Line3D(new Point3D(getCellPosition(cell_id)),getUnmeasuredCoordinate(0));
         
-//        System.out.println("Number of strips: "+this._nstrips);
-//        System.out.println("Strip offset: "+this._strip_offset);
-//        System.out.println("Pitch: "+this._pitch);
-//        System.out.println("cell_id: "+cell_id);
-//        System.out.println("strip_line start point: "+strip_line.getStartPoint());
-//        System.out.println("strip_line direction: "+strip_line.getDirection());
+        //System.out.println("strip_line start point: "+strip_line.getStartPoint());
+        //System.out.println("strip_line direction: "+strip_line.getDirection());
         
         List<Point3D> intersections = new ArrayList<Point3D>();
         
         // Get intersections between strip line and edges of electrode polygon
         for (LineSegment3D edge : _geometry.getEdges())
         {
-//            System.out.println("edge start point: "+edge.getStartPoint());
-//            System.out.println("edge end point: "+edge.getEndPoint());
+            //System.out.println("edge start point: "+edge.getStartPoint());
+            //System.out.println("edge end point: "+edge.getEndPoint());
             
             if (GeomOp2D.intersects(strip_line,edge))
             {
@@ -397,13 +400,13 @@ public class SiStrips implements SiSensorElectrodes
     
     public void setGeometry(Polygon3D geometry)
     {
-//        System.out.println("Plane of polygon has... ");
-//        System.out.println("                        normal: "+geometry.getNormal());
-//        System.out.println("                        distance: "+geometry.getDistance());
-//
-//        System.out.println("Working plane has... ");
-//        System.out.println("                        normal: "+GeomOp2D.PLANE.getNormal());
-//        System.out.println("                        distance: "+GeomOp2D.PLANE.getDistance());
+        //System.out.println("Plane of polygon has... ");
+        //System.out.println("                        normal: "+geometry.getNormal());
+        //System.out.println("                        distance: "+geometry.getDistance());
+
+        //System.out.println("Working plane has... ");
+        //System.out.println("                        normal: "+GeomOp2D.PLANE.getNormal());
+        //System.out.println("                        distance: "+GeomOp2D.PLANE.getDistance());
         
         if (GeomOp3D.equals(geometry.getPlane(),GeomOp2D.PLANE))
         {
@@ -415,7 +418,7 @@ public class SiStrips implements SiSensorElectrodes
         }
     }
     
-    private void setStripNumbering()
+    protected void setStripNumbering()
     {
         double xmin = Double.MAX_VALUE;
         double xmax = Double.MIN_VALUE;
@@ -425,23 +428,24 @@ public class SiStrips implements SiSensorElectrodes
             xmax = Math.max(xmax,vertex.x());
         }
         
-//        System.out.println("xmin: " + xmin);
-//        System.out.println("xmax: " + xmax);
-//
-//
-//        System.out.println("# strips: " +   (int)Math.ceil((xmax-xmin)/getPitch(0)) ) ;
+        //System.out.println("xmin: " + xmin);
+        //System.out.println("xmax: " + xmax);
+
+
+        //System.out.println("# strips: " +   (int)Math.ceil((xmax-xmin)/getPitch(0)) ) ;
         
         setNStrips(  (int)Math.ceil((xmax-xmin)/getPitch(0)) ) ;
     }
     
-    private void setNStrips(int nstrips)
+    protected void setNStrips(int nstrips)
     {
         _nstrips = nstrips;
         setStripOffset();
+        //System.out.println("Number of strips: " + _nstrips); 
 //        _strip_offset = (_nstrips-1)*_pitch/2.;
     }
     
-    private void setStripOffset()
+    protected void setStripOffset()
     {
         double xmin = Double.MAX_VALUE;
         double xmax = Double.MIN_VALUE;
@@ -454,7 +458,8 @@ public class SiStrips implements SiSensorElectrodes
         double strips_center = (xmin+xmax)/2;
         
         _strip_offset = ((_nstrips-1)*_pitch)/2 - strips_center;
-        
+        //System.out.println("Strip offset: " + _strip_offset); 
+
     }
     
     private void setPitch(double pitch)
