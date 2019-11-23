@@ -309,13 +309,13 @@ public class SiStrips implements SiSensorElectrodes
             integral_upper = distribution.upperIntegral1D(getMeasuredCoordinate(axis),integration_limit);
             
             //System.out.println("integral_upper: "+integral_upper);
+	                
+            //if (integral_lower<integral_upper)
+	    //{
+	    //  throw new RuntimeException("Error in integrating Gaussian charge distribution!");
+            //}
             
-            if (integral_lower<integral_upper)
-            {
-                throw new RuntimeException("Error in integrating Gaussian charge distribution!");
-            }
-            
-            int strip_charge = (int)Math.round(integral_lower-integral_upper);
+            int strip_charge = (int)Math.round(Math.abs(integral_lower-integral_upper));
             
             //System.out.println("strip_charge: "+strip_charge);
             
