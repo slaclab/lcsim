@@ -33,14 +33,14 @@ public class SiPixels implements SiSensorElectrodes {
     private ChargeCarrier _carrier; // charge carrier collected
     private int _nrows; // number of rows - row index measures x
     private int _ncols; // number of columns - column index measures y
-    private double _row_pitch; // row pitch
-    private double _col_pitch; // column pitch
+    protected double _row_pitch; // row pitch
+    protected double _col_pitch; // column pitch
     private double _window_size = 3.0; // # sigma for computing electrode data
     private double _capacitance = 0.1;  // capacitance of a pixel in pF
 
     // cached for convenience
-    private double _row_offset; // row offset
-    private double _col_offset; // column offset
+    protected double _row_offset; // row offset
+    protected double _col_offset; // column offset
     private IDetectorElement _detector; // associated detector element
     private ITransform3D _parent_to_local; // parent to local transform
     private ITransform3D _local_to_global; // transformation to global coordinates
@@ -51,9 +51,9 @@ public class SiPixels implements SiSensorElectrodes {
     public SiPixels(ChargeCarrier carrier, double row_pitch, double col_pitch,
             IDetectorElement detector, ITransform3D parent_to_local) {
 
-//        System.out.println("Plane of polygon in sensor coordinates has... ");
-//        System.out.println("                        normal: "+((SiSensor)detector).getBiasSurface(carrier).getNormal());
-//        System.out.println("                        distance: "+((SiSensor)detector).getBiasSurface(carrier).getDistance());
+    //        System.out.println("Plane of polygon in sensor coordinates has... ");
+    //        System.out.println("                        normal: "+((SiSensor)detector).getBiasSurface(carrier).getNormal());
+    //        System.out.println("                        distance: "+((SiSensor)detector).getBiasSurface(carrier).getDistance());
 
         setCarrier(carrier);
         setRowPitch(row_pitch);
@@ -297,10 +297,13 @@ public class SiPixels implements SiSensorElectrodes {
         Hep3Vector gmean = gdistribution.getMean();
         double x0 = gmean.x();
         double y0 = gmean.y();
+        //System.out.println("Charge distribution center: x0: " + x0 + " y0: " + y0); 
 
         //  Get the measurement axes - axis 0 is the x axis and axis 1 is the y axis
         Hep3Vector xaxis = getMeasuredCoordinate(0);
         Hep3Vector yaxis = getMeasuredCoordinate(1);
+        //System.out.println("x axis: " + xaxis.toString()); 
+        //System.out.println("y axis: " + yaxis.toString()); 
 
         //  Get the x, y widths and correlation coeficient for the charge distribution
         double xsig = gdistribution.sigma1D(xaxis);
@@ -310,6 +313,7 @@ public class SiPixels implements SiSensorElectrodes {
         //  Get the x and y pitches
         double xpitch = getPitch(0);
         double ypitch = getPitch(1);
+        //System.out.println("Pitch: x: " + xpitch + " y: " + ypitch); 
 
         //  Find the window of cells that contain measurable charge by finding
         //  the corner cells for a window around the base pixel
@@ -319,12 +323,21 @@ public class SiPixels implements SiSensorElectrodes {
         double xmax0 = x0 + _window_size * xsig;
         double ymax0 = y0 + _window_size * ysig;
         int cell2 = getCellID(new BasicHep3Vector(xmax0, ymax0, 0.));
+        
+        //System.out.println("xmin0: " + xmin0 + " xmax0: " + xmax0); 
+        //System.out.println("ymin0: " + ymin0 + " ymax0: " + ymax0);
+        //System.out.println("cell1: " + cell1);  
+        //System.out.println("cell2: " + cell2);  
+
 
         //  Get the row and column indices for the corner cells
         int ixmin = getRowNumber(cell1);
         int iymin = getColumnNumber(cell1);
         int ixmax = getRowNumber(cell2);
         int iymax = getColumnNumber(cell2);
+
+        //System.out.println("min row number x: " + ixmin + " min column number y: " + iymin);  
+        //System.out.println("max row number x: " + ixmax + " max column number y: " + iymax);  
 
         //  Establish the x, y binning
         Hep3Vector corner1 = getCellPosition(cell1);
@@ -333,11 +346,10 @@ public class SiPixels implements SiSensorElectrodes {
         int nxbins = ixmax - ixmin + 1;
         int nybins = iymax - iymin + 1;
         if (nxbins < 1) {
-            System.out.println("x binning error - ixmax: "+ixmax+" ixmin: "+ixmin+" xmin: "+xmin+" xmin0: "+xmin0+" xmax0: "+xmax0+" xsig: "+xsig);
             nxbins = 1;
         }
+        
         if (nybins < 1) {
-            System.out.println("y binning error - iymax: "+iymax+" iymin: "+iymin+" ymin: "+ymin+" ymin0: "+ymin0+" ymax0: "+ymax0+" ysig: "+ysig);
             nybins = 1;
         }
 
@@ -356,12 +368,18 @@ public class SiPixels implements SiSensorElectrodes {
 
                 //  Find the pixel corresponding to this bin
                 int ipixel = getCellID(ixmin + ix, iymin + iy);
+                //System.out.println("ix: " + ix + " iy: " + iy + " ipixel: " + ipixel);  
 
                 //  Make sure we have a valid pixel
                 if (isValidCell(ipixel)) {
-
+                    
+                    //System.out.println("Valid pixel found.");
+                    //System.out.println("Prob: " + prob[ix][iy]); 
+                    //System.out.println("Normalization: " + normalization);  
                     //  Calculate the charge in this pixel
                     int pixel_charge = (int) Math.round(normalization * prob[ix][iy]);
+                    
+                    //System.out.println("Pixel charge: " + pixel_charge); 
 
                     //  Store the pixel charge in the electrode data map
                     if (pixel_charge != 0) {
@@ -429,10 +447,16 @@ public class SiPixels implements SiSensorElectrodes {
             xmin = Math.min(xmin, vertex.x());
             xmax = Math.max(xmax, vertex.x());
         }
+        //System.out.println("Row Offset: xmin: " + xmin + " xmax: " + xmax); 
 
         double row_center = (xmin + xmax) / 2;
+        //System.out.println("Row Offset: center: " + row_center); 
 
         _row_offset = ((_nrows - 1) * _row_pitch) / 2 - row_center;
+        
+        //System.out.println("Row Offset: nrows: " + _nrows); 
+        //System.out.println("Row Offset: pitch: " + _row_pitch); 
+        //System.out.println("Row Offset: offset: " + _row_offset); 
 
     }
 
@@ -443,10 +467,18 @@ public class SiPixels implements SiSensorElectrodes {
             ymin = Math.min(ymin, vertex.y());
             ymax = Math.max(ymax, vertex.y());
         }
+        //System.out.println("Column Offset: ymin: " + ymin + " ymax: " + ymax); 
 
         double column_center = (ymin + ymax) / 2;
+        //System.out.println("Column Offset: center: " + column_center); 
 
         _col_offset = ((_ncols - 1) * _col_pitch) / 2 - column_center;
+
+
+        //System.out.println("Column Offset: ncols: " + _ncols); 
+        //System.out.println("Column Offset: pitch: " + _col_pitch); 
+        //System.out.println("Column Offset: offset: " + _col_offset); 
+
 
     }
 
