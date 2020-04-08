@@ -27,6 +27,11 @@ public class EventPrintLoopAdapter implements RecordListener {
     private long startTime = -1;
     
     /**
+     * Job start time for averaging.
+     */
+    private long jobStartTime = -1;
+    
+    /**
      * Class constructor.
      * @param printInterval the event print interval
      */
@@ -35,7 +40,7 @@ public class EventPrintLoopAdapter implements RecordListener {
     }
 
     /**
-     * Set the event print interval
+     * Set the event print interval.
      * @param printInterval the event print interval
      */
     public void setPrintInterval(long printInterval) {
@@ -47,22 +52,34 @@ public class EventPrintLoopAdapter implements RecordListener {
      */
     @Override
     public void recordSupplied(RecordEvent recordEvent) {
+        printEventMessage(recordEvent);
+    }
+
+    /**
+     * Print the event message.
+     * @param recordEvent the current event being processed
+     */
+    private void printEventMessage(RecordEvent recordEvent) {
+        if(jobStartTime < 0) jobStartTime = System.nanoTime();
         Object record = recordEvent.getRecord();
         if (record instanceof EventHeader) { 
             ++eventSequence;
             EventHeader event = (EventHeader) recordEvent.getRecord();
             if (eventSequence % printInterval == 0) {
                 long elapsed = 0;
-                double hz = 0;
-                double millisPerEvent = 0;
+                long endTime = System.nanoTime();
+                double rate = 0;
+                double avgRage = 0;
+                double millisPerEvent = 0;                
                 if (startTime > 0) {
-                    elapsed = System.nanoTime() - startTime;
-                    hz = (double)printInterval / ((double)elapsed / 1e9d);
+                    elapsed = endTime - startTime;
+                    rate = (double)printInterval / ((double)elapsed / 1e9d);
+                    avgRage = (double)eventSequence / ((double)(endTime - jobStartTime) / 1e9d);
                     millisPerEvent = ((double)elapsed / 1e6d ) / (double)printInterval;
                 }
-                System.out.printf("Event: %d, Sequence: %d, Timestamp: %d, %.2f ms/event, %.2f Hz%n",
+                System.out.printf("Event: %8d, Sequence: %7d, Timestamp: %d, %.2f ms/event, %.2f Hz, Avg: %.2f Hz%n",
                         event.getEventNumber(), eventSequence, event.getTimeStamp(),
-                        millisPerEvent, hz);
+                        millisPerEvent, rate, avgRage);
                 startTime = System.nanoTime();
             }
         }
