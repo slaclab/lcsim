@@ -70,15 +70,15 @@ public class EventPrintLoopAdapter implements RecordListener {
                 long endTime = System.nanoTime();
                 double rate = 0;
                 double avgRage = 0;
-                double millisPerEvent = 0;                
+                double millisPerEvent = 0;
                 if (startTime > 0) {
                     elapsed = endTime - startTime;
                     rate = (double)printInterval / ((double)elapsed / 1e9d);
                     avgRage = (double)eventSequence / ((double)(endTime - jobStartTime) / 1e9d);
                     millisPerEvent = ((double)elapsed / 1e6d ) / (double)printInterval;
                 }
-                System.out.printf("Event: %8d, Sequence: %7d, Timestamp: %d, %.2f ms/event, %.2f Hz, Avg: %.2f Hz%n",
-                        event.getEventNumber(), eventSequence, event.getTimeStamp(),
+                System.out.printf("Event: %8d, Run: %5d, Sequence: %7d, %.2f ms/event, %.2f Hz, Avg: %.2f Hz%n",
+                        event.getEventNumber(), event.getRunNumber(), eventSequence,
                         millisPerEvent, rate, avgRage);
                 startTime = System.nanoTime();
             }
