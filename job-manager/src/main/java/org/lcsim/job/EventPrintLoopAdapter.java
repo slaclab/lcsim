@@ -1,7 +1,5 @@
 package org.lcsim.job;
 
-import java.util.logging.Logger;
-
 import org.freehep.record.loop.RecordEvent;
 import org.freehep.record.loop.RecordListener;
 import org.lcsim.event.EventHeader;
@@ -14,11 +12,6 @@ import org.lcsim.event.EventHeader;
 public class EventPrintLoopAdapter implements RecordListener {
 
     /**
-     * Setup the logger.
-     */
-    private static Logger LOGGER = Logger.getLogger(EventPrintLoopAdapter.class.getName());
-
-    /**
      * Sequence number of events processed.
      */
     private long eventSequence = 0;
@@ -29,6 +22,16 @@ public class EventPrintLoopAdapter implements RecordListener {
     private long printInterval = 1;
 
     /**
+      * Start time for event timing.
+      */
+    private long startTime = -1;
+    
+    /**
+     * Job start time for averaging.
+     */
+    private long jobStartTime = -1;
+    
+    /**
      * Class constructor.
      * @param printInterval the event print interval
      */
@@ -36,6 +39,10 @@ public class EventPrintLoopAdapter implements RecordListener {
         this.printInterval = printInterval;
     }
 
+    /**
+     * Set the event print interval.
+     * @param printInterval the event print interval
+     */
     public void setPrintInterval(long printInterval) {
         this.printInterval = printInterval;
     }
@@ -45,14 +52,36 @@ public class EventPrintLoopAdapter implements RecordListener {
      */
     @Override
     public void recordSupplied(RecordEvent recordEvent) {
+        printEventMessage(recordEvent);
+    }
+
+    /**
+     * Print the event message.
+     * @param recordEvent the current event being processed
+     */
+    private void printEventMessage(RecordEvent recordEvent) {
+        if(jobStartTime < 0) jobStartTime = System.nanoTime();
         Object record = recordEvent.getRecord();
-        if (record instanceof EventHeader) {
+        if (record instanceof EventHeader) { 
+            ++eventSequence;
             EventHeader event = (EventHeader) recordEvent.getRecord();
             if (eventSequence % printInterval == 0) {
-                LOGGER.info("event: " + event.getEventNumber() + "; time: " + event.getTimeStamp() + "; seq: " 
-                        + eventSequence);
+                long elapsed = 0;
+                long endTime = System.nanoTime();
+                double rate = 0;
+                double avgRage = 0;
+                double millisPerEvent = 0;
+                if (startTime > 0) {
+                    elapsed = endTime - startTime;
+                    rate = (double)printInterval / ((double)elapsed / 1e9d);
+                    avgRage = (double)eventSequence / ((double)(endTime - jobStartTime) / 1e9d);
+                    millisPerEvent = ((double)elapsed / 1e6d ) / (double)printInterval;
+                }
+                System.out.printf("Event: %8d, Run: %5d, Sequence: %7d, %.2f ms/event, %.2f Hz, Avg: %.2f Hz%n",
+                        event.getEventNumber(), event.getRunNumber(), eventSequence,
+                        millisPerEvent, rate, avgRage);
+                startTime = System.nanoTime();
             }
-            ++eventSequence;
         }
     }
 }
