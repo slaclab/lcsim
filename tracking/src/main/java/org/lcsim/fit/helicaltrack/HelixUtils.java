@@ -7,6 +7,8 @@
 
 package org.lcsim.fit.helicaltrack;
 
+import org.apache.commons.math.util.FastMath;
+
 import hep.physics.matrix.BasicMatrix;
 import hep.physics.matrix.Matrix;
 import hep.physics.matrix.SymmetricMatrix;
@@ -288,8 +290,8 @@ public class HelixUtils {
 
     private static double PathCalc(double xc, double yc, double RC, double x1, double y1, double x2, double y2) {
         //  Find the angle between these points measured wrt the circle center
-        double phi1 = Math.atan2(y1 - yc, x1 - xc);
-        double phi2 = Math.atan2(y2 - yc, x2 - xc);
+        double phi1 = FastMath.atan2(y1 - yc, x1 - xc);
+        double phi2 = FastMath.atan2(y2 - yc, x2 - xc);
         double dphi = phi2 - phi1;
         //  Make sure dphi is in the valid range (-pi, pi)
         if (dphi >  Math.PI) dphi -= 2. * Math.PI;
@@ -415,7 +417,7 @@ public class HelixUtils {
 		double xn= normal.x();
 		double yn= normal.y();
 		double zn= normal.z();
-		double Phip = Math.atan2(yn, xn);
+		double Phip = FastMath.atan2(yn, xn);
 		double dist = (xn*x+yn*y+zn*z);
 		double verif = Math.sin(Phip-helix.phi0())+helix.curvature()*dist;
 		if(normal.magnitude() < 0.99)
@@ -465,7 +467,7 @@ public class HelixUtils {
 		double xn= normal.x();
 		double yn= normal.y();
 		double zn= normal.z();
-		double phip = Math.atan2(yn, xn);
+		double phip = FastMath.atan2(yn, xn);
 		double dist = (xn*x+yn*y+zn*z);
 		double sinPlan = Math.sin(phip-helix.phi0())+helix.curvature()*dist;
 		double Cs = (Math.asin(sinPlan)-phip+helix.phi0());

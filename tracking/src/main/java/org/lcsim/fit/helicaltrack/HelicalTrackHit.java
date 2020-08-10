@@ -18,6 +18,8 @@ import org.lcsim.event.RawTrackerHit;
 import org.lcsim.event.TrackerHit;
 import org.lcsim.geometry.subdetector.BarrelEndcapFlag;
 
+import org.apache.commons.math.util.FastMath;
+
 /**
  * Encapsulate the hit information needed by HelicalTrackFitter.
  *
@@ -387,7 +389,7 @@ public class HelicalTrackHit implements Comparable, TrackerHit {
         double x = _poscor.x();
         double y = _poscor.y();
         _r = Math.sqrt(x*x + y*y);
-        _phi = Math.atan2(y, x);
+        _phi = FastMath.atan2(y, x);
         if (_phi < 0.) _phi += 2. * Math.PI;
         _drphi = drphicalc(_poscor, _covcor);
         _dr = drcalc(_poscor, _covcor);
