@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lcsim.event.TrackerHit;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * @author Richard Partridge
@@ -200,9 +201,9 @@ public class TwoPointCircleFitter {
 
             //  Find the x-y arc lengths to hits 1 and 2
             //  First find azimuthal angles for the dca and hit positions relative to the circle center
-            double phi0 = Math.atan2(y0-yc, x0-xc);
-            double phi1 = Math.atan2(y1-yc, x1-xc);
-            double phi2 = Math.atan2(y2-yc, x2-xc);
+            double phi0 = FastMath.atan2(y0-yc, x0-xc);
+            double phi1 = FastMath.atan2(y1-yc, x1-xc);
+            double phi2 = FastMath.atan2(y2-yc, x2-xc);
 
             //  Find the angle between the hits and the DCA under the assumption that |dphi| < pi
             double dphi1 = phi1 - phi0;
@@ -246,7 +247,7 @@ public class TwoPointCircleFitter {
                 //  Calculate the parameters of the line fit
                 double x0 = x1 - s1 * ux;
                 double y0 = y1 - s1 * uy;
-                double phi = Math.atan2(uy, ux);
+                double phi = FastMath.atan2(uy, ux);
 
                 //  Flip the signs of the path lengths and direction to make path lengths positive
                 if (s1 < 0.) {

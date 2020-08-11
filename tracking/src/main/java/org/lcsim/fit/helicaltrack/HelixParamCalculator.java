@@ -7,6 +7,8 @@
  */
 package org.lcsim.fit.helicaltrack;
 
+import org.apache.commons.math.util.FastMath;
+
 import hep.physics.vec.BasicHep3Vector;
 import hep.physics.vec.Hep3Vector;
 import org.lcsim.constants.Constants;
@@ -55,7 +57,7 @@ public class HelixParamCalculator  {
         tanL = pz / pt;
 
         //  Azimuthal direction at origin
-        double mcphi = Math.atan2(py, px);
+        double mcphi = FastMath.atan2(py, px);
 
         //Distance of closest approach Calculation
         double xc   = mcp.getOriginX() + R * Math.sin(mcphi);
@@ -74,7 +76,7 @@ public class HelixParamCalculator  {
         
         
         //azimuthal calculation of the momentum at the DCA, phi0, Calculation
-        mcphi0 = Math.atan2(xc/(R-mcdca), -yc/(R-mcdca));
+        mcphi0 = FastMath.atan2(xc/(R-mcdca), -yc/(R-mcdca));
             if(mcphi0<0)
             {
                 mcphi0 += 2*Math.PI;
@@ -113,7 +115,7 @@ public class HelixParamCalculator  {
         tanL = pz / pt;
 
         //  Azimuthal direction at origin
-        double mcphi = Math.atan2(py, px);
+        double mcphi = FastMath.atan2(py, px);
 
         //Distance of closest approach Calculation
         double xc   = origin.x() + R * Math.sin(mcphi);
@@ -132,7 +134,7 @@ public class HelixParamCalculator  {
         
         
         //azimuthal calculation of the momentum at the DCA, phi0, Calculation
-        mcphi0 = Math.atan2(xc/(R-mcdca), -yc/(R-mcdca));
+        mcphi0 = FastMath.atan2(xc/(R-mcdca), -yc/(R-mcdca));
             if(mcphi0<0)
             {
                 mcphi0 += 2*Math.PI;
