@@ -187,8 +187,9 @@ public class HitUtils {
         //  Calculate v * v^T for strips 1 and 2
         Matrix v1 = v2m(strip1.v());
         Matrix v2 = v2m(strip2.v());
-        Matrix v1v1t = MatrixOp.mult(v1, MatrixOp.transposed(v1));
-        Matrix v2v2t = MatrixOp.mult(v2, MatrixOp.transposed(v2));
+        
+        //Matrix v1v1t = MatrixOp.mult(v1, MatrixOp.transposed(v1));
+        //Matrix v2v2t = MatrixOp.mult(v2, MatrixOp.transposed(v2));
         //  Find measurement uncertainties for strips 1 and 2
         double du1 = strip1.du();
         double du2 = strip2.du();
@@ -198,13 +199,37 @@ public class HitUtils {
         //  Don't let dv by greater than the strip length / sqrt(12)
         double dv1 = Math.min(dv, (strip1.vmax()-strip1.vmin()) / Math.sqrt(12.));
         double dv2 = Math.min(dv, (strip2.vmax()-strip2.vmin()) / Math.sqrt(12.));
+
+        /*
         //  Calculate the covariance matrix.       
         //    From resolution:  cov = factor * (v2 * v2^T * du1^2 + v1 * v1^T * du2^2)
         //    From direction:                + (v1 * v1^T * (dv1/2)^2 + v2 * v2^T * (dv2/2)^2
         Matrix cov1 = MatrixOp.mult(factor * du2*du2 + 0.25 * dv1*dv1, v1v1t);
         Matrix cov2 = MatrixOp.mult(factor * du1*du1 + 0.25 * dv2*dv2, v2v2t);
         Matrix cov = MatrixOp.add(cov1, cov2);
-        return new SymmetricMatrix(cov);
+        */
+        
+        //Using EJML
+        
+        DMatrix3 v1_ejml = new DMatrix3();
+        H3VToDM3(strip1.v(),v1_ejml);
+
+        DMatrix3 v2_ejml = new DMatrix3();
+        H3VToDM3(strip2.v(),v2_ejml);
+
+        DMatrix3x3 cov_ejml = new DMatrix3x3();
+        //Cov12 = β v1*v1T 
+        CommonOps_DDF3.multAddOuter(0., cov_ejml, factor * du2*du2 + 0.25 * dv1*dv1,v1_ejml,v1_ejml, cov_ejml);
+        //Cov12 = Cov12 + β v2*v2T 
+        CommonOps_DDF3.multAddOuter(1., cov_ejml, factor * du1*du1 + 0.25 * dv2*dv2,v2_ejml,v2_ejml,cov_ejml);
+        
+        SymmetricMatrix scov_ejml = new SymmetricMatrix(3);
+        DM3ToH3SM(cov_ejml,scov_ejml);
+
+        //System.out.println("PF::DEBUG::cov=\n" + scov.toString());
+        //System.out.println("PF::DEBUG::cov_ejml" + scov_ejml.toString());
+        
+        return scov_ejml;
     }
 
     /**
