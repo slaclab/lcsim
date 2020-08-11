@@ -48,7 +48,7 @@ public class HelixParamCalculator  {
         pt = Math.sqrt(px*px + py*py);
         p = Math.sqrt(pt*pt + pz*pz);
         double cth = pz / p;
-        theta = Math.acos(cth);
+        theta = FastMath.acos(cth);
        
         //Calculate Radius of the Helix
         R = mcp.getCharge() * pt / (Constants.fieldConversion * BField);
@@ -104,7 +104,7 @@ public class HelixParamCalculator  {
         pt = Math.sqrt(px*px + py*py);
         p = Math.sqrt(pt*pt + pz*pz);
         double cth = pz / p;
-        theta = Math.acos(cth);
+        theta = FastMath.acos(cth);
 //        System.out.println("pt = "+pt+"; costh = "+cth);
        
         //Calculate Radius of the Helix
