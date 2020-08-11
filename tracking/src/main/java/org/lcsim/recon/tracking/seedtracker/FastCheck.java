@@ -13,6 +13,7 @@ import org.lcsim.fit.twopointcircle.TwoPointCircleFitter;
 import org.lcsim.fit.twopointcircle.TwoPointLineFit;
 import org.lcsim.geometry.subdetector.BarrelEndcapFlag;
 import org.lcsim.recon.tracking.seedtracker.diagnostic.ISeedTrackerDiagnostics;
+import org.apache.commons.math.util.FastMath;
 
 /**
  *
@@ -44,7 +45,7 @@ public class FastCheck {
         _RMin = strategy.getMinPT() / (Constants.fieldConversion * bfield);
         _dMax = strategy.getMaxDCA();
         _z0Max = strategy.getMaxZ0();
-        _nsig = Math.sqrt(strategy.getMaxChisq());
+        _nsig = FastMath.sqrt(strategy.getMaxChisq());
 
         //  Instantiate the two point circle fitter for this minimum radius, maximum DCA
         _cfit2 = new TwoPointCircleFitter(_RMin);
@@ -265,7 +266,7 @@ public class FastCheck {
             double y0 = lfit.y0();
             double s0 = 0.;
             double s0sq = _dMax*_dMax - (x0*x0 + y0*y0);
-            if (s0sq > _eps*_eps) s0 = Math.sqrt(s0sq);
+            if (s0sq > _eps*_eps) s0 = FastMath.sqrt(s0sq);
 
             //  Update the minimum arc length to the distance from the DCA to the hit
             s1min = lfit.s1() - s0;
@@ -333,10 +334,10 @@ public class FastCheck {
             else {
                 zfirst = false;
                 if (hit instanceof HelicalTrack2DHit) dztot += ((HelicalTrack2DHit) hit).zlen() / 2.;
-                else dztot += _nsig * Math.sqrt(hit.getCovMatrix()[5]);
+                else dztot += _nsig * FastMath.sqrt(hit.getCovMatrix()[5]);
             }
         } else {
-            dztot += hit.dr() * Math.abs(pos[2]) / Math.sqrt(pos[0]*pos[0] + pos[1]*pos[1]);
+            dztot += hit.dr() * Math.abs(pos[2]) / FastMath.sqrt(pos[0]*pos[0] + pos[1]*pos[1]);
         }
 
          //  Get the relevant variables for hit 2
@@ -351,10 +352,10 @@ public class FastCheck {
             else {
                 zfirst = false;
                 if (hit instanceof HelicalTrack2DHit) dztot += ((HelicalTrack2DHit) hit).zlen() / 2.;
-                else dztot += _nsig * Math.sqrt(hit.getCovMatrix()[5]);
+                else dztot += _nsig * FastMath.sqrt(hit.getCovMatrix()[5]);
             }
         } else {
-            dztot += hit.dr() * Math.abs(pos[2]) / Math.sqrt(pos[0]*pos[0] + pos[1]*pos[1]);
+            dztot += hit.dr() * Math.abs(pos[2]) / FastMath.sqrt(pos[0]*pos[0] + pos[1]*pos[1]);
         }
 
         //  Get the relevant variables for hit 3
@@ -369,10 +370,10 @@ public class FastCheck {
             else {
                 zfirst = false;
                 if (hit instanceof HelicalTrack2DHit) dztot += ((HelicalTrack2DHit) hit).zlen() / 2.;
-                else dztot += _nsig * Math.sqrt(hit.getCovMatrix()[5]);
+                else dztot += _nsig * FastMath.sqrt(hit.getCovMatrix()[5]);
             }
         } else {
-            dztot += hit.dr() * Math.abs(pos[2]) / Math.sqrt(pos[0]*pos[0] + pos[1]*pos[1]);
+            dztot += hit.dr() * Math.abs(pos[2]) / FastMath.sqrt(pos[0]*pos[0] + pos[1]*pos[1]);
         }
 
         //  Add multiple scattering error here - for now, just set it to 1 mm
@@ -392,7 +393,7 @@ public class FastCheck {
         CircleFit circle = _cfit3.getFit();
         double xc = circle.x0();
         double yc = circle.y0();
-        double rc = Math.sqrt(xc*xc + yc*yc);
+        double rc = FastMath.sqrt(xc*xc + yc*yc);
         double rcurv = circle.radius();
 
         //  Find the point of closest approach
@@ -400,13 +401,13 @@ public class FastCheck {
         double y0 = yc * (1. - rcurv / rc);
 
         //  Find the x-y arc lengths to the hits and the smallest arc length
-        double phi0 = Math.atan2(y0-yc, x0-xc);
+        double phi0 = FastMath.atan2(y0-yc, x0-xc);
         double[] dphi = new double[3];
         double dphimin = 999.;
 
         for (int i=0; i<3; i++) {
             //  Find the angle between the hits and the DCA under the assumption that |dphi| < pi
-            dphi[i] = Math.atan2(p[i][1]-yc, p[i][0]-xc) - phi0;
+            dphi[i] = FastMath.atan2(p[i][1]-yc, p[i][0]-xc) - phi0;
             if (dphi[i] > Math.PI) dphi[i] -= twopi;
             if (dphi[i] < -Math.PI) dphi[i] += twopi;
             if (Math.abs(dphi[i]) < Math.abs(dphimin)) dphimin = dphi[i];
@@ -481,7 +482,7 @@ public class FastCheck {
         double cth1 = (d * d + rmin * rmin - 2 * R * d) / (2 * rmin * (R - d));
         double cth2 = (d * d + rmax * rmax - 2 * R * d) / (2 * rmax * (R - d));
         if (Math.abs(cth1) > 1 || Math.abs(cth2) > 1) return 0.;
-        return phidif(Math.acos(cth1), Math.acos(cth2));
+        return phidif(FastMath.acos(cth1), FastMath.acos(cth2));
     }
 
     protected double smin(double r) {
@@ -491,7 +492,7 @@ public class FastCheck {
     protected double smax(double r) {
         double R = _RMin;
         if (r > _RMin) R = r;
-        return 2.0 * R * Math.asin((r + _dMax) / (2.0 * R));
+        return 2.0 * R * FastMath.asin((r + _dMax) / (2.0 * R));
     }
 
     protected boolean checkz0(double s1min, double s1max, double zmin1, double zmax1,
@@ -587,7 +588,7 @@ public class FastCheck {
 
         //  Otherwise use the z error
         } else {
-            return _nsig * Math.sqrt(hit.getCorrectedCovMatrix().diagonal(2));
+            return _nsig * FastMath.sqrt(hit.getCorrectedCovMatrix().diagonal(2));
         }
     }
 
