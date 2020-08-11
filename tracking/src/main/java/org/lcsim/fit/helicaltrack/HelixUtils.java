@@ -17,6 +17,8 @@ import hep.physics.vec.Hep3Vector;
 import java.util.ArrayList;
 import java.util.List;
 import org.lcsim.fit.circle.CircleFit;
+import org.lcsim.math.fastAtan2.Icecore;
+
 
 /**
  * Assorted helix utilities that operate on HelicalTrackFits.
@@ -290,8 +292,13 @@ public class HelixUtils {
 
     private static double PathCalc(double xc, double yc, double RC, double x1, double y1, double x2, double y2) {
         //  Find the angle between these points measured wrt the circle center
-        double phi1 = FastMath.atan2(y1 - yc, x1 - xc);
-        double phi2 = FastMath.atan2(y2 - yc, x2 - xc);
+        
+        //double phi1 = FastMath.atan2(y1 - yc, x1 - xc);
+        double phi1 = Icecore.atan2((float)(y1 - yc), (float)(x1 - xc));
+        
+        //double phi2 = FastMath.atan2(y2 - yc, x2 - xc);
+        double phi2 = Icecore.atan2((float)(y2 - yc), (float)(x2 - xc));
+
         double dphi = phi2 - phi1;
         //  Make sure dphi is in the valid range (-pi, pi)
         if (dphi >  Math.PI) dphi -= 2. * Math.PI;
