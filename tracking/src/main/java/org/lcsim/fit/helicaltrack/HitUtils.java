@@ -424,6 +424,9 @@ public class HitUtils {
         double salpha = getSinAlpha(strip1, strip2);
         //  Calculate the scale factor:  separation / sin(alpha) * (phat . w)^2
         double factor = SensorSeperation(strip1, strip2) / (salpha * pdotw*pdotw);
+
+
+        /*
         //  The matrix d^T is a row vector given by factor * (phat x v2)
         MutableMatrix dT = new BasicMatrix(1, 3);
         for (int i = 0; i < 3; i++) {
@@ -435,9 +438,50 @@ public class HitUtils {
         Matrix dhT = MatrixOp.transposed(dh);
         //  Calculate the uncertainty in v1 from the direction uncertainty:  cov = dh * hcov * dh^T
         MutableMatrix cov = (MutableMatrix) MatrixOp.mult(dh, MatrixOp.mult(hcov, dhT));
+        */
+        
         //  Return the uncertainty in v1: dv1^2 = ((u1 . u2)^2 * du1^2 + du2^2) / sin^2(alpha) + cov
         double dvsq = (Math.pow(u1dotu2 * strip1.du(), 2) + Math.pow(strip2.du(), 2))/ (salpha*salpha);
-        return Math.sqrt(dvsq + cov.e(0, 0));
+        
+        
+        //Using EJML
+        //dTMatrix
+        
+        DMatrixRMaj dT_ejml = new DMatrixRMaj(1,3);
+        for (int i = 0; i<3; i++) {
+            dT_ejml.set(0,i,factor*pcrossv2.v()[i]);
+        }
+        
+        //dirderiv_ejml = dirderiv
+        DMatrixRMaj dirderiv_ejml = new DMatrixRMaj(3,5);
+        HMToDM(dirderiv,dirderiv_ejml);
+        
+        //Construct the matrix dh = dT * dirderiv;
+        DMatrixRMaj dh_ejml = new DMatrixRMaj(1,5);
+        CommonOps_DDRM.mult(dT_ejml,dirderiv_ejml,dh_ejml);
+        
+        //Transpose
+        DMatrixRMaj dhT_ejml = new DMatrixRMaj(5,1);
+        CommonOps_DDRM.transpose(dh_ejml,dhT_ejml);
+        
+        //hcov = hcov_ejml
+        DMatrixRMaj hcov_ejml = new DMatrixRMaj(5,5);
+        HMToDM(hcov,hcov_ejml);
+        
+        DMatrixRMaj tmp = new DMatrixRMaj(5,1);
+        CommonOps_DDRM.mult(hcov_ejml,dhT_ejml,tmp);
+        
+        DMatrixRMaj cov_ejml = new DMatrixRMaj(1,1);
+        CommonOps_DDRM.mult(dh_ejml,tmp,cov_ejml);
+        
+        //double returnValue = Math.sqrt(dvsq + cov.e(0, 0));
+        //double returnValue_ejml = Math.sqrt(dvsq + cov_ejml.get(0, 0));
+        
+        //System.out.println("PF::DEBUG::ORIGINAL dvsq+cov = "+returnValue);
+        //System.out.println("PF::DEBUG::ORIGINAL dvsq+co_ejml = "+returnValue_ejml);
+        
+        
+        return Math.sqrt(dvsq + cov_ejml.get(0, 0));
     }
 
     public static double SensorSeperation(HelicalTrackStrip strip1, HelicalTrackStrip strip2) {
