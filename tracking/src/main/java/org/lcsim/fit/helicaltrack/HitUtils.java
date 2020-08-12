@@ -14,6 +14,7 @@ import hep.physics.matrix.MatrixOp;
 import hep.physics.matrix.MutableMatrix;
 import hep.physics.matrix.SymmetricMatrix;
 import hep.physics.vec.Hep3Vector;
+import hep.physics.vec.BasicHep3Vector;
 import hep.physics.vec.VecOp;
 
 import java.util.Map;
@@ -546,6 +547,12 @@ public class HitUtils {
         mat.setElement(1, 0, v.y());
         mat.setElement(2, 0, v.z());
         return mat;
+    }
+    
+    public static Hep3Vector DM3ToH3V(DMatrix3 dm3) {
+        BasicHep3Vector v = new BasicHep3Vector();
+        v.setV(dm3.get(0,0), dm3.get(1,0), dm3.get(2,0));
+        return v;
     }
     
     public static void H3VToDM3(Hep3Vector v, DMatrix3 dm3) {
