@@ -51,31 +51,38 @@ public class FieldMap3D extends AbstractFieldMap {
     String filename;
     URL url;
 
+    boolean debug = false;
+
     public FieldMap3D(Element node) throws JDOMException {
         super(node);
+
+        if (System.getProperty("org.lcsim.geometry.field.debug") != null) {
+            this.debug = true;
+        }
+
         xOffset = node.getAttribute("xoffset").getDoubleValue();
         yOffset = node.getAttribute("yoffset").getDoubleValue();
         zOffset = node.getAttribute("zoffset").getDoubleValue();
-        
+
         filename = node.getAttributeValue("filename");
-        
-        if (node.getAttribute("url") != null) {            
+
+        if (node.getAttribute("url") != null) {
             try {
                 url = new URL(node.getAttribute("url").getValue());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
         }
-        
+
         try {
             setup();
         } catch (Exception e) {
             throw new RuntimeException("Error reading the field map.", e);
         }
     }
-    
+
     private static int BUFFER_SIZE = 1024;
-       
+
     private static void untar(InputStream is, File cacheDir) throws IOException {
         GzipCompressorInputStream gzipIn = new GzipCompressorInputStream(is);
         File destFile = null;
@@ -90,14 +97,14 @@ public class FieldMap3D extends AbstractFieldMap {
                     while ((count = tarIn.read(data, 0, BUFFER_SIZE)) != -1) {
                         dest.write(data, 0, count);
                     }
-                    dest.close();                    
+                    dest.close();
                 }
                 break;
             }
             tarIn.close();
         }
     }
-    
+
     private static File getFieldMapFile(File file, File cacheDir) throws IOException {
         GzipCompressorInputStream gzipIn = new GzipCompressorInputStream(new FileInputStream(file));
         File destFile = null;
@@ -111,28 +118,36 @@ public class FieldMap3D extends AbstractFieldMap {
         }
         return destFile;
     }
-    
-    
+
+
     private void setup() throws IOException {
-        
-        System.out.println("-----------------------------------------------------------");
-        System.out.println("FieldMap3D ");
-        System.out.println("-----------------------------------------------------------");
-        
+
+        if (debug) {
+            System.out.println("-----------------------------------------------------------");
+            System.out.println("FieldMap3D ");
+            System.out.println("-----------------------------------------------------------");
+        }
+
         InputStream fis;
         BufferedReader br;
         String line;
         File file  = new File(filename);
         if (!file.exists() && url != null) {
-            System.out.println("Using field map URL '" + url.toString() + "'");
+            if (debug) {
+                System.out.println("Using field map URL '" + url.toString() + "'");
+            }
             file = cacheFile();
         } else {
-            System.out.println("Using field map local file '" + file.getPath() + "'");
+            if (debug) {
+                System.out.println("Using field map local file '" + file.getPath() + "'");
+            }
         }
-        
+
         fis = new FileInputStream(file);
 
-        System.out.println("Reading the field grid from '" + file.getPath() + "' ... ");
+        if (debug) {
+            System.out.println("Reading the field grid from '" + file.getPath() + "' ... ");
+        }
 
         br = new BufferedReader(new InputStreamReader(fis));
         // ignore the first blank line
@@ -150,12 +165,14 @@ public class FieldMap3D extends AbstractFieldMap {
         yField = new double[nx + 1][ny + 1][nz + 1];
         zField = new double[nx + 1][ny + 1][nz + 1];
 
-        // Ignore other header information    
+        // Ignore other header information
         // The first line whose second character is '0' is considered to
         // be the last line of the header.
         do {
             line = br.readLine();
-            System.out.println(line);
+            if (debug) {
+                System.out.println(line);
+            }
             st = new StringTokenizer(line, " ");
         } while (!st.nextToken().trim().equals("0"));
 
@@ -202,21 +219,25 @@ public class FieldMap3D extends AbstractFieldMap {
         maxy = yval;
         maxz = zval;
 
-        System.out.println("\n ---> ... done reading ");
-        System.out.println(" ---> assumed the order:  x, y, z, Bx, By, Bz "
-                + "\n ---> Min values x,y,z: "
-                + minx + " " + miny + " " + minz
-                + "\n ---> Max values x,y,z: "
-                + maxx + " " + maxy + " " + maxz
-                + "\n Maximum Field strength: " + bMax + " "
-                + "\n ---> The field will be offset by " + xOffset + " " + yOffset + " " + zOffset);
+        if (debug) {
+            System.out.println("\n ---> ... done reading ");
+            System.out.println(" ---> assumed the order:  x, y, z, Bx, By, Bz "
+                    + "\n ---> Min values x,y,z: "
+                    + minx + " " + miny + " " + minz
+                    + "\n ---> Max values x,y,z: "
+                    + maxx + " " + maxy + " " + maxz
+                    + "\n Maximum Field strength: " + bMax + " "
+                    + "\n ---> The field will be offset by " + xOffset + " " + yOffset + " " + zOffset);
+        }
 
         dx = maxx - minx;
         dy = maxy - miny;
         dz = maxz - minz;
-        System.out.println("\n ---> Range of values x,y,z: "
-                + dx + " " + dy + " " + dz
-                + "\n-----------------------------------------------------------");
+        if (debug) {
+            System.out.println("\n ---> Range of values x,y,z: "
+                    + dx + " " + dy + " " + dz
+                    + "\n-----------------------------------------------------------");
+        }
 
         br.close();
     }
@@ -270,7 +291,7 @@ public class FieldMap3D extends AbstractFieldMap {
         x -= xOffset;
         y -= yOffset;
         z -= zOffset;
-        // Check that the point is within the defined region 
+        // Check that the point is within the defined region
         if (x >= minx && x <= maxx
                 && y >= miny && y <= maxy
                 && z >= minz && z <= maxz) {
