@@ -5,6 +5,9 @@ package org.lcsim.fit.circle;
  * @author Norman A. Graf
  * @version 1.0
  */
+
+import org.apache.commons.math.util.FastMath;
+
 public class CircleFitter
 {
         /*
@@ -160,12 +163,12 @@ public class CircleFitter
         if(COV6<0.) return false;
         Y2FI=2.*(COV2*COV6-COV4*COV5);
         X2FI=COV6*(COV1-COV3)-COV4*COV4+COV5*COV5;
-        FIFIT=0.5*Math.atan2(Y2FI,X2FI);
-        COSF=Math.cos(FIFIT);
-        SINF=Math.sin(FIFIT);
+        FIFIT=0.5*FastMath.atan2(Y2FI,X2FI);
+        COSF=FastMath.cos(FIFIT);
+        SINF=FastMath.sin(FIFIT);
         HAPFIT=(SINF*COV4-COSF*COV5)/COV6;
         DELFIT=-HAPFIT*RRMEAN+SINF*XMEAN-COSF*YMEAN;
-        APU=Math.sqrt(1.-4.*HAPFIT*DELFIT);
+        APU=FastMath.sqrt(1.-4.*HAPFIT*DELFIT);
         RHOF=2.*HAPFIT/APU;
         DFT=2.*DELFIT/(1.+APU);
         ROD1=1./APU;
@@ -251,11 +254,11 @@ public class CircleFitter
         double DPARA=XMOVE*COSF+YMOVE*SINF;
         double ZEE=DPERP*DPERP+DPARA*DPARA;
         double AA=2.*DPERP+_rho*ZEE;
-        double UU=Math.sqrt(1.+_rho*AA);
+        double UU=FastMath.sqrt(1.+_rho*AA);
         double SQ1AI=1./(1.+UU);
         double BB= _rho*XMOVE+SINF;
         double CC=-_rho*YMOVE+COSF;
-        _phi=Math.atan2(BB,CC);
+        _phi=FastMath.atan2(BB,CC);
         _dca=AA*SQ1AI;
         //
         //--- Propagate error matrix to XREF,YREF
@@ -276,8 +279,8 @@ public class CircleFitter
         XJACOB[8]=2.*XMU*VV;
         // overwrite _covrfd in place
         abatranspose(XJACOB,_covrfd);
-        SINF=Math.sin(_phi);
-        COSF=Math.cos(_phi);
+        SINF=FastMath.sin(_phi);
+        COSF=FastMath.cos(_phi);
         //ENDIF
         //
         //--- check direction
@@ -306,10 +309,10 @@ public class CircleFitter
      */
     public CircleFit propagatefit(double x, double y)
     {
-        double   DIRTX=Math.cos(_phi);
-        double  DIRTY=Math.sin(_phi) ;
-        double SINF=Math.sin(_phi);
-        double COSF=Math.cos(_phi);
+        double   DIRTX=FastMath.cos(_phi);
+        double  DIRTY=FastMath.sin(_phi) ;
+        double SINF=FastMath.sin(_phi);
+        double COSF=FastMath.cos(_phi);
         propagate(x, y, SINF, COSF, DIRTX, DIRTY);
         return new CircleFit(_xref, _yref, _rho, _phi, _dca, _chicir, _covrfd);
     }

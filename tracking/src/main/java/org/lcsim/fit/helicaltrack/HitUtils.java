@@ -14,11 +14,21 @@ import hep.physics.matrix.MatrixOp;
 import hep.physics.matrix.MutableMatrix;
 import hep.physics.matrix.SymmetricMatrix;
 import hep.physics.vec.Hep3Vector;
+import hep.physics.vec.BasicHep3Vector;
 import hep.physics.vec.VecOp;
 
 import java.util.Map;
 
 import org.lcsim.geometry.subdetector.BarrelEndcapFlag;
+
+
+//EJML
+import org.ejml.data.DMatrix3;
+import org.ejml.data.DMatrix3x3;
+import org.ejml.dense.row.CommonOps_DDRM;
+import org.ejml.dense.fixed.CommonOps_DDF3;
+import org.ejml.ops.ConvertDMatrixStruct;
+import org.ejml.data.DMatrixRMaj;
 
 /**
  *
@@ -178,8 +188,9 @@ public class HitUtils {
         //  Calculate v * v^T for strips 1 and 2
         Matrix v1 = v2m(strip1.v());
         Matrix v2 = v2m(strip2.v());
-        Matrix v1v1t = MatrixOp.mult(v1, MatrixOp.transposed(v1));
-        Matrix v2v2t = MatrixOp.mult(v2, MatrixOp.transposed(v2));
+        
+        //Matrix v1v1t = MatrixOp.mult(v1, MatrixOp.transposed(v1));
+        //Matrix v2v2t = MatrixOp.mult(v2, MatrixOp.transposed(v2));
         //  Find measurement uncertainties for strips 1 and 2
         double du1 = strip1.du();
         double du2 = strip2.du();
@@ -189,13 +200,37 @@ public class HitUtils {
         //  Don't let dv by greater than the strip length / sqrt(12)
         double dv1 = Math.min(dv, (strip1.vmax()-strip1.vmin()) / Math.sqrt(12.));
         double dv2 = Math.min(dv, (strip2.vmax()-strip2.vmin()) / Math.sqrt(12.));
+
+        /*
         //  Calculate the covariance matrix.       
         //    From resolution:  cov = factor * (v2 * v2^T * du1^2 + v1 * v1^T * du2^2)
         //    From direction:                + (v1 * v1^T * (dv1/2)^2 + v2 * v2^T * (dv2/2)^2
         Matrix cov1 = MatrixOp.mult(factor * du2*du2 + 0.25 * dv1*dv1, v1v1t);
         Matrix cov2 = MatrixOp.mult(factor * du1*du1 + 0.25 * dv2*dv2, v2v2t);
         Matrix cov = MatrixOp.add(cov1, cov2);
-        return new SymmetricMatrix(cov);
+        */
+        
+        //Using EJML
+        
+        DMatrix3 v1_ejml = new DMatrix3();
+        H3VToDM3(strip1.v(),v1_ejml);
+
+        DMatrix3 v2_ejml = new DMatrix3();
+        H3VToDM3(strip2.v(),v2_ejml);
+
+        DMatrix3x3 cov_ejml = new DMatrix3x3();
+        //Cov12 = β v1*v1T 
+        CommonOps_DDF3.multAddOuter(0., cov_ejml, factor * du2*du2 + 0.25 * dv1*dv1,v1_ejml,v1_ejml, cov_ejml);
+        //Cov12 = Cov12 + β v2*v2T 
+        CommonOps_DDF3.multAddOuter(1., cov_ejml, factor * du1*du1 + 0.25 * dv2*dv2,v2_ejml,v2_ejml,cov_ejml);
+        
+        SymmetricMatrix scov_ejml = new SymmetricMatrix(3);
+        DM3ToH3SM(cov_ejml,scov_ejml);
+
+        //System.out.println("PF::DEBUG::cov=\n" + scov.toString());
+        //System.out.println("PF::DEBUG::cov_ejml" + scov_ejml.toString());
+        
+        return scov_ejml;
     }
 
     /**
@@ -249,24 +284,136 @@ public class HitUtils {
         //  The matrix d is given by factor * (v1 * (phat x v2)^T + v2 * (phat x v1)^T  where ^T means transpose
         Matrix v1 = v2m(strip1.v());
         Matrix v2 = v2m(strip2.v());
+        
+        //OLD// 
+        /*        
         Matrix d = MatrixOp.mult(factor, MatrixOp.add(MatrixOp.mult(v1, MatrixOp.transposed(pcrossv2)),
-                MatrixOp.mult(v2, MatrixOp.transposed(pcrossv1))));
+        MatrixOp.mult(v2, MatrixOp.transposed(pcrossv1))));
         Matrix dh = MatrixOp.mult(d, dirderiv);
         //  Construct the transpose of dh
         Matrix dht = MatrixOp.transposed(dh);
+                
         //  Calculate the covariance contributions from the direction uncertainty:  cov = dh * hcov * dh^T
         Matrix cov_dir = MatrixOp.mult(dh, MatrixOp.mult(hcov, dht));
         //  Calculate the contributions from measurement errors:  cov += (v2 * v2^T * du1^2 + v1 * v1^T * du2^2) / sin(alpha)^2
+        */
+        
         double du1 = strip1.du();
         double du2 = strip2.du();
+        
+        /*
         Matrix cov1 = MatrixOp.mult(du1*du1 / (salpha*salpha), MatrixOp.mult(v2, MatrixOp.transposed(v2)));
         Matrix cov2 = MatrixOp.mult(du2*du2 / (salpha*salpha), MatrixOp.mult(v1, MatrixOp.transposed(v1)));
         //  Sum all the contributions
         Matrix cov = MatrixOp.add(cov_dir, MatrixOp.add(cov1, cov2));
+        */
+        
+        //Using EJML
+              
+        DMatrix3 pcrossv1_ejml = new DMatrix3();
+        H3VToDM3(VecOp.cross(dir, strip1.v()), pcrossv1_ejml);
+        
+        DMatrix3 pcrossv2_ejml = new DMatrix3();
+        H3VToDM3(VecOp.cross(dir, strip2.v()), pcrossv2_ejml);
+        
+        DMatrix3 v1_ejml = new DMatrix3();
+        H3VToDM3(strip1.v(), v1_ejml);
+        
+        DMatrix3 v2_ejml = new DMatrix3();
+        H3VToDM3(strip2.v(), v2_ejml);
+        
+        //dirderiv_ejml = dirderiv
+        DMatrixRMaj dirderiv_ejml = new DMatrixRMaj(3,5);
+        HMToDM(dirderiv,dirderiv_ejml);
 
+        //hcov_ejml = hcov
+        DMatrixRMaj hcov_ejml = new DMatrixRMaj(5,5);
+        HMToDM(hcov,hcov_ejml);
+
+        // factor  * [(v1*pcrossv2') + (v2*pcrossv1')];
+        
+        //C = αA + βu*vT
+
+        //d_ejml = v1 * (pXv2)T
+        DMatrix3x3 d_ejml = new DMatrix3x3();
+        CommonOps_DDF3.multAddOuter(0., d_ejml, 1., v1_ejml, pcrossv2_ejml, d_ejml); 
+        //d_ejml = d_ejml + (v2*pXv1)T
+        CommonOps_DDF3.multAddOuter(1., d_ejml, 1., v2_ejml, pcrossv1_ejml, d_ejml); 
+        
+        //d_ejml = factor*d_ejml
+        CommonOps_DDF3.scale(factor,d_ejml);
+        
+        //d_ejml.print();
+        DMatrixRMaj d_ejml_RMaj = new DMatrixRMaj(3,3);
+        ConvertDMatrixStruct.convert(d_ejml, d_ejml_RMaj);
+        
+        DMatrixRMaj dh_ejml = new DMatrixRMaj(3,5);
+        CommonOps_DDRM.mult(d_ejml_RMaj,dirderiv_ejml,dh_ejml);
+                
+        //tmp = hcov*(dh)T
+        
+        DMatrixRMaj tmp = new DMatrixRMaj(5,3);
+
+        //dirderiv_ejml.print();
+        //dh_ejml.print();
+        //hcov_ejml.print();
+        
+        DMatrixRMaj dh_ejmlT = new DMatrixRMaj(5,3);
+        CommonOps_DDRM.transpose(dh_ejml,dh_ejmlT);
+                
+        //dh_ejmlT.print();
+        CommonOps_DDRM.mult(hcov_ejml,dh_ejmlT,tmp);
+        
+        
+        //cov_dir_ejml 
+        DMatrixRMaj cov_dir_ejml = new DMatrixRMaj(3,3);
+        CommonOps_DDRM.mult(dh_ejml,tmp,cov_dir_ejml); 
+                
+        //System.out.println("PF::DEBUG::d=\n"+((BasicMatrix)d).toString());
+        //System.out.println("PF::debug::multAddOuter::d_ejml=");
+        //d_ejml.print();
+
+        //System.out.println("PF::DEBUG::cov_dir=\n"+((BasicMatrix)cov_dir).toString());
+        //System.out.println("PF::debug::cov_dir_ejml=");
+        //cov_dir_ejml.print();
+
+        //Compute cov1 and cov2
+        
+        DMatrix3x3 cov12 = new DMatrix3x3();
+        
+        //C = αA + βu*vT
+        
+        //C_12 = f_1 * v2*v2T
+        CommonOps_DDF3.multAddOuter(0.,cov12,du1*du1 / (salpha*salpha), v2_ejml,v2_ejml,cov12);
+        
+        //C12 = C_12 + f_2*v1*v1T
+        CommonOps_DDF3.multAddOuter(1.,cov12,du2*du2 / (salpha*salpha), v1_ejml,v1_ejml,cov12);
+        
+        DMatrix3x3 cov_ejml = new DMatrix3x3();
+        ConvertDMatrixStruct.convert(cov_dir_ejml,cov_ejml);
+        
+        CommonOps_DDF3.addEquals(cov_ejml,cov12);
+        
+        //System.out.println("PF::DEBUG::cov=\n"+((BasicMatrix)cov).toString());
+        //System.out.println("PF::debug::cov_ejml3x3=");
+        //cov_ejml.print();
+        
         //  Convert to a symmetric matrix
-        return new SymmetricMatrix(cov);
+        
+        //OLD//SymmetricMatrix scov = new SymmetricMatrix(cov);
+        
+        SymmetricMatrix scov_ejml = new SymmetricMatrix(3);
+        DM3ToH3SM(cov_ejml,scov_ejml);
+
+        //System.out.println("PF::DEBUG::old return:: \n"+scov.toString());
+        //System.out.println("PF::DEBUG::new return:: \n"+scov_ejml.toString());
+                
+        return scov_ejml;
     }
+
+
+    
+
 
     public static double UnmeasuredCoordinate(TrackDirection trkdir, HelicalTrackStrip strip1,
             HelicalTrackStrip strip2) {
@@ -303,6 +450,9 @@ public class HitUtils {
         double salpha = getSinAlpha(strip1, strip2);
         //  Calculate the scale factor:  separation / sin(alpha) * (phat . w)^2
         double factor = SensorSeperation(strip1, strip2) / (salpha * pdotw*pdotw);
+
+
+        /*
         //  The matrix d^T is a row vector given by factor * (phat x v2)
         MutableMatrix dT = new BasicMatrix(1, 3);
         for (int i = 0; i < 3; i++) {
@@ -314,9 +464,50 @@ public class HitUtils {
         Matrix dhT = MatrixOp.transposed(dh);
         //  Calculate the uncertainty in v1 from the direction uncertainty:  cov = dh * hcov * dh^T
         MutableMatrix cov = (MutableMatrix) MatrixOp.mult(dh, MatrixOp.mult(hcov, dhT));
+        */
+        
         //  Return the uncertainty in v1: dv1^2 = ((u1 . u2)^2 * du1^2 + du2^2) / sin^2(alpha) + cov
         double dvsq = (Math.pow(u1dotu2 * strip1.du(), 2) + Math.pow(strip2.du(), 2))/ (salpha*salpha);
-        return Math.sqrt(dvsq + cov.e(0, 0));
+        
+        
+        //Using EJML
+        //dTMatrix
+        
+        DMatrixRMaj dT_ejml = new DMatrixRMaj(1,3);
+        for (int i = 0; i<3; i++) {
+            dT_ejml.set(0,i,factor*pcrossv2.v()[i]);
+        }
+        
+        //dirderiv_ejml = dirderiv
+        DMatrixRMaj dirderiv_ejml = new DMatrixRMaj(3,5);
+        HMToDM(dirderiv,dirderiv_ejml);
+        
+        //Construct the matrix dh = dT * dirderiv;
+        DMatrixRMaj dh_ejml = new DMatrixRMaj(1,5);
+        CommonOps_DDRM.mult(dT_ejml,dirderiv_ejml,dh_ejml);
+        
+        //Transpose
+        DMatrixRMaj dhT_ejml = new DMatrixRMaj(5,1);
+        CommonOps_DDRM.transpose(dh_ejml,dhT_ejml);
+        
+        //hcov = hcov_ejml
+        DMatrixRMaj hcov_ejml = new DMatrixRMaj(5,5);
+        HMToDM(hcov,hcov_ejml);
+        
+        DMatrixRMaj tmp = new DMatrixRMaj(5,1);
+        CommonOps_DDRM.mult(hcov_ejml,dhT_ejml,tmp);
+        
+        DMatrixRMaj cov_ejml = new DMatrixRMaj(1,1);
+        CommonOps_DDRM.mult(dh_ejml,tmp,cov_ejml);
+        
+        //double returnValue = Math.sqrt(dvsq + cov.e(0, 0));
+        //double returnValue_ejml = Math.sqrt(dvsq + cov_ejml.get(0, 0));
+        
+        //System.out.println("PF::DEBUG::ORIGINAL dvsq+cov = "+returnValue);
+        //System.out.println("PF::DEBUG::ORIGINAL dvsq+co_ejml = "+returnValue_ejml);
+        
+        
+        return Math.sqrt(dvsq + cov_ejml.get(0, 0));
     }
 
     public static double SensorSeperation(HelicalTrackStrip strip1, HelicalTrackStrip strip2) {
@@ -356,5 +547,40 @@ public class HitUtils {
         mat.setElement(1, 0, v.y());
         mat.setElement(2, 0, v.z());
         return mat;
+    }
+    
+    public static Hep3Vector DM3ToH3V(DMatrix3 dm3) {
+        BasicHep3Vector v = new BasicHep3Vector();
+        v.setV(dm3.get(0,0), dm3.get(1,0), dm3.get(2,0));
+        return v;
+    }
+    
+    public static void H3VToDM3(Hep3Vector v, DMatrix3 dm3) {
+        dm3.set(v.x(), v.y(), v.z());
+    }
+    
+    public static void H3x3MToDM3x3(Matrix m, DMatrix3x3 dm3x3) {
+        for (int i=0; i<3; i++) {
+            for (int j=0; j<3; j++) {
+                dm3x3.set(i,j,m.e(i,j));
+            }
+        }
+    }
+
+    public static void HMToDM(Matrix m, DMatrixRMaj dm) {
+        for (int i=0; i<m.getNRows(); i++) {
+            for (int j=0; j<m.getNColumns(); j++) {
+                dm.set(i,j,m.e(i,j));
+            }
+        }
+    }
+    
+    //OPTIMIZE!!!
+    public static void DM3ToH3SM(DMatrix3x3 dm, SymmetricMatrix sm )  {
+        for (int i=0; i<3;i++) {
+            for (int j=0; j<3;j++) {
+                sm.setElement(i,j,dm.get(i,j));
+            }
+        }
     }
 }
