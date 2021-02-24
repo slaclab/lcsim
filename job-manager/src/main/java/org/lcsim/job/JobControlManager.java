@@ -950,7 +950,7 @@ public class JobControlManager {
                 
                 // Check if there was an error that was caught which stopped event processing.
                 if (loop.getLastException() != null) {
-                    LOGGER.log(Level.SEVERE, "Job was stopped due to an event processing error.", loop.getLastException());
+                    LOGGER.log(Level.SEVERE, "Job stopped due to event processing error.", loop.getLastException());
                 }
 
                 // Print some job stats.
@@ -967,7 +967,9 @@ public class JobControlManager {
                 }
                 
             } catch (final Exception e) {
-                LOGGER.log(Level.SEVERE, "A fatal error occurred when running the job.", e);
+                // Print error message and rethrow the exception
+                LOGGER.log(Level.SEVERE, "A fatal error occurred during the job", e);
+                throw new RuntimeException("Fatal error occurred during the job", e);
             } finally {
                 try {
                     loop.dispose();
