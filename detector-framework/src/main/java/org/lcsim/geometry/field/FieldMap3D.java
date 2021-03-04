@@ -245,6 +245,7 @@ public class FieldMap3D extends AbstractFieldMap {
     private File cacheFile() throws IOException, FileNotFoundException {
         File file;
         FileCache cache = new FileCache();
+        cache.setPrintStream(null); /* Turn off progress print out */
         File cacheFile = cache.getCachedFile(url);
         if (cacheFile.getAbsolutePath().endsWith(".tar.gz")) {
             file = getFieldMapFile(cacheFile, cache.getCacheDirectory());
