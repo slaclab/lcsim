@@ -267,13 +267,15 @@ public class SIOMCParticle implements MCParticle
         out.writeInt(particle.getType().getPDGID());
         out.writeInt(particle.getGeneratorStatus());
         boolean shouldExplicityWriteOutEndPoint = true;
-        for (MCParticle daughter : particle.getDaughters())
-        {
-            if (!daughter.getSimulatorStatus().vertexIsNotEndpointOfParent())
-            {
-                shouldExplicityWriteOutEndPoint = false;
-            }
-        }
+
+// You should *ALWAYS* write out the endpoint that GEANT4 assigns to the particle.
+//        for (MCParticle daughter : particle.getDaughters())
+//        {
+//            if (!daughter.getSimulatorStatus().vertexIsNotEndpointOfParent())
+//            {
+//                shouldExplicityWriteOutEndPoint = false;
+//            }
+//        }
         Hep3Vector endPoint = null;
         if (shouldExplicityWriteOutEndPoint)
         {
