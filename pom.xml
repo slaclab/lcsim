@@ -19,10 +19,10 @@
   </properties>
    
   <scm>
-    <connection>scm:git:git://github.com/slaclab/lcsim.git</connection>
+    <connection>scm:git:ssh://git@github.com/slaclab/lcsim.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/slaclab/lcsim.git</developerConnection>
     <url>https://github.com/slaclab/lcsim.git</url>
-    <tag>lcsim-4.1-SNAPSHOT</tag>
+    <tag>HEAD</tag>
   </scm>
   
   <repositories>
