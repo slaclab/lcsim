@@ -215,7 +215,7 @@ public class BaseLCSimEvent extends BaseEvent implements EventHeader {
         if (conditionsManager.getRewriteDetectorName() && conditionsManager.getDetector() != null 
             && conditionsManager.getDetector() != detectorName) {                
             logger.log(Level.FINEST, "Rewriting detector name from {0} to {1}",
-                new Object[] { this.detectorName, conditionsManager.getDetector()});
+                new Object[] { detectorName, conditionsManager.getDetector()});
             this.detectorName = conditionsManager.getDetector();
         } else {
             this.detectorName = detectorName;
