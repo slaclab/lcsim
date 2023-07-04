@@ -32,7 +32,7 @@ import org.lcsim.lcio.LCIOUtil;
  */
 public class BaseLCSimEvent extends BaseEvent implements EventHeader {
 
-    protected static final Logger logger = Logger.getLogger(BaseLCSimEvent.class.getName());
+    protected static final Logger logger = Logger.getLogger(BaseLCSimEvent.class.getPackage().getName());
 
     private class MetaData implements LCMetaData {
 
