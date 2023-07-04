@@ -10,6 +10,8 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.lcsim.conditions.ConditionsManager;
 import org.lcsim.conditions.ConditionsManager.ConditionsNotFoundException;
@@ -29,6 +31,8 @@ import org.lcsim.lcio.LCIOUtil;
  * @author Tony Johnson
  */
 public class BaseLCSimEvent extends BaseEvent implements EventHeader {
+
+    protected static final Logger logger = Logger.getLogger(BaseLCSimEvent.class.getName());
 
     private class MetaData implements LCMetaData {
 
@@ -55,7 +59,7 @@ public class BaseLCSimEvent extends BaseEvent implements EventHeader {
             this.type = type;
             this.flags = flags;
             if (readoutName != null) {
-                this.getStringParameters().put(READOUT_NAME, new String[] {readoutName});
+                this.getStringParameters().put(READOUT_NAME, new String[] { readoutName });
             }
         }
 
@@ -97,14 +101,16 @@ public class BaseLCSimEvent extends BaseEvent implements EventHeader {
             } catch (final RuntimeException x) {
             }
 
-            // Detector lookup failed. Attempt to use the CellIDEncoding collection parameter.
+            // Detector lookup failed. Attempt to use the CellIDEncoding collection
+            // parameter.
             if (result == null) {
                 result = this.createIDDecoderFromCellIDEncoding();
             }
 
             // If both methods failed, then there is a problem.
             // if (result == null)
-            // throw new RuntimeException("Could not find or create an IDDecoder for the collection: " + name +
+            // throw new RuntimeException("Could not find or create an IDDecoder for the
+            // collection: " + name +
             // ", readout: " + readoutName);
 
             return result;
@@ -187,32 +193,48 @@ public class BaseLCSimEvent extends BaseEvent implements EventHeader {
     public static final String READOUT_NAME = "ReadoutName";
     private final ConditionsManager conditionsManager = ConditionsManager.defaultInstance();
 
-    private final String detectorName;
+    private String detectorName;
     private final Map<String, float[]> floatParameters = new HashMap<String, float[]>();
-    private final Map<String, int[]> intParameters = new HashMap<String, int[]>();    
+    private final Map<String, int[]> intParameters = new HashMap<String, int[]>();
     private final Map<String, String[]> stringParameters = new HashMap<String, String[]>();
 
     private final Map<List, LCMetaData> metaDataMap = new IdentityHashMap<List, LCMetaData>();
-    
+
     /** Creates a new instance of BaseLCSimEvent */
     public BaseLCSimEvent(final int run, final int event, final String detectorName) {
         this(run, event, detectorName, System.currentTimeMillis() * NANO_SECONDS);
     }
 
+    /**
+     * Set the detector name, rewriting the event header from the conditions manager value
+     * if this is enabled and applicable.
+     * 
+     * @param detectorName The name of the detector
+     */
+    private void setDetectorName(String detectorName) {
+        if (conditionsManager.getRewriteDetectorName() && conditionsManager.getDetector() != null 
+            && conditionsManager.getDetector() != detectorName) {                
+            logger.log(Level.FINEST, "Rewriting detector name from {0} to {1}",
+                new Object[] { this.detectorName, conditionsManager.getDetector()});
+            this.detectorName = conditionsManager.getDetector();
+        } else {
+            this.detectorName = detectorName;
+        }
+    }
+
     public BaseLCSimEvent(final int run, final int event, final String detectorName, final long timeStamp) {
         super(run, event, timeStamp);
-        this.detectorName = detectorName;
         try {
             conditionsManager.setDetector(detectorName, run);
         } catch (final ConditionsNotFoundException x) {
             throw new RuntimeException(x);
         }
+        setDetectorName(detectorName);
     }
 
     public BaseLCSimEvent(final int run, final int event, final String detectorName, final long timeStamp,
             final boolean triggerConditionsUpdate) {
         super(run, event, timeStamp);
-        this.detectorName = detectorName;
         if (triggerConditionsUpdate) {
             try {
                 conditionsManager.setDetector(detectorName, run);
@@ -220,6 +242,7 @@ public class BaseLCSimEvent extends BaseEvent implements EventHeader {
                 throw new RuntimeException(x);
             }
         }
+        setDetectorName(detectorName);
     }
 
     @Override

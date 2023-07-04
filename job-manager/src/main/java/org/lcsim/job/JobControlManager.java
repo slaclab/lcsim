@@ -56,25 +56,31 @@ import org.lcsim.util.xml.JDOMExpressionFactory;
 
 /**
  * <p>
- * This class provides a front end for running and managing LCSim event processing jobs using XML steering files.
+ * This class provides a front end for running and managing LCSim event
+ * processing jobs using XML steering files.
  * <p>
  * More details about this XML format can be found at the<br/>
- * <a href="https://confluence.slac.stanford.edu/display/ilc/lcsim+xml">LCSim XML Confluence Page</a>.
+ * <a href="https://confluence.slac.stanford.edu/display/ilc/lcsim+xml">LCSim
+ * XML Confluence Page</a>.
  * <p>
  * The command line syntax is:<br/>
  * <code>java org.lcsim.job.JobManager steeringFile.xml [options]</code>
  * <p>
- * To see the available command line options with descriptions, run with "-h" as the only option.
+ * To see the available command line options with descriptions, run with "-h" as
+ * the only option.
  * <p>
- * Command-line parameters that can be defined using switches are overridden by the corresponding settings in the job
- * XML file, if they are present. This means that if these parameters are to be taken from the CL, the matching settings
- * should be left out of the XML job file. This is not the case, however, for input files specified by the "-i" option,
+ * Command-line parameters that can be defined using switches are overridden by
+ * the corresponding settings in the job
+ * XML file, if they are present. This means that if these parameters are to be
+ * taken from the CL, the matching settings
+ * should be left out of the XML job file. This is not the case, however, for
+ * input files specified by the "-i" option,
  * which are appended to the ones listed in the steering file.
  *
  * @version $Id: JobControlManager.java,v 1.65 2013/02/14 22:30:07 jeremy Exp $
  * @author Jeremy McCormick
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class JobControlManager {
 
     /**
@@ -91,7 +97,7 @@ public class JobControlManager {
      * The regular expression for extracting the variables from an XML file.
      */
     private static final Pattern VARIABLE_PATTERN = Pattern.compile("[$][{][a-zA-Z_-]*[}]");
-    
+
     /**
      * Default conditions system setup.
      */
@@ -105,7 +111,8 @@ public class JobControlManager {
     protected Options createCommandLineOptions() {
         options = new Options();
         options.addOption(new Option("h", "help", false, "Print help and exit"));
-        options.addOption(new Option("p", "properties", true, "Load a properties file containing variable definitions"));
+        options.addOption(
+                new Option("p", "properties", true, "Load a properties file containing variable definitions"));
         options.addOption(new Option("D", "define", true, "Define a variable with form [name]=[value]"));
         options.addOption(new Option("w", "rewrite", true, "Rewrite the XML file with variables resolved"));
         options.addOption(new Option("s", "skip", true, "Set the number of events to skip"));
@@ -115,15 +122,17 @@ public class JobControlManager {
         options.addOption(new Option("r", "resource", false, "Use a steering resource rather than a file"));
         options.addOption(new Option("b", "batch", false, "Run in batch mode in which plots will not be shown."));
         options.addOption(new Option("e", "event-print", true, "Event print interval"));
-        options.addOption(new Option("d", "detector", true, "user supplied detector name (careful!)"));
-        options.addOption(new Option("R", "run", true, "user supplied run number (careful!)"));
+        options.addOption(
+                new Option("d", "detector", true, "User supplied detector name"));
+        options.addOption(new Option("R", "run", true, "User supplied run number"));
+        options.addOption(new Option("W", "rewrite-detector", false, "Rewrite the detector name in event header"));
         return options;
     }
-    
+
     public Options getOptions() {
         return options;
     }
-        
+
     /**
      * Get the Java primitive type class from a type name.
      *
@@ -210,7 +219,8 @@ public class JobControlManager {
     private String detectorName = null;
 
     /**
-     * A driver adapter created on the fly in case it is needed by an external program.
+     * A driver adapter created on the fly in case it is needed by an external
+     * program.
      */
     private DriverAdapter driverAdapter = null;
 
@@ -232,7 +242,7 @@ public class JobControlManager {
     /**
      * Setup a "dummy" detector in the conditions system.
      */
-    //private boolean dummyDetector;
+    // private boolean dummyDetector;
 
     /**
      * Event printing interval (null means no event printing).
@@ -280,7 +290,8 @@ public class JobControlManager {
     private final ParameterConverters paramConverter = new ParameterConverters(factory);
 
     /**
-     * Set to <code>true</code> to print out driver statistics at the end of the job.
+     * Set to <code>true</code> to print out driver statistics at the end of the
+     * job.
      */
     private boolean printDriverStatistics;
 
@@ -333,7 +344,7 @@ public class JobControlManager {
     /**
      * Add a Driver to the internal Driver map.
      *
-     * @param name the unique name of the Driver
+     * @param name   the unique name of the Driver
      * @param driver the instance of the Driver
      */
     private void addDriver(final String name, final Driver driver) {
@@ -353,10 +364,11 @@ public class JobControlManager {
     }
 
     /**
-     * Add a variable definition to be substituted into the job's XML file. This method is public so that caller's not
+     * Add a variable definition to be substituted into the job's XML file. This
+     * method is public so that caller's not
      * using the CL can still define necessary variables for the steering file.
      *
-     * @param key The variable name.
+     * @param key   The variable name.
      * @param value The variable's value.
      */
     public void addVariableDefinition(final String key, final String value) {
@@ -411,7 +423,8 @@ public class JobControlManager {
     }
 
     /**
-     * Turn on the batch analysis factory so plots are not shown on the screen even when <code>Plotter.show()</code> is
+     * Turn on the batch analysis factory so plots are not shown on the screen even
+     * when <code>Plotter.show()</code> is
      * called.
      */
     public void enableHeadlessMode() {
@@ -439,7 +452,8 @@ public class JobControlManager {
     }
 
     /**
-     * Return a list of Drivers to be executed. This can be used from an external framework like JAS3. The list will be
+     * Return a list of Drivers to be executed. This can be used from an external
+     * framework like JAS3. The list will be
      * empty unless the <code>setup()</code> method has been called.
      *
      * @return A <code>List</code> of <code>Drivers</code>.
@@ -491,19 +505,22 @@ public class JobControlManager {
     }
 
     /**
-     * Parse command-line options and setup job state from them. This method calls {@link #setup(File)} to load the
-     * steering paramters from an XML file, after processing other command line options. This method is private so that
-     * callers must all use the {@link #main(String[])} routine as the primary entry point.
+     * Parse command-line options and setup job state from them. This method calls
+     * {@link #setup(File)} to load the
+     * steering paramters from an XML file, after processing other command line
+     * options. This method is private so that
+     * callers must all use the {@link #main(String[])} routine as the primary entry
+     * point.
      *
      * @param args The command line arguments.
      */
     public CommandLine parse(final String args[]) {
-        
+
         LOGGER.config("parsing command line arguments");
 
         // Create command line options.
         createCommandLineOptions();
-        
+
         // Setup parser.
         final CommandLineParser parser = new PosixParser();
 
@@ -513,7 +530,7 @@ public class JobControlManager {
         } catch (final ParseException x) {
             throw new RuntimeException("Problem parsing command line options.", x);
         }
-        
+
         // Print help and exit.
         if (args.length == 0 || commandLine.hasOption("h")) {
             printHelp();
@@ -643,12 +660,18 @@ public class JobControlManager {
             LOGGER.config("runNumber: " + this.runNumber);
         }
 
-        if (this.detectorName != null && this.runNumber == null || 
+        if (commandLine.hasOption("W")) {
+            this.conditionsSetup.setRewriteDetectorName(true);
+            LOGGER.config("Rewrite of detector name is enabled");
+        }
+
+        if (this.detectorName != null && this.runNumber == null ||
                 this.runNumber != null && this.detectorName == null) {
             throw new IllegalArgumentException("The detector name and run number must be provided together.");
         }
-        
-        // This will actually initialize everything from the steering file so it must come last.
+
+        // This will actually initialize everything from the steering file so it must
+        // come last.
         if (this.useSteeringResource) {
             // Using an embedded resource in the jar for steering.
             LOGGER.config("initializing from steering resource " + steering);
@@ -662,7 +685,7 @@ public class JobControlManager {
             LOGGER.config("initializing from steering file " + xmlRunControlFile.getPath());
             this.setup(xmlRunControlFile);
         }
-        
+
         return commandLine;
     }
 
@@ -712,20 +735,23 @@ public class JobControlManager {
     }
 
     /**
-     * A fairly ugly method to process the provided XML parameters on a <code>Driver</code>.
+     * A fairly ugly method to process the provided XML parameters on a
+     * <code>Driver</code>.
      *
      * @param driverClass the Java class of the driver
-     * @param newDriver the instantiated Driver
-     * @param parameters the list of XML parameters
+     * @param newDriver   the instantiated Driver
+     * @param parameters  the list of XML parameters
      */
-    private void processDriverParameters(final Class driverClass, final Driver newDriver, final List<Element> parameters) {
+    private void processDriverParameters(final Class driverClass, final Driver newDriver,
+            final List<Element> parameters) {
         // Process the parameter elements.
         for (final Element parameterElement : parameters) {
 
             // The parameter's setter method that we will try to find.
             Method setter = null;
 
-            // The parameter's type that will be inferred from the method or provided by an XML attribute.
+            // The parameter's type that will be inferred from the method or provided by an
+            // XML attribute.
             Class propertyType = null;
 
             // Get the parameter's name.
@@ -802,7 +828,7 @@ public class JobControlManager {
 
                 // Print parameters and values as they are set.
                 LOGGER.fine("    " + pname + " = " + parameterElement.getText().trim());
-                
+
             } catch (final Exception x) {
                 throw new RuntimeException("Problem processing parameter " + parameterElement.getName() + ".", x);
             }
@@ -814,7 +840,7 @@ public class JobControlManager {
      *
      * @param event the input event
      */
-    public void processEvent(final EventHeader event) {        
+    public void processEvent(final EventHeader event) {
         for (RecordListener listener : loop.getRecordListeners()) {
             listener.recordSupplied(new RecordEvent(loop, event));
         }
@@ -824,7 +850,7 @@ public class JobControlManager {
      * Create a <code>File</code> object from the text in an XML element.
      *
      * @param fileElement The element containing a file path or URL.
-     * @param fileList List to append new <code>File</code>.
+     * @param fileList    List to append new <code>File</code>.
      * @return The <code>File</code> object.
      */
     private File processFileElement(final Element fileElement, final List<File> fileList) {
@@ -874,7 +900,8 @@ public class JobControlManager {
     }
 
     /**
-     * Process the file path string to substitute in the user's home directory for the "~" character. This is needed if
+     * Process the file path string to substitute in the user's home directory for
+     * the "~" character. This is needed if
      * running on Windows.
      *
      * @param path The original path.
@@ -890,7 +917,7 @@ public class JobControlManager {
 
     /**
      * Rewrite the XML steering file after resolving variables (done externally).
-     * <p> 
+     * <p>
      * The output path is set by command line argument to "-w" option.
      *
      * @param doc The XML steering doc with variables substituted.
@@ -928,26 +955,27 @@ public class JobControlManager {
             LOGGER.info("Job started: " + new Date(jobStart));
 
             try {
-                
+
                 // Add the LCIO files to the loop.
                 loop.setLCIORecordSource(new LCIOEventSource(this.getClass().getSimpleName(), inputFiles));
 
-                // Setup the conditions system by calling setDetector if run and detector name are set.
+                // Setup the conditions system by calling setDetector if run and detector name
+                // are set.
                 conditionsSetup.setup();
 
                 // Post-init of conditions system (by default does nothing).
                 conditionsSetup.postInitialize();
-                
+
                 // Skip events.
                 if (this.skipEvents > 0) {
                     LOGGER.info("Skipping " + skipEvents + " events ...");
                     loop.skip(skipEvents);
                     LOGGER.info("Done skipping events.");
                 }
-                
+
                 // Execute the loop.
                 final long processedEvents = loop.loop(numberOfEvents, this.printDriverStatistics ? System.out : null);
-                
+
                 // Check if there was an error that was caught which stopped event processing.
                 if (loop.getLastException() != null) {
                     LOGGER.log(Level.SEVERE, "Job stopped due to event processing error.", loop.getLastException());
@@ -957,15 +985,16 @@ public class JobControlManager {
                 LOGGER.info("Job processed " + processedEvents + " events.");
                 this.jobEnd = System.currentTimeMillis();
                 LOGGER.info("Job ended: " + new Date(this.jobEnd));
-                final long elapsed = this.jobEnd - this.jobStart;                
+                final long elapsed = this.jobEnd - this.jobStart;
                 LOGGER.info("Job took " + (elapsed / 1000.) + " seconds.");
                 if (processedEvents > 0) {
-                    LOGGER.info("Event processing took " + ((double) elapsed / (double) processedEvents) + " ms/event or " 
-                            + ((double) processedEvents/((double) elapsed / 1000.)) + " events/second.");
+                    LOGGER.info(
+                            "Event processing took " + ((double) elapsed / (double) processedEvents) + " ms/event or "
+                                    + ((double) processedEvents / ((double) elapsed / 1000.)) + " events/second.");
                 } else {
                     LOGGER.warning("No events were processed!");
                 }
-                
+
             } catch (final Exception e) {
                 // Print error message and rethrow the exception
                 LOGGER.log(Level.SEVERE, "A fatal error occurred during the job", e);
@@ -984,7 +1013,8 @@ public class JobControlManager {
     }
 
     /**
-     * Set whether a dry run should be performed which will only perform setup and not process any events.
+     * Set whether a dry run should be performed which will only perform setup and
+     * not process any events.
      *
      * @param dryRun <code>true</code> to enable a dry run
      */
@@ -993,7 +1023,8 @@ public class JobControlManager {
     }
 
     /**
-     * Set the number of events to run on the loop before ending the job. This should be called after the
+     * Set the number of events to run on the loop before ending the job. This
+     * should be called after the
      * {@link #setup(File)} method is called or it will be overridden.
      */
     public void setNumberOfEvents(final int numberOfEvents) {
@@ -1003,8 +1034,10 @@ public class JobControlManager {
     /**
      * Setup the job parameters from an XML Document.
      * <p>
-     * This method contains the primary logic for setting up job parameters from an XML file. The other setup methods
-     * such as {@link #setup(InputStream)}, {@link #setup(String)} and {@link #setup(File)} all call this method.
+     * This method contains the primary logic for setting up job parameters from an
+     * XML file. The other setup methods
+     * such as {@link #setup(InputStream)}, {@link #setup(String)} and
+     * {@link #setup(File)} all call this method.
      *
      * @param xmlDocument The lcsim recon XML document describing the job.
      */
@@ -1035,13 +1068,13 @@ public class JobControlManager {
 
         // Initialize the LCSimLoop.
         this.initializeLoop();
-        
+
         // Configure the conditions system before it is initialized.
         conditionsSetup.configure();
-        
+
         // Setup drivers with parameters and execution order.
         this.setupDrivers();
-                        
+
         // Setup the file cache.
         this.setupFileCache();
 
@@ -1069,7 +1102,8 @@ public class JobControlManager {
     }
 
     /**
-     * Setup job parameters from an <code>InputStream</code> that should be valid XML text.
+     * Setup job parameters from an <code>InputStream</code> that should be valid
+     * XML text.
      *
      * @param in the XML input stream
      */
@@ -1099,7 +1133,8 @@ public class JobControlManager {
     }
 
     /**
-     * Setup job parameters from an embedded resource. This method calls {@link #setup(InputStream)}.
+     * Setup job parameters from an embedded resource. This method calls
+     * {@link #setup(InputStream)}.
      */
     public void setup(final String resourceURL) {
         this.setup(this.getClass().getResourceAsStream(resourceURL));
@@ -1212,7 +1247,7 @@ public class JobControlManager {
     private void setupFileCache() {
         if (fileCache == null) {
             try {
-                fileCache = new FileCache();                
+                fileCache = new FileCache();
                 // Set cache dir from setting in steering, if present.
                 if (cacheDirectory != null) {
                     fileCache.setCacheDirectory(cacheDirectory);
@@ -1231,7 +1266,8 @@ public class JobControlManager {
     private void setupInputFiles() {
 
         if (root.getChild("inputFiles") == null) {
-            // This is not a warning because input files can be provided via the command line.
+            // This is not a warning because input files can be provided via the command
+            // line.
             LOGGER.config("No input files in XML file.");
             return;
         }
@@ -1335,7 +1371,7 @@ public class JobControlManager {
     private void setupJobControlParameters() {
 
         final Element control = root.getChild("control");
-        
+
         if (control == null) {
             // The control element is optional.
             return;
@@ -1370,7 +1406,7 @@ public class JobControlManager {
             if (!cacheDirectory.exists()) {
                 throw new RuntimeException("cacheDirectory does not exist at location: " + cacheDirElement.getText());
             }
-        } 
+        }
 
         LOGGER.config("cacheDirectory: " + cacheDirectory);
 
@@ -1379,12 +1415,12 @@ public class JobControlManager {
             printDriverStatistics = Boolean.valueOf(printStatisticsElement.getText());
             LOGGER.config("printDriverStatistics: " + printDriverStatistics);
         }
- 
-        //final Element dummyDetectorElement = control.getChild("dummyDetector");
-        //if (dummyDetectorElement != null) {
-        //    dummyDetector = Boolean.valueOf(dummyDetectorElement.getText());
-        //    LOGGER.config("dummyDetector: " + dummyDetector);
-        //}
+
+        // final Element dummyDetectorElement = control.getChild("dummyDetector");
+        // if (dummyDetectorElement != null) {
+        // dummyDetector = Boolean.valueOf(dummyDetectorElement.getText());
+        // LOGGER.config("dummyDetector: " + dummyDetector);
+        // }
     }
 
     /**
@@ -1408,10 +1444,12 @@ public class JobControlManager {
     }
 
     /**
-     * Substitute values from the <code>variableMap</code> into an XML element and all its children, recursively.
+     * Substitute values from the <code>variableMap</code> into an XML element and
+     * all its children, recursively.
      *
      * @param element The XML element.
-     * @throw RuntimeException If a variable does not exist in the <code>variableMap</code>.
+     * @throw RuntimeException If a variable does not exist in the
+     *        <code>variableMap</code>.
      */
     private void substituteVariables(final Element element) {
 
@@ -1445,7 +1483,8 @@ public class JobControlManager {
                 // The value of the variable.
                 final String varValue = variableMap.get(varName);
 
-                // If a variable was not defined, then the application will immediately exit here.
+                // If a variable was not defined, then the application will immediately exit
+                // here.
                 if (varValue == null) {
                     throw new RuntimeException("Required variable was not defined: " + varName);
                 }
@@ -1463,15 +1502,15 @@ public class JobControlManager {
             this.substituteVariables((Element) it.next());
         }
     }
-    
+
     public void setConditionsSetup(ConditionsSetup conditionsSetup) {
         this.conditionsSetup = conditionsSetup;
     }
-    
+
     public ConditionsSetup getConditionsSetup() {
         return this.conditionsSetup;
     }
-    
+
     public void setEventPrintInterval(long eventPrintInterval) {
         this.eventPrintInterval = eventPrintInterval;
     }

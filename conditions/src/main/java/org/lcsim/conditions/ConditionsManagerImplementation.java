@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * @author Tony Johnson
  */
 public class ConditionsManagerImplementation extends ConditionsManager {
-    
+
     protected Map<Class, ConditionsConverter> converters = new HashMap<Class, ConditionsConverter>();
     protected Map<String, CachedConditions> cache = new HashMap<String, CachedConditions>();
     protected ConditionsReader reader;
@@ -21,6 +21,7 @@ public class ConditionsManagerImplementation extends ConditionsManager {
     protected int run;
     protected List<ConditionsListener> listenerList = new ArrayList<ConditionsListener>();
     protected static final Logger logger = Logger.getLogger(ConditionsManagerImplementation.class.getName());
+    protected boolean rewriteDetectorName = false;
 
     /**
      * The default implementation of ConditionsManager. This implementation does
@@ -45,7 +46,8 @@ public class ConditionsManagerImplementation extends ConditionsManager {
                 } catch (IllegalArgumentException x) {
                     newReader = ConditionsReader.create(this, detectorName, run);
                 } catch (IOException x) {
-                    throw new ConditionsSetNotFoundException("Failed to update conditions reader, detector: " + detectorName + ", run: " + run, x);
+                    throw new ConditionsSetNotFoundException(
+                            "Failed to update conditions reader, detector: " + detectorName + ", run: " + run, x);
                 }
             }
             this.run = run;
@@ -78,7 +80,8 @@ public class ConditionsManagerImplementation extends ConditionsManager {
         converters.put(conv.getType(), conv);
     }
 
-    public <T> CachedConditions<T> getCachedConditions(Class<T> type, String name) throws ConditionsSetNotFoundException {
+    public <T> CachedConditions<T> getCachedConditions(Class<T> type, String name)
+            throws ConditionsSetNotFoundException {
         if (name == null)
             throw new IllegalArgumentException("Name argument points to null.");
         if (name.equals(""))
@@ -141,12 +144,22 @@ public class ConditionsManagerImplementation extends ConditionsManager {
         logger.log(Level.FINE, "Reading raw conditions {0}", name);
         return new RawConditionsImplementation(this, name);
     }
-    
+
     protected ConditionsReader getConditionsReader() {
         return reader;
     }
-    
+
     protected void clearCache() {
         this.cache.clear();
+    }
+
+    @Override
+    public void setRewriteDetectorName(boolean rewriteDetectorName) {
+        this.rewriteDetectorName = rewriteDetectorName;
+    }
+
+    @Override
+    public boolean getRewriteDetectorName() {
+        return this.rewriteDetectorName;
     }
 }

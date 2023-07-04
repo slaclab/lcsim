@@ -19,14 +19,16 @@ public class DefaultConditionsSetup implements ConditionsSetup {
     private Integer run = null;
     private String detectorName = null;
     protected List<ConditionsListener> listeners = new ArrayList<ConditionsListener>();
-    
+    private boolean rewriteDetectorName = false;
+
     @Override
     public void addConditionsListener(ConditionsListener listener) {
         this.listeners.add(listener);
     }
-    
+
     /**
-     * Sub-classes should completely override this method and not call the super-class version,
+     * Sub-classes should completely override this method and not call the
+     * super-class version,
      * especially if using a different conditions manager than the default.
      */
     @Override
@@ -40,32 +42,38 @@ public class DefaultConditionsSetup implements ConditionsSetup {
     }
 
     @Override
-    public void setup() throws ConditionsNotFoundException {               
+    public void setup() throws ConditionsNotFoundException {
         if (detectorName != null && run != null) {
             ConditionsManager.defaultInstance().setDetector(detectorName, run);
         }
+        ConditionsManager.defaultInstance().setRewriteDetectorName(this.rewriteDetectorName);
     }
 
     @Override
     public void postInitialize() {
     }
-    
+
     @Override
     public void setRun(Integer run) {
         this.run = run;
     }
-    
+
     @Override
     public void setDetectorName(String detectorName) {
         this.detectorName = detectorName;
     }
-    
+
     @Override
     public void cleanup() {
     }
-    
+
     @Override
     public void addAlias(String name, String target) {
         ConditionsReader.addAlias(name, target);
+    }
+
+    @Override
+    public void setRewriteDetectorName(boolean rewriteDetectorName) {
+        this.rewriteDetectorName = rewriteDetectorName;
     }
 }
