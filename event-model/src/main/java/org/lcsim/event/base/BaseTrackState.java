@@ -24,7 +24,7 @@ public class BaseTrackState implements TrackState
     private double[] _referencePoint = new double[REF_POINT_SIZE];  // Reference point.
     private double[] _covMatrix = new double[COV_MATRIX_SIZE];      // Covariance matrix.
     //TODO what is momentum doing here?
-    private double[] momentum; 
+    private double[] momentum;
 
     // Location encoding.
     private int _location = TrackState.AtIP; // default location
@@ -124,7 +124,9 @@ public class BaseTrackState implements TrackState
     { 
         _parameters[BaseTrack.TANLAMBDA] = d;
     }
-    
+
+    public void setMomentum(double[] momentum){ this.momentum = momentum.clone();}
+
     public void setLocation(int location)
     {
         if (location > TrackState.LastLocation)
